@@ -1,4 +1,4 @@
-package com.example.videoview;
+package com..videoview;
 
 import org.junit.Test;
 
