@@ -6,30 +6,32 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
 
 # Shinple
 
-## 1. 내정보
+## Main
+
+### 1. 내 강의실
 
 - 강의
 - 진도율
 - 1-2-3
 
-## 2. 강의 현황
+### 2. 강의 현황
 
 - 강의 리스트
 - 관심사
 
-## 3. CoP
+### 3. CoP
 
 - 관심사
 - 추가 필요
 - 추가 필요
 
-## 4. 기타
+### 4. 기타
 
 - 나의 정보
 
+------
 
-
-### DB구조 
+## DB구조 
 
 1. 강좌 테이블 
    - 강좌 번호(외부 테이블과 join할 기본키 )
@@ -41,7 +43,7 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
    - 강의설명
    - 총 강의 시간
 
-2. 강의 (동영상) DB
+2. 강의 (동영상) 테이블
    - 강좌 번호(강좌 테이블과 join)
    - 강의 번호(자동)
    - 제목
@@ -49,8 +51,7 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
    - 동영상 업로드
 
 
-
-3. 랭킹 DB ==> 일주일에 한번 업데이트
+3. 랭킹 테이블 ==> 일주일에 한번 업데이트
 
 완강기준 등급별 점수
 
@@ -61,10 +62,9 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
 - 개인 랭킹 : 1등 ~ 등록인원
 
   1등만 보이고 나머지 랭크는 내 정보에서 확인할 수 있도록
+  
 
-3. Cop
-
-   - 
+3. Cop 테이블
 
    - 멤버
 
@@ -74,18 +74,21 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
 
      
 
-4. 내 정보
-
+4. 내 정보 테이블
    - DB 정보
    - 최근 본 강좌번호 / 동영상 번호
    - 내 경험(점수)
    - 랭킹
    - 수강 동영상 ==> 강좌 번호/ 동영상 번호
    - CoP 정보 ==> 위의 CoP테이블 가져오기
-   - 
+   
+5. 내 강의실 테이블(추가 필요)
+   - ???
+   - ???
 
 5. 태그
    - 이름
+   
 6. 향후 추가 기능
    - 관리자 페이지 Dashboard
    - 
@@ -108,16 +111,6 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
 
 
 
-산출물
+> 최종 산출물 ==> 기획서(ppt), 정보보호 계획서, 간트차트
 
-기획서(ppt), 정보보호 계획서, 간트차트
-
-
-
-- 앱(android)
-  - 
-- 웹()
-  - 영은
-- 서버
-  - 
 
