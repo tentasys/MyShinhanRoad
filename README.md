@@ -1,10 +1,8 @@
-# MyShinhanRoad
-신한DS A-1조 My 신한 Road git repository입니다
+# Shinple
 
 Google Drive 링크
-https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
 
-# Shinple
+[https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_]
 
 ## Main(사이트맵)
 
