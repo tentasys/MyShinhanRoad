@@ -6,7 +6,7 @@ https://drive.google.com/open?id=1cJClbq0639dEtMVUYyuEuQa60MZCZBk_
 
 # Shinple
 
-## Main
+## Main(사이트맵)
 
 ### 1. 내 강의실
 
