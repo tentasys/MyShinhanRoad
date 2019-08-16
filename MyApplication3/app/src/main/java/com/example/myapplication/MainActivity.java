@@ -3,8 +3,6 @@ package com.example.myapplication;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
@@ -25,6 +23,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
@@ -32,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
 
     Fragment fr;
+
     BackPressHandler backPressHandler = new BackPressHandler(this);
 
     @Override
@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity
 
     public void switchFragment(Fragment frr) {
         Fragment fr = frr;
-
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fr);
