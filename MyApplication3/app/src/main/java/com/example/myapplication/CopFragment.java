@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -20,6 +21,15 @@ public class CopFragment extends Fragment {
     public CopFragment() {
     }
 
+    public static CopFragment newInstance(String param1, String param2) {
+        CopFragment fragment = new CopFragment();
+        Bundle args = new Bundle();
+        args.putString("PA1", param1);
+        args.putString("PA2", param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,10 +46,10 @@ public class CopFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("IG","IB Clicked");
-                Fragment fr = new CopListFragment();
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.frame, fr);
+                fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -47,4 +57,5 @@ public class CopFragment extends Fragment {
         Log.d("IG","IB Clicked2");
         return view;
     }
+
 }
