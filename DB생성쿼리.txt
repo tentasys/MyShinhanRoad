@@ -17,10 +17,10 @@ ALTER TABLE Course COMMENT '강좌';
 -- Course Table Create SQL
 CREATE TABLE Member
 (
-    `회원 번호`   INT             NOT NULL    AUTO_INCREMENT COMMENT 'mem_num', 
-    `회원 토큰`   VARCHAR(255)    NOT NULL    COMMENT 'mem_token', 
-    `랭킹 포인트`  INT             NULL        COMMENT 'mem_point', 
-    PRIMARY KEY (회원 번호)
+    `mem_num`    INT             NOT NULL    AUTO_INCREMENT COMMENT '회원 번호', 
+    `mem_token`  VARCHAR(255)    NOT NULL    COMMENT '회원 토큰', 
+    `mem_point`  INT             NULL        COMMENT '랭킹 포인트', 
+    PRIMARY KEY (mem_num)
 );
 
 ALTER TABLE Member COMMENT '회원';
@@ -60,10 +60,10 @@ ALTER TABLE Tag COMMENT '태그';
 -- Course Table Create SQL
 CREATE TABLE Cop
 (
-    `CoP 번호`  INT            NOT NULL    AUTO_INCREMENT COMMENT 'cop_num', 
-    `이름`      VARCHAR(45)    NULL        COMMENT 'cop_name', 
-    `랭킹 포인트`  INT            NULL        COMMENT 'cop_point', 
-    PRIMARY KEY (CoP 번호)
+    `cop_num`    INT            NOT NULL    AUTO_INCREMENT COMMENT 'CoP 번호', 
+    `cop_name`   VARCHAR(45)    NULL        COMMENT '이름', 
+    `cop_point`  INT            NULL        COMMENT '랭킹 포인트', 
+    PRIMARY KEY (cop_num)
 );
 
 ALTER TABLE Cop COMMENT 'CoP';
@@ -109,31 +109,31 @@ CREATE TABLE Mem_Cop
 ALTER TABLE Mem_Cop COMMENT '회원별 가입 CoP';
 
 ALTER TABLE Mem_Cop
-    ADD CONSTRAINT FK_Mem_Cop_mem_num_Member_회원 번호 FOREIGN KEY (mem_num)
-        REFERENCES Member (회원 번호) ON DELETE RESTRICT ON UPDATE RESTRICT;
+    ADD CONSTRAINT FK_Mem_Cop_mem_num_Member_mem_num FOREIGN KEY (mem_num)
+        REFERENCES Member (mem_num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 ALTER TABLE Mem_Cop
-    ADD CONSTRAINT FK_Mem_Cop_cop_num_Cop_CoP 번호 FOREIGN KEY (cop_num)
-        REFERENCES Cop (CoP 번호) ON DELETE RESTRICT ON UPDATE RESTRICT;
+    ADD CONSTRAINT FK_Mem_Cop_cop_num_Cop_cop_num FOREIGN KEY (cop_num)
+        REFERENCES Cop (cop_num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- Course Table Create SQL
-CREATE TABLE 회원 수강 테이블
+CREATE TABLE Mem_Lecture
 (
     `mem_num`  INT    NOT NULL    COMMENT '회원 번호', 
     `lec_num`  INT    NOT NULL    COMMENT '수강 동영상', 
     PRIMARY KEY (mem_num)
 );
 
-ALTER TABLE 회원 수강 테이블 COMMENT 'Mem_Lecture';
+ALTER TABLE Mem_Lecture COMMENT '회원 수강 테이블';
 
-ALTER TABLE 회원 수강 테이블
-    ADD CONSTRAINT FK_회원 수강 테이블_lec_num_Lecture_lec_num FOREIGN KEY (lec_num)
+ALTER TABLE Mem_Lecture
+    ADD CONSTRAINT FK_Mem_Lecture_lec_num_Lecture_lec_num FOREIGN KEY (lec_num)
         REFERENCES Lecture (lec_num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
-ALTER TABLE 회원 수강 테이블
-    ADD CONSTRAINT FK_회원 수강 테이블_mem_num_Member_회원 번호 FOREIGN KEY (mem_num)
-        REFERENCES Member (회원 번호) ON DELETE RESTRICT ON UPDATE RESTRICT;
+ALTER TABLE Mem_Lecture
+    ADD CONSTRAINT FK_Mem_Lecture_mem_num_Member_mem_num FOREIGN KEY (mem_num)
+        REFERENCES Member (mem_num) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 -- Course Table Create SQL
