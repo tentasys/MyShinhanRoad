@@ -20,13 +20,20 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView mTextMessage;
+
+
+    Fragment fr;
+    BackPressHandler backPressHandler = new BackPressHandler(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +49,10 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         BottomNavigationView navView = findViewById(R.id.nav_view2);
-        mTextMessage = findViewById(R.id.message);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        fr = new MainFragment();
+        switchFragment(fr);
     }
 
     @Override
@@ -52,7 +61,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            backPressHandler.onBackPressed();
         }
     }
 
@@ -109,17 +118,29 @@ public class MainActivity extends AppCompatActivity
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            mTextMessage.setText(R.string.title_home);
+                            fr = new LectureRoomFragment();
+                            switchFragment(fr);
                             return true;
-            case R.id.navigation_dashboard:
-                mTextMessage.setText(R.string.title_dashboard);
-                return true;
-            case R.id.navigation_notifications:
-                mTextMessage.setText(R.string.title_notifications);
-                return true;
+                        case R.id.navigation_dashboard:
+                            fr = new courseListFragment();
+                            switchFragment(fr);
+                            return true;
+                         case R.id.navigation_notifications:
+                             fr = new CopFragment();
+                             switchFragment(fr);
+                             return true;
         }
         return false;
         }
     };
+
+    public void switchFragment(Fragment frr) {
+        Fragment fr = frr;
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fr);
+        fragmentTransaction.commit();
+    }
 
 }
