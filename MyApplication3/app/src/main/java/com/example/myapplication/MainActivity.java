@@ -132,11 +132,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
-    public interface OnBackPressedListener {
-        void onBackPressedF();
-    }
-
-    /*@Override
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -144,5 +140,5 @@ public class MainActivity extends AppCompatActivity
         } else {
                 backPressHandler.onBackPressed();
             }
-    }*/
+    }
 }
