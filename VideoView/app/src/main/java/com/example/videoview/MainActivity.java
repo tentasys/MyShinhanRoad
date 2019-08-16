@@ -1,6 +1,7 @@
 package com.example.videoview;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
         btn = (Button) findViewById(R.id.button);
         videoView = (VideoView) findViewById(R.id.videoView);
 
-        String url = "https://www.youtube.com/watch?v=no3K4M0PqRY";
-        videoUrl = getUrlVideoRTSP(url);
+        videoUrl = "https://192.168.1.178/" + "wel.avi";
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
 
                 videoView.setMediaController(mediaController);
 
-                videoView.setVideoPath("https://firebasestorage.googleapis.com/v0/b/videoview-cf4e8.appspot.com/o/1.mp4?alt=media&token=30589959-0987-41e8-8108-f00f39bf309d");
+                videoView.setVideoPath("https://192.168.1.178/" + "wel.avi");
                 videoView.requestFocus();
                 videoView.start();
             }
         }
     }
-    */
+    /*
     public static String getUrlVideoRTSP(String urlYoutube)
     {
         try
@@ -169,6 +169,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return id;
     }
-
+*/
 }
 

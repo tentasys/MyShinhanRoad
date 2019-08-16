@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 
@@ -21,6 +23,8 @@ public class CopListFragment extends Fragment {
 
     private TextView tv1;
     private TextView tv2;
+    private Button bt_sear;
+    private EditText et;
 
     public CopListFragment() {
     }
@@ -47,11 +51,51 @@ public class CopListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View view = inflater.inflate(R.layout.fragment_cop_list, container, false);
         tv1 = view.findViewById(R.id.hi);
         tv2 = view.findViewById(R.id.hello);
+        bt_sear = view.findViewById(R.id.bt_sear);
+        et = view.findViewById(R.id.editText);
         tv1.setText(mParam1);
         tv2.setText(mParam2);
+
+        tv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.178/video/Pexels_Videos.mp4"));
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+        tv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.178/video/sample_video.mp4"));
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        bt_sear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String strText = et.getText().toString() ;
+                if (strText != null) {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.178/video/"+ strText+".mp4"));
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+
         return view;
     }
 }
