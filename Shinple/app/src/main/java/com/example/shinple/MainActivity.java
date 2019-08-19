@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fr = new MainFragment();
+//        fr =  new LectureRoomFragment();
         switchFragment(fr);
     }
 
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            fr = new MainFragment();
+            switchFragment(fr);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
