@@ -19,7 +19,6 @@ import android.widget.VideoView;
 public class VideoPlayerFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private Helper mHelper;
     VideoView videoView;
     ProgressDialog progressDialog;
     String videourl;
@@ -70,10 +69,4 @@ public class VideoPlayerFragment extends Fragment {
 
         return view;
     }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
-    }
-
-
 }
