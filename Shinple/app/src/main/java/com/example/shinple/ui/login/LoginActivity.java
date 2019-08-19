@@ -37,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-        final EditText usernameEditText = findViewById(R.id.username);
-        final EditText passwordEditText = findViewById(R.id.password);
+        final EditText usernameEditText = findViewById(R.id.user_id);
+        final EditText passwordEditText = findViewById(R.id.user_pw);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
@@ -119,6 +119,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 정상 로그인 정보일 때 mainactivity로 intent를 옮김.
+     * @param model
+     */
     private void updateUiWithUser(LoggedInUserView model) {
         //String welcome = getString(R.string.welcome) + model.getDisplayName();
         // TODO : initiate successful logged in experience
