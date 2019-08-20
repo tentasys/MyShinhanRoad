@@ -20,9 +20,12 @@ public class MainFragment extends Fragment {
     ViewPager viewPager;
     AdapterMainNewCourseSlider adapter2;
     ViewPager viewPager2;
-    NestedScrollView scrollView;
+    ScrollView scrollView;
     public MainFragment() {
         // Required empty public constructor
+    }
+    public static MainFragment newInstance() {
+        return new MainFragment();
     }
 
     @Override
@@ -42,7 +45,7 @@ public class MainFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
-        scrollView = v.findViewById(R.id.ScrollView);
+//        scrollView = v.findViewById(R.id.ScrollView);
 //        scrollView.setFillViewport (true);
 
         /* 이미지 슬라이더 실행 구현부 */

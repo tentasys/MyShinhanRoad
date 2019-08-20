@@ -50,8 +50,6 @@ public class AdapterMainNewCourseSlider extends PagerAdapter {
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
             container.addView(v);
 
-
-
         }
         else
         {

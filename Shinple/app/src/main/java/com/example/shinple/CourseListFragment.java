@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * 하단 강좌(강의 리스트) 누르면 연결되는 페이지
+ *
+ */
+public class CourseListFragment extends Fragment {
 
-public class courseListFragment extends Fragment {
-
-    public courseListFragment() {
+    public CourseListFragment() {
         // Required empty public constructor
     }
     @Override

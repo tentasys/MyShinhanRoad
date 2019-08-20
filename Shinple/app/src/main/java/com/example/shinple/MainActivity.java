@@ -27,28 +27,38 @@ public class MainActivity extends AppCompatActivity
 
 
     Fragment fr;
-
+    Toolbar toolbar;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    ActionBarDrawerToggle toggle;
     BackPressHandler backPressHandler = new BackPressHandler(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        //toolbar 설정
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        //사이드바 설정 및 토글 기능 정의
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+        //하단바 정의
         BottomNavigationView navView = findViewById(R.id.nav_view2);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        //Fragment 전환을 위한 초기 설정
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frame, MainFragment.newInstance()).commit();
+
         fr = new MainFragment();
-//        fr =  new LectureRoomFragment();
         switchFragment(fr);
     }
 
@@ -74,18 +84,30 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /* fragment 내에서 이동하기 위한 메소드 */
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frame, fragment).commit();      // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
+    /**
+     * 사이드바 정의
+     */
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_home) {   //home 메뉴
             fr = new MainFragment();
             switchFragment(fr);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_gallery) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_slideshow) {  //CoP 랭킹 리스트
 
         } else if (id == R.id.nav_tools) {
 
@@ -106,15 +128,15 @@ public class MainActivity extends AppCompatActivity
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            fr = new LectureRoomFragment();
+                            fr = new LectureRoomFragment();  //내 강의실
                             switchFragment(fr);
                             return true;
-                        case R.id.navigation_dashboard:
-                            fr = new courseListFragment();
+                        case R.id.navigation_dashboard:   //강좌(강의리스트)
+                            fr = new CourseListFragment();
                             switchFragment(fr);
-                            return true;
-                         case R.id.navigation_notifications:
-                             fr = new CopFragment();
+                             return true;
+                        case R.id.navigation_notifications:
+                            fr = new CopFragment();  //CoP 리스트
                              switchFragment(fr);
                              return true;
         }

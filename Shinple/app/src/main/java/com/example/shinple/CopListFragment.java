@@ -36,6 +36,11 @@ public class CopListFragment extends Fragment {
         return fragment;
     }
 
+    public static CopListFragment newInstance() {
+        return new CopListFragment();
+    }
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +68,7 @@ public class CopListFragment extends Fragment {
                     public void onClick(View view) {
                         FragmentManager fm = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.178/video/Pexels_Videos.mp4"));
+                        fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://736e4deb.ngrok.io/video/Pexels_Videos.mp4"));
                         fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -73,7 +78,7 @@ public class CopListFragment extends Fragment {
             public void onClick(View view) {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.178/video/sample_video.mp4"));
+                fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://736e4deb.ngrok.io/video/sample_video.mp4"));
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -87,7 +92,7 @@ public class CopListFragment extends Fragment {
                 if (strText != null) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.178/video/"+ strText+".mp4"));
+                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://736e4deb.ngrok.io/video/"+ strText+".mp4"));
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
