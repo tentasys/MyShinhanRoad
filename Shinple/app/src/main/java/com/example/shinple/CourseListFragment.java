@@ -30,6 +30,10 @@ public class CourseListFragment extends Fragment {
     public CourseListFragment() {
         // Required empty public constructor
     }
+    public static CourseListFragment newInstance() {
+        return new CourseListFragment();
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
