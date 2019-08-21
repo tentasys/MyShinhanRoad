@@ -134,6 +134,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginBottom="33dp"
                     android:src="@drawable/prize2nd"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/textView8"
                     app:layout_constraintStart_toStartOf="@+id/my_cop_02_name"
