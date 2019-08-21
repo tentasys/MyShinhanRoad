@@ -103,11 +103,9 @@ public class LectureListFragment extends Fragment {
                 count++;
             }
 
-
         }catch(Exception e) {
             e.printStackTrace();
         }
-
         return view;
     }
 
@@ -123,6 +121,7 @@ public class LectureListFragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
     private View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {        }
