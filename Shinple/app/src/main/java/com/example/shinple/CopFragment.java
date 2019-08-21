@@ -77,7 +77,7 @@ public class CopFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 /* CoP list로 연결 */
-                Log.d("IG","첫번째 CoP로 이동");
+                Log.d("move","첫번째 CoP로 이동");
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
@@ -91,7 +91,7 @@ public class CopFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 /* CoP list로 연결 */
-                Log.d("IG","첫번째 CoP로 이동");
+                Log.d("move","첫번째 CoP로 이동");
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
