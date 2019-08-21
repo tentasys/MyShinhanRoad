@@ -24,7 +24,7 @@ public class CourseListAdapter extends BaseAdapter {
 
     private Context context;
     private List<CourseVO> courseList;
-    private  View MainActivity;
+    private View MainActivity;
 
     public CourseListAdapter(Context context, List<CourseVO> courseList){
         this.context = context;

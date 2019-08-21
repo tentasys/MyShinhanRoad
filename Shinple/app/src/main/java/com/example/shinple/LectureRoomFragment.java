@@ -19,10 +19,6 @@ import org.w3c.dom.Text;
 
 public class LectureRoomFragment extends Fragment{
 
-    /* View 변수 선언 */
-    ImageView my_info;
-    TextView video1;
-    /* 생성자  */
     public LectureRoomFragment() {
         // Required empty public constructor
     }
@@ -46,25 +42,6 @@ public class LectureRoomFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lecture_room, container, false);
-        my_info =  v.findViewById(R.id.my_info);
-        my_info.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick( View v ) {
-                /* MainFragment로 이동 */
-                ((MainActivity)getActivity()).replaceFragment(MainFragment.newInstance());
-
-            }
-        });
-
-        video1 = v.findViewById(R.id.video1);
-        video1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /* 어디로 갈건 지 아직 모름  */
-                ((MainActivity)getActivity()).replaceFragment(MainFragment.newInstance());
-
-            }
-        });
         return v;
     }
 
