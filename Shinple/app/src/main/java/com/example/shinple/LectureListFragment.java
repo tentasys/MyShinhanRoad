@@ -8,9 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.shinple.VO.LectureVO;
 
@@ -30,11 +32,12 @@ public class LectureListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String courseName;
     private String courseInfo;
-    private String result;
+    private String result = "";
 
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
     private List<LectureVO> lectureList;
+    private TextView tv;
 
     private OnFragmentInteractionListener mListener;
 
@@ -75,6 +78,7 @@ public class LectureListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList,onClickItem);
         recyclerView.setAdapter(adapter);
+
 
 
         try{
