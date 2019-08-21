@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,7 @@ public class CopListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_cop_list, container, false);
@@ -62,43 +62,60 @@ public class CopListFragment extends Fragment {
         et = view.findViewById(R.id.editText);
         tv1.setText(mParam1);
         tv2.setText(mParam2);
-
-                tv1.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/Pexels_Videos.mp4"));
-                        fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-        tv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/sample_video.mp4"));
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
-        bt_sear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                String strText = et.getText().toString() ;
-                if (strText != null) {
+        boolean playerType = true;
+        if(playerType) {
+            Log.i("VideoPlayer","MediaPlayer");
+            tv1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/"+ strText+".mp4"));
+                    fragmentTransaction.replace(R.id.frame, new MediaPlayerFragment());
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.commit();
                 }
-            }
-        });
+            });
 
+        }
+        else{
+            Log.i("VideoPlayer","BasicPlayer");
+            tv1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/Pexels_Videos.mp4"));
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            });
+
+            tv2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/sample_video.mp4"));
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                }
+            });
+
+            bt_sear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    String strText = et.getText().toString();
+                    if (strText != null) {
+                        FragmentManager fm = getFragmentManager();
+                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                        fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/" + strText + ".mp4"));
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
+                    }
+                }
+            });
+        }
         return view;
     }
 }

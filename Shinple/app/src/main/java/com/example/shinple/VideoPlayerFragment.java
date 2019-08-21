@@ -48,21 +48,21 @@ public class VideoPlayerFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_video_player, container, false);
-        videoView = view.findViewById(R.id.videoView);
-
-        progressDialog = new ProgressDialog(view.getContext());
-        progressDialog.setTitle("streaming");
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
-        MediaController mediaController = new MediaController(view.getContext());
-        mediaController.setAnchorView(videoView);
-        Uri uri = Uri.parse(videourl);
-        videoView.setMediaController(mediaController);
-        videoView.setVideoURI(uri);
-        videoView.requestFocus();
-        progressDialog.dismiss();
-        videoView.start();
+//        videoView = view.findViewById(R.id.videoView);
+//
+//        progressDialog = new ProgressDialog(view.getContext());
+//        progressDialog.setTitle("streaming");
+//        progressDialog.setMessage("Loading...");
+//        progressDialog.setCancelable(false);
+//        progressDialog.show();
+//        MediaController mediaController = new MediaController(view.getContext());
+//        mediaController.setAnchorView(videoView);
+//        Uri uri = Uri.parse(videourl);
+//        videoView.setMediaController(mediaController);
+//        videoView.setVideoURI(uri);
+//        videoView.requestFocus();
+//        progressDialog.dismiss();
+//        videoView.start();
 
         return view;
     }

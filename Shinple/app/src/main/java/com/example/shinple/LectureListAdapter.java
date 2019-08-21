@@ -28,8 +28,7 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
     public LectureListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // context 와 parent.getContext() 는 같다.
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.lecture, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.lecture, parent, false);
 
         return new LectureListAdapter.ViewHolder(view);
     }
