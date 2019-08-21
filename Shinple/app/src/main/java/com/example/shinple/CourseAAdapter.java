@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,12 +19,20 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
 
     private List<CourseVO> courseList;
     private Context context;
-    private View.OnClickListener onClickItem;
 
-    public CourseAAdapter(Context context, List<CourseVO> courseList, View.OnClickListener onClickItem) {
+    public interface OnItemClickListener {
+        void onItemClick(View view, String courseName, String courseInfo);
+    }
+
+    private OnItemClickListener mListener = null ;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mListener = listener ;
+    }
+
+    public CourseAAdapter(Context context, List<CourseVO> courseList) {
         this.context = context;
         this.courseList = courseList;
-        this.onClickItem = onClickItem;
     }
 
     @Override
@@ -43,8 +53,8 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
 
         courseName.setText(courseList.get(position).getcourseName());
         courseLevel.setText(courseList.get(position).getcourseLevel());
-        //tagName.setText(courseList.get(position).gettagName());
     }
+
 
     @Override
     public int getItemCount() {
@@ -52,11 +62,21 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-
-        public ViewHolder(View itemView) {
+        Button bt_sub;
+        public ViewHolder(final View itemView) {
             super(itemView);
-
+            bt_sub = itemView.findViewById(R.id.bt_subCC);
+            bt_sub.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION){
+                        if(mListener != null){
+                            mListener.onItemClick(view,courseList.get(pos).getcourseName(),courseList.get(pos).getcourseLevel());
+                        }
+                    }
+                }
+            });
         }
     }
 }
