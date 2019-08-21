@@ -52,7 +52,7 @@ public class CourseListAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         View v = View.inflate(context, R.layout.course_item, null);
         //뷰에 다음 컴포넌트들을 연결시켜줌
-        TextView courseName = (TextView)v.findViewById(R.id.tv_courseName);
+        final TextView courseName = (TextView)v.findViewById(R.id.tv_courseName);
         TextView courseLevel = (TextView)v.findViewById(R.id.tv_lv);
         TextView tagName = (TextView)v.findViewById(R.id.tv_courseinfo);
         ImageButton btsub = (ImageButton) v.findViewById(R.id.bt_subC);
@@ -63,17 +63,13 @@ public class CourseListAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "강좌 상세 페이지로 이동합니다 - ", Toast.LENGTH_SHORT).show();
-
-                Fragment fr = LectureListFragment.newInstance();   //fragment에 새로운 fragment 객체 할당
-                Bundle bundle = new Bundle();  // 변수 전달을 위한 bundle 생성
-                bundle.putString("courseName","courseName");  // course_id를 넣어주기!!  ==> 여기서 변수를 다르게 전달 가능
-                bundle.putString("courseInfo","courseInfo");
-                bundle.putString("lectureList","lectureList");
-                fr.setArguments(bundle);  // fragment에 bundle 추가
                 ((MainActivity) view.getContext())  // context 받고
                         .getSupportFragmentManager()  // framgmentmanager받고 ==> getSupportFragment를 쓰면 이전 버전도 사용 가능하다 함.
                         .beginTransaction()   //transaction 시작!
-                        .replace(R.id.frame,fr)  //MainActivity의 frame에 fr 넣어주기
+                        // 첫 번째 : 강좌 이름
+                        // 두 번째 : 강좌 설명
+                        // 세 번째 : reponse로 받아오는 값, Json 값으로 String 하나
+                        .replace(R.id.frame,LectureListFragment.newInstance("param1", "param2", "param3"))  //MainActivity의 frame에 fr 넣어주기
                         .commit();
 
             }
