@@ -31,9 +31,9 @@ public class CopListFragment extends Fragment {
     public static CopListFragment newInstance(String param1, String param2) {
         CopListFragment fragment = new CopListFragment();
         Bundle args = new Bundle();
-        args.putString("PA1", param1);
-        args.putString("PA2", param2);
-        fragment.setArguments(args);
+//        args.putString("PA1", param1);
+//        args.putString("PA2", param2);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -56,66 +56,7 @@ public class CopListFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_cop_list, container, false);
-        tv1 = view.findViewById(R.id.hi);
-        tv2 = view.findViewById(R.id.hello);
-        bt_sear = view.findViewById(R.id.bt_sear);
-        et = view.findViewById(R.id.editText);
-        tv1.setText(mParam1);
-        tv2.setText(mParam2);
-        boolean playerType = true;
-        if(playerType) {
-            Log.i("VideoPlayer","MediaPlayer");
-            tv1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, new MediaPlayerFragment());
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
-            });
 
-        }
-        else{
-            Log.i("VideoPlayer","BasicPlayer");
-            tv1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/Pexels_Videos.mp4"));
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
-            });
-
-            tv2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/sample_video.mp4"));
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.commit();
-                }
-            });
-
-            bt_sear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    String strText = et.getText().toString();
-                    if (strText != null) {
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction.replace(R.id.frame, VideoPlayerFragment.newInstance("http://192.168.1.187/video/" + strText + ".mp4"));
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
-                    }
-                }
-            });
-        }
         return view;
     }
 }

@@ -65,13 +65,19 @@ public class CopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_cop, container, false);
-        ImageButton imageButton =  view.findViewById(R.id.IB_1);
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        View view = inflater.inflate(R.layout.fragment_cop, container, false);  //현재 전체 화면 뷰 받아옴
+
+        //TODO: DB 쿼리로 CoP의 개수를 받아온 다음에 반복문으로 처리하기
+
+        View cop_view_01 = view.findViewById(R.id.my_cop_01);       //첫번째 cop의 id 받아오기
+        View cop_view_02 = view.findViewById(R.id.my_cop_02);       //두번째 cop의 id 받아오기
+
+        //첫번째 Cop를 눌렀을때 해당 CoP 정보 란으로 이동
+        cop_view_01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /* CoP list로 연결 */
-                Log.d("IG","IB Clicked");
+                Log.d("move","첫번째 CoP로 이동");
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
@@ -80,7 +86,20 @@ public class CopFragment extends Fragment {
             }
         });
 
-        Log.d("IG","IB Clicked2");
+        //첫번째 Cop를 눌렀을때 해당 CoP 정보 란으로 이동
+        cop_view_02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /* CoP list로 연결 */
+                Log.d("move","첫번째 CoP로 이동");
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         return view;
     }
 
