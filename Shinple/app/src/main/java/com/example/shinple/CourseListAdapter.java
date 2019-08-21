@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,11 +56,11 @@ public class CourseListAdapter extends BaseAdapter {
         final TextView courseName = (TextView)v.findViewById(R.id.tv_courseName);
         TextView courseLevel = (TextView)v.findViewById(R.id.tv_lv);
         TextView tagName = (TextView)v.findViewById(R.id.tv_courseinfo);
-        ImageButton btsub = (ImageButton) v.findViewById(R.id.bt_subC);
+        Button btsubB = (Button) v.findViewById(R.id.bt_subCC);
         courseName.setText(courseList.get(i).getcourseName());
         courseLevel.setText(courseList.get(i).getcourseLevel());
         tagName.setText(courseList.get(i).gettagName());
-        btsub.setOnClickListener(new View.OnClickListener(){
+        btsubB.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Toast.makeText(view.getContext(), "강좌 상세 페이지로 이동합니다 - ", Toast.LENGTH_SHORT).show();

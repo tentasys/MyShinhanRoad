@@ -95,6 +95,7 @@ public class CourseListFragment extends Fragment {
     private View.OnClickListener onClickItem = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
         }
     };
 

@@ -96,9 +96,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_level2"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#3a93cb" />
+                android:background="#3a93cb"
+                android:layout_gravity="center"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -140,9 +141,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_level3"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="#3a93cb" />
+                android:background="#3a93cb"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </ScrollView>
 
