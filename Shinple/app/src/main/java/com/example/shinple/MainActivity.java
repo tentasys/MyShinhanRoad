@@ -131,8 +131,8 @@ public class MainActivity extends AppCompatActivity
                             fr = new LectureRoomFragment();  //내 강의실
                             switchFragment(fr);
                             return true;
-                        case R.id.navigation_dashboard:   //강좌(강의리스트)
-                            fr = new CourseListFragment();
+                        case R.id.navigation_dashboard:   //강좌(강의리스트    )
+                            fr = new TagFragment();
                             switchFragment(fr);
                              return true;
                         case R.id.navigation_notifications:

@@ -2,27 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#3a93cb">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#3a93cb"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="234dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_height="200dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/courselist">
 
         <TextView
             android:id="@+id/tv_courseName"
-            android:layout_width="300dp"
-            android:layout_height="63dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
+            android:layout_width="252dp"
+            android:layout_height="55dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginEnd="35dp"
+            android:layout_marginRight="35dp"
             android:gravity="center_vertical"
             android:text="#블록체인이 알고싶니"
             android:textSize="25dp"
@@ -31,72 +34,69 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageButton
-            android:id="@+id/bt_subC"
-            android:layout_width="185dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="#ffffff"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_courseName"
-            app:layout_constraintVertical_bias="0.641"
-            app:srcCompat="@drawable/subbutton" />
-
-        <TextView
-            android:id="@+id/Level"
-            android:layout_width="68dp"
-            android:layout_height="39dp"
+        <Button
+            android:id="@+id/bt_subCC"
+            android:layout_width="116dp"
+            android:layout_height="29dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/round_background"
+            android:text="수강신청"
+            android:textColor="#2d86be"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_courseinfo" />
+
+        <TextView
+            android:id="@+id/Level"
+            android:layout_width="25dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginLeft="28dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="8dp"
             android:gravity="center_vertical|right"
             android:text="Lv"
             android:textSize="20dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_courseinfo"
-            app:layout_constraintStart_toEndOf="@+id/bt_subC"
+            app:layout_constraintBottom_toTopOf="@+id/bt_subCC"
+            app:layout_constraintStart_toEndOf="@+id/tv_courseinfo"
             app:layout_constraintTop_toBottomOf="@+id/tv_courseName"
-            app:layout_constraintVertical_bias="0.977" />
+            app:layout_constraintVertical_bias="0.083" />
 
         <TextView
             android:id="@+id/tv_lv"
             android:layout_width="47dp"
             android:layout_height="51dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
             android:text="4"
             android:textSize="35dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_courseinfo"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/Level"
             app:layout_constraintTop_toBottomOf="@+id/tv_courseName"
-            app:layout_constraintVertical_bias="0.968" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <TextView
             android:id="@+id/tv_courseinfo"
-            android:layout_width="147dp"
+            android:layout_width="159dp"
             android:layout_height="24dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="32dp"
+            android:gravity="center"
             android:text="#블록체인 #홍길동"
             android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/bt_subC" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_courseName" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

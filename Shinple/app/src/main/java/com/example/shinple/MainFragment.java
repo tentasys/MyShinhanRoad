@@ -20,7 +20,6 @@ public class MainFragment extends Fragment {
     ViewPager viewPager;
     AdapterMainNewCourseSlider adapter2;
     ViewPager viewPager2;
-    ScrollView scrollView;
     public MainFragment() {
         // Required empty public constructor
     }

@@ -14,16 +14,31 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <VideoView
-                android:id="@+id/videoView"
+            <SurfaceView
+                android:layout_width="400dp"
+                android:layout_height="240dp"
+                android:id="@+id/videoView" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp" />
+                android:layout_height="150dp">
+
+                <SurfaceView
+                    android:id="@+id/surfaceView"
+                    android:layout_width="413dp"
+                    android:layout_height="150dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="31dp"
                 android:text="VideoView" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_videolist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
