@@ -1,5 +1,6 @@
 package com.example.shinple;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import com.example.shinple.Fragment.CopFragment;
@@ -25,6 +26,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
+import android.view.Surface;
+import android.view.View;
+import android.view.WindowManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,7 +40,8 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     BackPressHandler backPressHandler = new BackPressHandler(this);
-
+    BottomNavigationView navView;
+    boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +60,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //하단바 정의
-        BottomNavigationView navView = findViewById(R.id.nav_view2);
+        navView = findViewById(R.id.nav_view2);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Fragment 전환을 위한 초기 설정
@@ -64,6 +69,18 @@ public class MainActivity extends AppCompatActivity
 
         fr = new MainFragment();
         switchFragment(fr);
+    }
+    public void CommonSectionVisibleToggle(boolean visible)
+    {
+        if(visible) {
+            toolbar.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+        }
+        else {
+            toolbar.setVisibility(View.INVISIBLE);
+            navView.setVisibility(View.INVISIBLE);
+
+        }
     }
 
     @Override
@@ -164,5 +181,25 @@ public class MainActivity extends AppCompatActivity
         } else {
                 backPressHandler.onBackPressed();
             }
+    }
+
+
+    public boolean getWindowMode() {
+        return windowMode;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+//        exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
+        if(rotation== Surface.ROTATION_90 || rotation ==Surface.ROTATION_270 ) {  //가로일 때
+            navView.setVisibility(View.INVISIBLE);
+            windowMode= false;
+        }else {  //세로로 바뀔 때,
+            toolbar.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+            windowMode = true;
+        }
     }
 }

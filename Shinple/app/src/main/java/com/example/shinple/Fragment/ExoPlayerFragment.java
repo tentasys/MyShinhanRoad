@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelStore;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -90,21 +92,19 @@ public class ExoPlayerFragment extends Fragment {
 
             //컨트롤러 없애기
             exoPlayerView.setUseController(true);
+            exoPlayerView.setControllerAutoShow(false);
 
             //사이즈 조절
-            exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL); // or RESIZE_MODE_FILL
-
+            exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_FILL); //
+            /*exoPlayerView.dispatchKeyEvent*/
+//            exoPlayerView.
             //음량조절
-            player.setVolume(0);
-
+            player.setVolume(10);
             //프레임 포지션 설정
-            player.seekTo(currentWindow, playbackPosition);
+
 
         }
-
-        String sample = "http://192.168.1.187/video/dog.mp4";
-
-        MediaSource mediaSource = buildMediaSource(Uri.parse(sample));
+        MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
 
         //prepare
         player.prepare(mediaSource, true, false);
@@ -153,66 +153,34 @@ public class ExoPlayerFragment extends Fragment {
         runOnUiThread(() -> {
             int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
             if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) { //Landscape
-                getWindow().getDecorView().setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+
             } else {
-                getWindow().getDecorView().setSystemUiVisibility(
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
             }
         });*/
-    public void showControls(){
+//    public void showControls(){
+//            ((MainActivity) view.getContext()).getWindow().getDecorView().setSystemUiVisibility(
+//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+//
+//    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (((MainActivity) getActivity()).getWindowMode()) {
+
             ((MainActivity) view.getContext()).getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-    }
-
- /*
-    private static final String ARG_PARAM1 = "param1";
-    ProgressDialog progressDialog;
-    String videourl;
-
-    SurfaceView surfaceView;
-    SurfaceHolder surfaceHolder;
-    MediaPlayer mediaPlayer;
-    View view;
-
-    private String mParam1;
-
-    public ExoPlayerFragment() {
-    }
-
-    public static ExoPlayerFragment newInstance(String param1) {
-        ExoPlayerFragment fragment = new ExoPlayerFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            videourl = mParam1;
+        } else
+        {
+            ((MainActivity) view.getContext()).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            ((MainActivity) view.getContext()).getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
     }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-         view = inflater.inflate(R.layout.fragment_mediaplayer, container, false);
-         progressDialog = new ProgressDialog(view.getContext());
-         surfaceView = view.findViewById(R.id.videoView);
-
-        surfaceHolder = surfaceView.getHolder();
-        surfaceHolder.addCallback(this);
-        return view;
-    }
-
-    }*/
 }

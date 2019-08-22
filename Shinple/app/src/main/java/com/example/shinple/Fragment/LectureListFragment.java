@@ -99,11 +99,19 @@ public class LectureListFragment extends Fragment {
                 backgroundTask.execute();
                 isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){
-                    ((MainActivity) view.getContext())
-                            .getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
-                            .commit();
+                    try {   // exo해보고
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
+                                .commit();
+                    }catch (Exception e){  //exo안되면 media로 가자!
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl))
+                                .commit();
+                    }
                 }else{
                     progressDialog.setMessage("파일 경로를 확인해주세요.");
                     progressDialog.setCancelable(false);
