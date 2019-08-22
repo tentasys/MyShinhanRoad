@@ -35,12 +35,13 @@ public class CourseListFragment extends Fragment{
 
 
     private ListView listView;
-    private CourseListAdapter adapter;
+    private CourseAAdapter adapter;
     private CourseAAdapter adapter2;
     private CourseAAdapter adapter3;
     private List<CourseVO> courseList;
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2;
+    private RecyclerView recyclerView3;
     private String resultt = "";
 
     public CourseListFragment() {
@@ -82,22 +83,34 @@ public class CourseListFragment extends Fragment{
             courseList.add(course);//리스트뷰에 값을 추가해줍니다
         }
 
-        recyclerView = v.findViewById(R.id.rv_level2);
-        recyclerView2 = v.findViewById(R.id.rv_level3);
+        recyclerView = v.findViewById(R.id.rv_level1);
+        recyclerView2 = v.findViewById(R.id.rv_level2);
+        recyclerView3 = v.findViewById(R.id.rv_level3);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
+        LinearLayoutManager layoutManager3 = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView2.setLayoutManager(layoutManager2);
+        recyclerView3.setLayoutManager(layoutManager3);
+        adapter = new CourseAAdapter(v.getContext(),courseList);
         adapter2 = new CourseAAdapter(v.getContext(),courseList);
         adapter3 = new CourseAAdapter(v.getContext(),courseList);
-        recyclerView.setAdapter(adapter2);
-        recyclerView2.setAdapter(adapter3);
+        recyclerView.setAdapter(adapter);
+        recyclerView2.setAdapter(adapter2);
+        recyclerView3.setAdapter(adapter3);
 
-        listView = v.findViewById(R.id.lv_course);
-        adapter = new CourseListAdapter(v.getContext(), courseList);
-        listView.setAdapter(adapter);
-
+        adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, String courseName, String courseInfo) {
+                new CourseListFragment.BackgroundTask().execute();
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
+                        .commit();
+            }
+        });
         adapter2.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String courseName, String courseInfo) {
@@ -109,7 +122,17 @@ public class CourseListFragment extends Fragment{
                         .commit();
             }
         });
-
+        adapter3.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, String courseName, String courseInfo) {
+                new CourseListFragment.BackgroundTask().execute();
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
+                        .commit();
+            }
+        });
         return v;
     }
 
@@ -167,7 +190,9 @@ public class CourseListFragment extends Fragment{
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d("WHYWHY",result);
+            if(result != null) {
+                Log.d("WHYWHY", result);
+            }
         }
     }
 

@@ -44,6 +44,7 @@
                     android:text="초급자 코스"
                     android:textSize="25dp"
                     android:textStyle="bold"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.346"
@@ -52,11 +53,12 @@
                     app:layout_constraintVertical_bias="0.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <ListView
-                android:id="@+id/lv_course"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#3a93cb" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_level1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="#3a93cb"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
