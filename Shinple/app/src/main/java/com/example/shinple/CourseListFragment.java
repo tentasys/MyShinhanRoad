@@ -35,7 +35,6 @@ import java.util.List;
 public class CourseListFragment extends Fragment{
 
 
-    private ListView listView;
     private CourseAAdapter adapter;
     private CourseAAdapter adapter2;
     private CourseAAdapter adapter3;

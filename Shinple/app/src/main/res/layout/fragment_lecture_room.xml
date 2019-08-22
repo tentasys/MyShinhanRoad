@@ -224,6 +224,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ffffff"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="420dp">
 
                 <ImageView
@@ -232,14 +234,13 @@
                     android:layout_height="36dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/viewPager"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_courseList"
+                    app:layout_constraintEnd_toStartOf="@+id/rv_courseList"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/rv_courseList"
                     app:srcCompat="@drawable/left" />
 
                 <ImageView
@@ -248,14 +249,14 @@
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/rv_courseList"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/viewPager"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/rv_courseList"
+                    app:layout_constraintTop_toTopOf="@+id/rv_courseList"
                     app:srcCompat="@drawable/right" />
 
                 <ImageView
@@ -291,19 +292,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.viewpager.widget.ViewPager
-                    android:id="@+id/viewPager"
-                    android:layout_width="334dp"
-                    android:layout_height="245dp"
-                    android:layout_gravity="center"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_courseList"
+                    android:layout_width="333dp"
+                    android:layout_height="235dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView14" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView14"
+                    app:layout_constraintVertical_bias="0.0" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </LinearLayout>
