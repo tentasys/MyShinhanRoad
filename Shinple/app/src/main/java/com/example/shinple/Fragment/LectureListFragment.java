@@ -1,11 +1,13 @@
 package com.example.shinple.Fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,13 @@ import com.example.shinple.Adapter.LectureListAdapter;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.LectureVO;
+import com.google.android.exoplayer2.ExoPlayerFactory;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +45,9 @@ public class LectureListFragment extends Fragment {
     private List<LectureVO> lectureList;
     private  TextView tv_courseName;
     private  TextView tv_courseInfo;
+    public String videourl="http://192.168.1.187/video/dog.mp4";
+    public boolean FileValideCheckResult = false;
+    ProgressDialog progressDialog;
 
     public LectureListFragment() {
         // Required empty public constructor
@@ -69,6 +77,8 @@ public class LectureListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
+        progressDialog = new ProgressDialog(view.getContext());
+
         lectureList = new ArrayList<LectureVO>();
 
         tv_courseName = view.findViewById(R.id.tv_lec_courseN);
@@ -87,13 +97,21 @@ public class LectureListFragment extends Fragment {
             public void onItemClick(View view, String lectureName, String lectureInfo) {
                 BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
                 backgroundTask.execute();
-                ((MainActivity) view.getContext())
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame, MediaPlayerFragment.newInstance(lectureName))
-                        .commit();
-            }
-        });
+                isFileValid();  //파일이 유효한 지 체크
+                if(FileValideCheckResult){
+                    ((MainActivity) view.getContext())
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
+                            .commit();
+                }else{
+                    progressDialog.setMessage("파일 경로를 확인해주세요.");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                } //ifelse 끝
+            }//onItemClick 끝
+
+        });//setOnItemClickListener끝
 
 
         try{
@@ -126,5 +144,38 @@ public class LectureListFragment extends Fragment {
             e.printStackTrace();
         }
         return view;
+    }
+
+    /* 파일이 유효한 지 체크해서 전역변수 FileValideCheckResult에 저장하는 함수 */
+    public  void isFileValid() {
+        Thread th = new Thread() {
+            @Override
+            public void run() {
+                if(videourl == null){
+                    FileValideCheckResult =false;
+                    this.stop();
+                }
+                try {
+                    URL url = new URL(videourl);
+                    HttpURLConnection http = (HttpURLConnection) url.openConnection();
+                    if (http.getResponseCode() == 200) {
+                        Log.i("PlayUrlCheck", "valid");
+                        FileValideCheckResult = true;
+                    } else {
+                        Log.i("PlayUrlCheck", "invalid");
+                        FileValideCheckResult =false;
+                    }
+                } catch ( Exception e) {
+                    Log.i("PlayUrlCheck", "error");
+                    FileValideCheckResult = false;
+                }
+            }
+        };
+        th.start();
+        try {
+            th.join();
+        }catch (Exception e){
+            Log.e("Error", "ThreadError");
+        }
     }
 }

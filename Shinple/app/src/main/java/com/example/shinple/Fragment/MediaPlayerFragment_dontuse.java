@@ -47,12 +47,12 @@ public class MediaPlayerFragment_dontuse extends Fragment implements SurfaceHold
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
         /* media_player 생성 */
+
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
         } else {
             mediaPlayer.reset();
         }
-
         /* 비디오 준비 */
         try {
             mediaPlayer.setDataSource(path);
