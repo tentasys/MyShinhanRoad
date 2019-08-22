@@ -90,7 +90,7 @@ public class LectureListFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,VideoPlayerFragment.newInstance(lectureName))
+                        .replace(R.id.frame, MediaPlayerFragment.newInstance(lectureName))
                         .commit();
             }
         });
