@@ -25,7 +25,7 @@ import java.util.List;
 
 public class LectureRoomFragment extends Fragment{
 
-    private CourseAAdapter adapter;
+    private CourseBAdapter adapter;
     private List<CourseVO> courseList;
     private RecyclerView recyclerView;
 
@@ -72,12 +72,12 @@ public class LectureRoomFragment extends Fragment{
             courseList.add(course);//리스트뷰에 값을 추가해줍니다
 
             recyclerView = v.findViewById(R.id.rv_courseList);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new CourseAAdapter(v.getContext(),courseList);
+            adapter = new CourseBAdapter(v.getContext(),courseList);
             recyclerView.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+            adapter.setOnItemClickListener(new CourseBAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, String courseName, String courseInfo) {
                     //new CourseListFragment.BackgroundTask().execute();
