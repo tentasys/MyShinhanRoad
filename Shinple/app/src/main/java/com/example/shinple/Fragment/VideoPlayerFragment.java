@@ -1,8 +1,7 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
 import android.app.ProgressDialog;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,8 +12,9 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.MediaController;
 import android.widget.VideoView;
+
+import com.example.shinple.R;
 
 
 public class VideoPlayerFragment extends Fragment implements SurfaceHolder.Callback{

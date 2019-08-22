@@ -2,6 +2,10 @@ package com.example.shinple;
 
 import android.os.Bundle;
 
+import com.example.shinple.Fragment.CopFragment;
+import com.example.shinple.Fragment.LectureRoomFragment;
+import com.example.shinple.Fragment.MainFragment;
+import com.example.shinple.Fragment.TagFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;

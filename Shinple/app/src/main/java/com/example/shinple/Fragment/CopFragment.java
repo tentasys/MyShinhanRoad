@@ -1,4 +1,4 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
 
 import android.os.Bundle;
@@ -11,7 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+
+import com.example.shinple.R;
 
 /**
  * 하단 CoP 버튼과 연결

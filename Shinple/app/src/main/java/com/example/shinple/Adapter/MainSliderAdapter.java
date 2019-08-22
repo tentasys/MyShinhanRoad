@@ -1,4 +1,4 @@
-package com.example.shinple;
+package com.example.shinple.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
@@ -12,14 +12,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class AdapterMainNewCourseSlider extends PagerAdapter {
+import com.example.shinple.R;
+
+public class MainSliderAdapter extends PagerAdapter {
 //    private int[] images = {R.drawable.new_course_image1,R.drawable.new_course_image2, R.drawable.new_course_image3};
     private LayoutInflater inflater;
     private Context context;
     private String viewpager;
     /* 생성자 */
 
-    public AdapterMainNewCourseSlider(Context context,String viewpager){
+    public MainSliderAdapter(Context context, String viewpager){
         this.context = context;
         this.viewpager = viewpager;
     }

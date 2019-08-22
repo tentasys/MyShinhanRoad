@@ -1,34 +1,23 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
+import com.example.shinple.Adapter.CourseAAdapter;
+import com.example.shinple.MainActivity;
+import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.InterruptedIOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * 하단 강좌(강의 리스트) 누르면 연결되는 페이지

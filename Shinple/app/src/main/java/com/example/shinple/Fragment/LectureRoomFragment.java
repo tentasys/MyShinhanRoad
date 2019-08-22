@@ -1,21 +1,18 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.example.shinple.Adapter.CourseBAdapter;
+import com.example.shinple.MainActivity;
+import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
 

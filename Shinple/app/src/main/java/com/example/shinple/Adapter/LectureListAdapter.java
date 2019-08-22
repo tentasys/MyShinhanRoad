@@ -1,4 +1,4 @@
-package com.example.shinple;
+package com.example.shinple.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shinple.R;
 import com.example.shinple.VO.LectureVO;
 
 import java.util.List;
