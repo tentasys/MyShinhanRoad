@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.shinple.BackgroundTask;
@@ -45,6 +46,7 @@ public class LectureListFragment extends Fragment {
     private List<LectureVO> lectureList;
     private  TextView tv_courseName;
     private  TextView tv_courseInfo;
+    private Button bt_test;
     public String videourl="http://192.168.1.187/video/dog.mp4";
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
@@ -83,6 +85,8 @@ public class LectureListFragment extends Fragment {
 
         tv_courseName = view.findViewById(R.id.tv_lec_courseN);
         tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
+        bt_test = view.findViewById(R.id.bt_test);
+
         tv_courseName.setText(courseName);
         tv_courseInfo.setText(courseInfo);
 
@@ -91,6 +95,17 @@ public class LectureListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
+
+        bt_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,TestFragment.newInstance())
+                        .commit();
+            }
+        });
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override

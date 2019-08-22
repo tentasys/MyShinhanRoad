@@ -1,10 +1,10 @@
 package com.example.shinple;
 
-<<<<<<< HEAD
+
 import android.content.res.Configuration;
-=======
+
 import android.graphics.Color;
->>>>>>> 91aecc3e8f6ea365523469aba32409dcebeb8bae
+
 import android.os.Bundle;
 
 import com.example.shinple.Fragment.CopFragment;
@@ -31,14 +31,15 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
-<<<<<<< HEAD
+
+
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
-=======
+
+
 import android.widget.EditText;
 import android.widget.SearchView;
->>>>>>> 91aecc3e8f6ea365523469aba32409dcebeb8bae
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
