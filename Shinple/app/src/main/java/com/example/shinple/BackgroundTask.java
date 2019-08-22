@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -12,10 +13,19 @@ import java.net.URL;
 public class BackgroundTask extends AsyncTask<Void, Void, String> {
 
     String target;
-
+    String param1;
     public BackgroundTask(String target) {
         super();
         this.target = target;
+    }
+
+    // parameter 값 받기
+    public BackgroundTask(String target, String param1) {
+        super();
+        this.target = target;
+        if (param1 != null){
+            this.param1 = param1;
+        }
     }
 
     @Override
@@ -25,6 +35,17 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
 
             //URL을 이용해서 웹페이지에 연결하는 부분
             HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+
+            //parameter가 있다면 붙여서
+            if(param1 != null){
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+
+                DataOutputStream wr = new DataOutputStream(httpURLConnection.getOutputStream());
+                wr.writeBytes(param1);
+                wr.flush();
+                wr.close();
+            }
 
             //바이트단위 입력스트림 생성 소스는 httpURLConnection
             InputStream inputStream = httpURLConnection.getInputStream();
