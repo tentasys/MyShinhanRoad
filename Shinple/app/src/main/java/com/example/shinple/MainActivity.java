@@ -1,6 +1,10 @@
 package com.example.shinple;
 
+<<<<<<< HEAD
 import android.content.res.Configuration;
+=======
+import android.graphics.Color;
+>>>>>>> 91aecc3e8f6ea365523469aba32409dcebeb8bae
 import android.os.Bundle;
 
 import com.example.shinple.Fragment.CopFragment;
@@ -10,6 +14,7 @@ import com.example.shinple.Fragment.TagFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -26,9 +31,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
+<<<<<<< HEAD
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+=======
+import android.widget.EditText;
+import android.widget.SearchView;
+>>>>>>> 91aecc3e8f6ea365523469aba32409dcebeb8bae
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,7 +59,11 @@ public class MainActivity extends AppCompatActivity
 
         //toolbar 설정
         toolbar = findViewById(R.id.toolbar);
+        //toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
+        actionBar.setDisplayShowTitleEnabled(false);
 
         //사이드바 설정 및 토글 기능 정의
         drawer = findViewById(R.id.drawer_layout);
@@ -87,6 +101,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("태그명으로 검색합니다.");
         return true;
     }
 
