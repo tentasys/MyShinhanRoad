@@ -23,10 +23,12 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.InterruptedIOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 하단 강좌(강의 리스트) 누르면 연결되는 페이지
@@ -104,8 +106,13 @@ public class CourseListFragment extends Fragment{
             @Override
             public void onItemClick(View view, String courseName, String courseInfo) {
                 //new CourseListFragment.BackgroundTask().execute();
-                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
-                backgroundTask.execute();
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
@@ -116,20 +123,31 @@ public class CourseListFragment extends Fragment{
         adapter2.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String courseName, String courseInfo) {
-                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
-                backgroundTask.execute();
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                try{
+                     result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
+                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, result))
                         .commit();
             }
         });
         adapter3.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String courseName, String courseInfo) {
-                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
-                backgroundTask.execute();
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()

@@ -37,9 +37,8 @@ public class LectureListFragment extends Fragment {
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
     private List<LectureVO> lectureList;
-    private TextView tv;
-
-    private OnFragmentInteractionListener mListener;
+    private  TextView tv_courseName;
+    private  TextView tv_courseInfo;
 
     public LectureListFragment() {
         // Required empty public constructor
@@ -71,14 +70,29 @@ public class LectureListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
         lectureList = new ArrayList<LectureVO>();
 
-        recyclerView = view.findViewById(R.id.lv_lecture);
+        tv_courseName = view.findViewById(R.id.tv_lec_courseN);
+        tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
+        tv_courseName.setText(courseName);
+        tv_courseInfo.setText(courseInfo);
 
-
+        recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new LectureListAdapter(view.getContext(),lectureList,onClickItem);
+        adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
 
+        adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, String lectureName, String lectureInfo) {
+                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
+                backgroundTask.execute();
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,VideoPlayerFragment.newInstance(lectureName))
+                        .commit();
+            }
+        });
 
 
         try{
@@ -112,22 +126,4 @@ public class LectureListFragment extends Fragment {
         }
         return view;
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    private View.OnClickListener onClickItem = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {        }
-    };
 }

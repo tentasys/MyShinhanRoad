@@ -48,7 +48,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
     public void onBindViewHolder(CourseAAdapter.ViewHolder holder, int position) {
         TextView courseName = (TextView) holder.itemView.findViewById(R.id.tv_courseName);
         TextView courseLevel = (TextView) holder.itemView.findViewById(R.id.tv_cl2_lv);
-        TextView tagName = (TextView) holder.itemView.findViewById(R.id.tv_courseInfo);
+        TextView tagName = (TextView) holder.itemView.findViewById(R.id.tv_lec_courseInfo);
 
         courseName.setText(courseList.get(position).getcourseName());
         courseLevel.setText(courseList.get(position).getcourseLevel());

@@ -20,7 +20,6 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
 
     @Override
     protected String doInBackground(Void... voids) {
-
         try{
             URL url = new URL(target);//URL 객체 생성
 
@@ -52,7 +51,6 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
             e.printStackTrace();
         }
         return null;
-
     }
 
     @Override
