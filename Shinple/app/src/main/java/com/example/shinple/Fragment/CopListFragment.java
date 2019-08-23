@@ -30,9 +30,9 @@ public class CopListFragment extends Fragment {
     public static CopListFragment newInstance(String param1, String param2) {
         CopListFragment fragment = new CopListFragment();
         Bundle args = new Bundle();
-//        args.putString("PA1", param1);
-//        args.putString("PA2", param2);
-//        fragment.setArguments(args);
+        args.putString("PA1", param1);
+        args.putString("PA2", param2);
+        fragment.setArguments(args);
         return fragment;
     }
 

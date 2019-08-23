@@ -13,8 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.shinple.Adapter.CopAdapter;
+import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 
 import com.example.shinple.VO.CopVO;
@@ -38,8 +40,6 @@ public class CopFragment extends Fragment {
     /**
      * list를 위한 newInstance 메소드
      * */
-
-
     public static CopFragment newInstance(String param1, String param2) {
         CopFragment fragment = new CopFragment();
         Bundle args = new Bundle();
@@ -78,7 +78,6 @@ public class CopFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cop, container, false);  //현재 전체 화면 뷰 받아옴
-
         ////////////////////////////////////
         //내 CoP 리스트
         //리스트 생성
@@ -96,52 +95,53 @@ public class CopFragment extends Fragment {
             my_cop_list.add(cop);//리스트뷰에 값을 추가해줍니다
         }
 
+        //레이아웃, 아답터 설정
         my_rv = view.findViewById(R.id.my_cop_list);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
         my_rv.setLayoutManager(layoutManager);
         my_cop_adapter = new CopAdapter(view.getContext(), my_cop_list);
         my_rv.setAdapter(my_cop_adapter);
 
+        //첫번째 Cop를 눌렀을때 해당 CoP 정보 란으로 이동
+        my_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, String copName, String copRank) {
+
+//                FragmentManager fm = getFragmentManager();
+//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+//                fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance(copName,copRank));
+//                fragmentTransaction.addToBackStack(null);
+//                fragmentTransaction.commit();
+
+                Toast.makeText(getContext(), "테스트", Toast.LENGTH_SHORT).show();
+                ((MainActivity)view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, CopListFragment.newInstance(copName, copRank))
+                        .commit();
+            }
+        });
         ///////////////////////////////////////////////////////////////////////////////////////////////
         //전체 Cop 리스트
         total_cop_list = new ArrayList<CopVO>();
 
         String total_cop_name[] = {"블록체인 모임", "클라우드 모임", "핀테크 모임", "빅데이터 모임 "};
-        String total_cop_rank[] = {"1", "3", "17"};
-        //리사이클러뷰에 아답터 설정
-//        CopAdapter rv_adapter_01;
+        String total_cop_rank[] = {"1", "3", "17", "22"};
+        //JSON 배열 길이만큼 반복문을 실행
+        for(int i=0;i<total_cop_name.length;i++) {
+            String each_name = total_cop_name[i];
+            String each_rank = total_cop_rank[i];
 
-//        View cop_view_01 = view.findViewById(R.id.my_cop_01);       //첫번째 cop의 id 받아오기
-//        View cop_view_02 = view.findViewById(R.id.my_cop_02);       //두번째 cop의 id 받아오기
-//
-//        //첫번째 Cop를 눌렀을때 해당 CoP 정보 란으로 이동
-//        cop_view_01.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                /* CoP list로 연결 */
-//                Log.d("move","첫번째 CoP로 이동");
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//                fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-//            }
-//        });
-//
-//        //첫번째 Cop를 눌렀을때 해당 CoP 정보 란으로 이동
-//        cop_view_02.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                /* CoP list로 연결 */
-//                Log.d("move","첫번째 CoP로 이동");
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//                fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance("안녕","하세요"));
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-//            }
-//        });
+            CopVO cop = new CopVO(each_name, each_rank);
+            total_cop_list.add(cop);//리스트뷰에 값을 추가해줍니다
+        }
+
+        //레이아웃, 아답터 설정
+        total_rv = view.findViewById(R.id.total_cop_list);
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
+        total_rv.setLayoutManager(layoutManager2);
+        total_cop_adapter = new CopAdapter(view.getContext(), total_cop_list);
+        total_rv.setAdapter(total_cop_adapter);
 
         return view;
     }
