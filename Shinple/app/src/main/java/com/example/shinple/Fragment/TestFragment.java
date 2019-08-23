@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.shinple.Adapter.CourseAAdapter;
@@ -30,6 +31,7 @@ public class TestFragment extends Fragment {
     private List<QuizVO> testList;
     private RecyclerView rv_quiz;
     private String result = "";
+    private Button submit;
 
 
 
@@ -43,7 +45,6 @@ public class TestFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
         }
     }
 
@@ -54,8 +55,8 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
 
         testList = new ArrayList<QuizVO>();
-        String question[] ={"JJㅇㅇ","ㅁㄴㅇㅁㄴㅇ"};
-        String example[] ={"ㅁㄴㄴㄴㄴㄴㅇ","ㅁㄴㅇㅁㄴㅇ"};
+        String question[] ={"JJㅇㅇ","ㅁㄴㅇㅁㄴㅇ","sdssdsd"};
+        String example[] ={"ㅁㄴㄴㄴㄴㄴㅇ","ㅁㄴㅇㅁㄴㅇ","sdsdsf"};
 
         int length =question.length;
         for(int each_test=0;each_test<length;each_test++) {
@@ -65,6 +66,7 @@ public class TestFragment extends Fragment {
             QuizVO course = new QuizVO(each_question, each_example);
             testList.add(course);
         }
+
 
         rv_quiz = v.findViewById(R.id.rv_quiz);
 
@@ -81,6 +83,14 @@ public class TestFragment extends Fragment {
             public void onItemClick(View view, int position, int answer) {
                 Log.d("ttt",String.valueOf(position));
                 Log.d("aaaa",String.valueOf(answer));
+            }
+        });
+
+        submit = v.findViewById(R.id.bt_submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 

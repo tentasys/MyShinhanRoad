@@ -63,8 +63,6 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         RadioGroup rg = (RadioGroup)itemView.findViewById(R.id.rg_quiz);
-        RadioButton rb1 = (RadioButton)itemView.findViewById(R.id.rb_1);
-        RadioButton rb2 = (RadioButton)itemView.findViewById(R.id.rb_3);
         public ViewHolder(final View itemView) {
             super(itemView);
 
@@ -94,29 +92,6 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
                     }
                 }
             });
-
-            /*rb1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION){
-                        if(mListener != null){
-                            mListener.onItemClick(view,rb1.getText().toString());
-                        }
-                    }
-                }
-            });
-            rb2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION){
-                        if(mListener != null){
-                            mListener.onItemClick(view,rb2.getText().toString());
-                        }
-                    }
-                }
-            });*/
         }
     }
 }
