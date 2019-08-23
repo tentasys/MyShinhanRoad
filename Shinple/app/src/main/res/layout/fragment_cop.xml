@@ -10,11 +10,11 @@
     <!--나타나는 CoP 정보는 DB에 저장된 순서로 나타내도 될 듯. 회원별로 보유한 CoP 수 만큼 출력-->
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#3a93cb"
             android:orientation="vertical">
 
@@ -32,9 +32,10 @@
             <!--하나의 constraintlayout은 내 cop 하나를 나타냄-->
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:id="@+id/my_cop_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/my_cop_list"/>
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/total_cop_rank_text"
@@ -47,9 +48,10 @@
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:overScrollMode="never"
+                android:id="@+id/total_cop_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/total_cop_list"/>
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
     </ScrollView>

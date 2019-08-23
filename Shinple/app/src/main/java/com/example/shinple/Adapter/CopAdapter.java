@@ -60,10 +60,20 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     //viewholder 클래스 정의
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION){
+                        if(mListener != null){
+                            mListener.onItemClick(view,my_cop_list.get(pos).getCopName(),my_cop_list.get(pos).getCopRank());
+                        }
+                    }
 
+                }
+            });
         }
     }
 }
