@@ -22,6 +22,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:fontFamily">@font/oneshinhanmedium</item>
     </style>
 
 

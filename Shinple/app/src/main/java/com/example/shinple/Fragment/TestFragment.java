@@ -22,8 +22,9 @@ import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.QuizVO;
 
+import java.util.*;
 import java.util.ArrayList;
-import java.util.List;
+import java.lang.Math;
 
 public class TestFragment extends Fragment {
 
@@ -32,8 +33,11 @@ public class TestFragment extends Fragment {
     private RecyclerView rv_quiz;
     private String result = "";
     private Button submit;
-
-
+// 정답 받는 부분
+    private int answer_check[] = {1,2,4};
+    private int answer_list[] = new int[3];
+    private int count = 0;
+    private float score = 0;
 
     public TestFragment() {
     }
@@ -55,8 +59,8 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
 
         testList = new ArrayList<QuizVO>();
-        String question[] ={"JJㅇㅇ","ㅁㄴㅇㅁㄴㅇ","sdssdsd"};
-        String example[] ={"ㅁㄴㄴㄴㄴㄴㅇ","ㅁㄴㅇㅁㄴㅇ","sdsdsf"};
+        String question[] ={"aaaaa","bbbbb","ccccc"};
+        String example[] ={"ㅁㄴㄴㄴㄴㄴㅇ","ㅁㄴㅇㅁㄴㅇ","sdsdsf","aabasbasdb"};
 
         int length =question.length;
         for(int each_test=0;each_test<length;each_test++) {
@@ -83,14 +87,25 @@ public class TestFragment extends Fragment {
             public void onItemClick(View view, int position, int answer) {
                 Log.d("ttt",String.valueOf(position));
                 Log.d("aaaa",String.valueOf(answer));
-            }
+                // 답찾기//
+                answer_list[position] = answer;
+                }
+
         });
 
         submit = v.findViewById(R.id.bt_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                for (int i = 0; i < answer_check.length; i++) {
+                    if (answer_check[i] == answer_list[i]) {
+                        count+=1;
+                    }
+                }
+                score = Math.round((Double.valueOf(count)/Double.valueOf(answer_list.length))*100);
+                Log.d("action", String.valueOf(score));
+                count = 0;
+                score = 0;
             }
         });
 
