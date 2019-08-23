@@ -177,7 +177,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"
                     android:background="@drawable/nextbutton"
-                    android:text="필터"
+                    android:text="검색"
                     android:textColor="#ffffff"
                     android:textSize="25dp"
                     app:layout_constraintBottom_toBottomOf="parent"
