@@ -209,7 +209,10 @@ public class MainActivity extends AppCompatActivity
 //
 //        }
 
-        Fragment fg = getSupportFragmentManager().findFragmentById(R.id.)
+        Fragment fg = getSupportFragmentManager().findFragmentById(R.id.cop_fragment);
+        if (!(fg instanceof FragmentBackPress) || !((FragmentBackPress) fg).onBackPressed()) {
+            super.onBackPressed();
+        }
     }
 
 

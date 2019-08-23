@@ -10,11 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.shinple.FragmentBackPress;
 import com.example.shinple.R;
 
 
-public class CopListFragment extends Fragment {
+public class CopListFragment extends Fragment implements FragmentBackPress {
 
     private String cop_name;
     private String cop_rank;
@@ -60,5 +62,11 @@ public class CopListFragment extends Fragment {
         copText.setText("    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
 
         return view;
+    }
+
+    @Override
+    public boolean onBackPressed(){
+        Toast.makeText(this.getContext(), "야호", Toast.LENGTH_SHORT);
+        return true;
     }
 }
