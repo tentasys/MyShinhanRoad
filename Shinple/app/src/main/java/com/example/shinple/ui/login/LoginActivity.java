@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText usernameEditText = findViewById(R.id.user_id);
         final EditText passwordEditText = findViewById(R.id.user_pw);
         final Button loginButton = findViewById(R.id.login);
+        final Button regButton = findViewById(R.id.bt_register);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -115,6 +117,15 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+        regButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =  new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
