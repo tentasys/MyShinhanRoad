@@ -102,19 +102,12 @@ public class CopFragment extends Fragment {
         my_cop_adapter = new CopAdapter(view.getContext(), my_cop_list);
         my_rv.setAdapter(my_cop_adapter);
 
-        //첫번째 Cop를 눌렀을때 해당 CoP 정보 란으로 이동
+        //Cop를 눌렀을때 해당 CoP 정보 란으로 이동
         my_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String copName, String copRank) {
+            public void onItemClick(View v, String copName, String copRank) {
 
-//                FragmentManager fm = getFragmentManager();
-//                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-//                fragmentTransaction.replace(R.id.frame, CopListFragment.newInstance(copName,copRank));
-//                fragmentTransaction.addToBackStack(null);
-//                fragmentTransaction.commit();
-
-                Toast.makeText(getContext(), "테스트", Toast.LENGTH_SHORT).show();
-                ((MainActivity)view.getContext())
+                ((MainActivity)v.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, CopListFragment.newInstance(copName, copRank))
@@ -142,6 +135,19 @@ public class CopFragment extends Fragment {
         total_rv.setLayoutManager(layoutManager2);
         total_cop_adapter = new CopAdapter(view.getContext(), total_cop_list);
         total_rv.setAdapter(total_cop_adapter);
+
+        //Cop를 눌렀을때 해당 CoP 정보 란으로 이동
+        total_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, String copName, String copRank) {
+
+                ((MainActivity)v.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, CopListFragment.newInstance(copName, copRank))
+                        .commit();
+            }
+        });
 
         return view;
     }
