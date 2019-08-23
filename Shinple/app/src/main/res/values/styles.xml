@@ -11,12 +11,12 @@
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
-        <item name="color">#3a96cb</item>
+        <item name="color">@color/shinhan1</item>
     </style>
 
     <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="android:textColorHint">#3a96cb</item>
-        <item name="android:editTextColor">#3a96cb</item>
+        <item name="android:textColorHint">@color/shinhan1</item>
+        <item name="android:editTextColor">@color/shinhan1</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -28,7 +28,7 @@
 
 
     <style name="myToolbar">
-        <item name="android:tint">#3a93cb</item>
+        <item name="android:tint">@color/shinhan1</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

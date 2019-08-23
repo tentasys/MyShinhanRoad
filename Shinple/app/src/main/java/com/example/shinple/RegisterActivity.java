@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +40,13 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new
+                    StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+
         Unum = findViewById(R.id.et_Unum);
         Uname = findViewById(R.id.et_Uname);
         Upassword = findViewById(R.id.et_Upassword);
@@ -73,7 +81,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.d("WoW","ASDASDASDASD");
                 }
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.60/UserRegister.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.134/UserRegister.php",data);
                 try{
                     result = backgroundTask.execute().get();
                 } catch (Exception e){

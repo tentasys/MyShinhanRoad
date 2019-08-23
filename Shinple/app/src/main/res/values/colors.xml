@@ -9,4 +9,7 @@
     <color name="shinhan3">#106ca9</color>
     <color name="shinhan4">#1193cb</color>
     <color name="shinhan5">#21bcef</color>
+    <color name="toggles">#dd00dd</color>
+    <color name="togglee">#aa00aa</color>
+    <color name="white">#ffffff</color>
 </resources>

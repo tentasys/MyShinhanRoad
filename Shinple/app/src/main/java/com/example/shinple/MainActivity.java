@@ -8,9 +8,9 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.shinple.Fragment.CopFragment;
+import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
-import com.example.shinple.Fragment.TagFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
                             switchFragment(fr);
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
-                            fr = new TagFragment();
+                            fr = new FilterFragment();
                             switchFragment(fr);
                              return true;
                         case R.id.navigation_notifications:

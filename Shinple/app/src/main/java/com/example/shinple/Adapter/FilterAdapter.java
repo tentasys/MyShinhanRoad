@@ -1,41 +1,40 @@
 package com.example.shinple.Adapter;
 
-
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
-import androidx.fragment.app.Fragment;
 
-import com.example.shinple.Fragment.CourseListFragment;
-import com.example.shinple.MainActivity;
 import com.example.shinple.R;
-import com.example.shinple.VO.TagVO;
-
+import com.example.shinple.VO.FilterVO;
 import java.util.List;
 
-public class TagListAdapter extends BaseAdapter{
-    private Context context;
-    private List<TagVO> tagList;
+public class FilterAdapter extends BaseAdapter {
 
-    public TagListAdapter(Context context, List<TagVO> userList){
+    private Context context;
+    private List<FilterVO> filterList;
+    private ToggleButton tb;
+
+    public FilterAdapter(Context context, List<FilterVO> filterList){
         this.context = context;
-        this.tagList = userList;
+        this.filterList = filterList;
     }
 
     //출력할 총갯수를 설정하는 메소드
     @Override
     public int getCount() {
-        return tagList.size();
+        return filterList.size();
     }
 
     //특정한 유저를 반환하는 메소드
     @Override
     public Object getItem(int i) {
-        return tagList.get(i);
+        return filterList.get(i);
     }
 
     //아이템별 아이디를 반환하는 메소드
@@ -47,29 +46,16 @@ public class TagListAdapter extends BaseAdapter{
     //가장 중요한 부분
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        View v = View.inflate(context, R.layout.tag_item, null);
-        View layout = v.findViewById(R.id.tag_each);
+        View v = View.inflate(context, R.layout.fileter_item, null);
         //뷰에 다음 컴포넌트들을 연결시켜줌
-        TextView userID = (TextView)v.findViewById(R.id.tag_Id);
+        tb = v.findViewById(R.id.tb_tag);
+        String fi = filterList.get(i).getFilter();
+        if (fi != null){
+            tb.setText(fi);
+            tb.setTextOff(fi);
+            tb.setTextOn(fi);
+        }
         /*
-        TextView userPassword = (TextView)v.findViewById(R.id.userPassword);
-        TextView userName = (TextView)v.findViewById(R.id.userName);
-        TextView userAge = (TextView)v.findViewById(R.id.userAge);
-        */
-        userID.setText(tagList.get(i).getTag_Id());
-        /*
-        userPassword.setText(userList.get(i).getUserPassword());
-        userName.setText(userList.get(i).getUserName());
-        userAge.setText(userList.get(i).getUserAge());
-        */
-
-
-        /*
-        //이렇게하면 findViewWithTag를 쓸 수 있음 없어도 되는 문장임
-        v.setTag(userList.get(i).getUserID());
-        */
-        //만든뷰를 반환함
-
         layout.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -78,7 +64,7 @@ public class TagListAdapter extends BaseAdapter{
                 bundle.putString("tag", "tag_name");
                 ((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).addToBackStack(null).commit();
             }
-        });
+        });*/
 
         return v;
     }

@@ -63,7 +63,6 @@ public class MainSliderAdapter extends PagerAdapter {
             container.addView(v);
         }
         return v;
-
     }
 
     @Override

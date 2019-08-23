@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:text="Shinple"
                 android:textStyle="bold"
-                android:textColor="#3a93cb"
+                android:textColor="@color/shinhan1"
                 android:layout_gravity="center"
                 android:id="@+id/toolbar_title"
                 android:textSize="20sp"
