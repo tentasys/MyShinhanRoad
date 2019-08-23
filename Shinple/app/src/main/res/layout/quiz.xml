@@ -13,7 +13,7 @@
         android:id="@+id/tv_quiz"
         android:layout_width="371dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/linearLayout2"
+        android:layout_above="@+id/linearLayout"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -31,13 +31,13 @@
         android:id="@+id/rg_quiz"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/linearLayout2"
+        android:layout_alignStart="@+id/linearLayout"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_quiz"
-        android:layout_alignLeft="@+id/linearLayout2">
+        android:layout_alignLeft="@+id/linearLayout">
 
         <RadioButton
             android:id="@+id/rb_1"
@@ -61,7 +61,7 @@
             android:id="@+id/rb_4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/radioButton3" />
+             />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
