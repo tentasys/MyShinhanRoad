@@ -4,4 +4,9 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorWarnning">#DF013A</color>
+    <color name="shinhan1">#1b2362</color>
+    <color name="shinhan2">#194f81</color>
+    <color name="shinhan3">#106ca9</color>
+    <color name="shinhan4">#1193cb</color>
+    <color name="shinhan5">#21bcef</color>
 </resources>
