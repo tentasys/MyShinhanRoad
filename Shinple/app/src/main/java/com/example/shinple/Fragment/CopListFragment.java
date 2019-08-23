@@ -7,16 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.shinple.FragmentBackPress;
 import com.example.shinple.R;
 
 
-public class CopListFragment extends Fragment implements FragmentBackPress {
+public class CopListFragment extends Fragment{
 
     private String cop_name;
     private String cop_rank;
@@ -64,9 +60,4 @@ public class CopListFragment extends Fragment implements FragmentBackPress {
         return view;
     }
 
-    @Override
-    public boolean onBackPressed(){
-        Toast.makeText(this.getContext(), "야호", Toast.LENGTH_SHORT);
-        return true;
-    }
 }

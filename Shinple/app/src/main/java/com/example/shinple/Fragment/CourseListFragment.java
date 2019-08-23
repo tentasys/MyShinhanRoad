@@ -106,6 +106,7 @@ public class CourseListFragment extends Fragment{
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -124,6 +125,7 @@ public class CourseListFragment extends Fragment{
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, result))
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -141,6 +143,7 @@ public class CourseListFragment extends Fragment{
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
+                        .addToBackStack(null)
                         .commit();
             }
         });

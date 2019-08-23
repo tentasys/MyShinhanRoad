@@ -84,6 +84,7 @@ public class LectureRoomFragment extends Fragment{
                             .getSupportFragmentManager()
                             .beginTransaction()
                             .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, "hello"))
+                            .addToBackStack(null)
                             .commit();
                 }
             });

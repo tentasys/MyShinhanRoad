@@ -11,14 +11,14 @@ public class BackPressHandler {
     public BackPressHandler(Activity context) { this.activity = context; }
 
     public void onBackPressed(){
-        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+        if (System.currentTimeMillis() > backKeyPressedTime + 1000) {
             backKeyPressedTime = System.currentTimeMillis(
 
             );
             showGuide();
             return;
         }
-        if (System.currentTimeMillis() <= backKeyPressedTime + 2000){
+        if (System.currentTimeMillis() <= backKeyPressedTime + 1000){
             activity.finish();
             toast.cancel();
         }

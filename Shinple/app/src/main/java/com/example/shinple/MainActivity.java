@@ -189,29 +189,25 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fr);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
     @Override
     public void onBackPressed() {   //뒤로가기 키 동작
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout); //사이드바 닫기
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawer(GravityCompat.START);
-//        } else {
-//            int count = getSupportFragmentManager().getBackStackEntryCount();
-//
-//            if (count == 0) {
-//                backPressHandler.onBackPressed();
-//                //additional code
-//            } else {
-//                getSupportFragmentManager().popBackStack();
-//            }
-//
-//        }
+        DrawerLayout drawer = findViewById(R.id.drawer_layout); //사이드바 닫기
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            int count = getSupportFragmentManager().getBackStackEntryCount();
 
-        Fragment fg = getSupportFragmentManager().findFragmentById(R.id.cop_fragment);
-        if (!(fg instanceof FragmentBackPress) || !((FragmentBackPress) fg).onBackPressed()) {
-            super.onBackPressed();
+            if (count == 0) {
+                backPressHandler.onBackPressed();
+                //additional code
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+
         }
     }
 
