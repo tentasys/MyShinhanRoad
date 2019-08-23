@@ -175,7 +175,7 @@ public class LectureListFragment extends Fragment {
             @Override
             public void run() {
                 if(videourl == null){
-                    FileValideCheckResult =false;
+                    FileValideCheckResult = false;
                     this.stop();
                 }
                 try {

@@ -14,6 +14,7 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
 
     String target;
     String param1;
+
     public BackgroundTask(String target) {
         super();
         this.target = target;
@@ -27,6 +28,7 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
             this.param1 = param1;
         }
     }
+
 
     @Override
     protected String doInBackground(Void... voids) {
@@ -46,7 +48,6 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
                 wr.flush();
                 wr.close();
             }
-
             //바이트단위 입력스트림 생성 소스는 httpURLConnection
             InputStream inputStream = httpURLConnection.getInputStream();
 
