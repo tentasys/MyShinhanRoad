@@ -193,13 +193,23 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-                backPressHandler.onBackPressed();
-            }
+    public void onBackPressed() {   //뒤로가기 키 동작
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout); //사이드바 닫기
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            int count = getSupportFragmentManager().getBackStackEntryCount();
+//
+//            if (count == 0) {
+//                backPressHandler.onBackPressed();
+//                //additional code
+//            } else {
+//                getSupportFragmentManager().popBackStack();
+//            }
+//
+//        }
+
+        Fragment fg = getSupportFragmentManager().findFragmentById(R.id.)
     }
 
 

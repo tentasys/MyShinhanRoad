@@ -87,7 +87,7 @@ public class CopFragment extends Fragment {
         String my_cop_rank[] = {"1", "3", "17"};
 
         //JSON 배열 길이만큼 반복문을 실행
-        for(int i=0;i<my_cop_name.length;i++) {
+        for (int i = 0; i < my_cop_name.length; i++) {
             String each_name = my_cop_name[i];
             String each_rank = my_cop_rank[i];
 
@@ -107,7 +107,7 @@ public class CopFragment extends Fragment {
             @Override
             public void onItemClick(View v, String copName, String copRank) {
 
-                ((MainActivity)v.getContext())
+                ((MainActivity) v.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, CopListFragment.newInstance(copName, copRank))
@@ -121,7 +121,7 @@ public class CopFragment extends Fragment {
         String total_cop_name[] = {"블록체인 모임", "클라우드 모임", "핀테크 모임", "빅데이터 모임 "};
         String total_cop_rank[] = {"1", "3", "17", "22"};
         //JSON 배열 길이만큼 반복문을 실행
-        for(int i=0;i<total_cop_name.length;i++) {
+        for (int i = 0; i < total_cop_name.length; i++) {
             String each_name = total_cop_name[i];
             String each_rank = total_cop_rank[i];
 
@@ -141,7 +141,7 @@ public class CopFragment extends Fragment {
             @Override
             public void onItemClick(View v, String copName, String copRank) {
 
-                ((MainActivity)v.getContext())
+                ((MainActivity) v.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, CopListFragment.newInstance(copName, copRank))
@@ -151,5 +151,6 @@ public class CopFragment extends Fragment {
 
         return view;
     }
+
 
 }
