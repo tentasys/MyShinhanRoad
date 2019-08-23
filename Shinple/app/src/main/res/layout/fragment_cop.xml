@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3a93cb"
-    tools:context=".CopFragment">
+    tools:context=".Fragment.CopFragment">
 
     <!--나타나는 CoP 정보는 DB에 저장된 순서로 나타내도 될 듯. 회원별로 보유한 CoP 수 만큼 출력-->
     <ScrollView

@@ -1,24 +1,25 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
+
+import com.example.shinple.Adapter.MainSliderAdapter;
+import com.example.shinple.R;
 
 
 public class MainFragment extends Fragment {
     /* 이미지 슬라이더 관련 부분 */
-    AdapterMainNewCourseSlider adapter;
+    MainSliderAdapter adapter;
     ViewPager viewPager;
-    AdapterMainNewCourseSlider adapter2;
+    MainSliderAdapter adapter2;
     ViewPager viewPager2;
     public MainFragment() {
         // Required empty public constructor
@@ -49,11 +50,11 @@ public class MainFragment extends Fragment {
 
         /* 이미지 슬라이더 실행 구현부 */
         viewPager = (ViewPager) v.findViewById(R.id.new_course_slider);
-        adapter = new AdapterMainNewCourseSlider(v.getContext(), "newCourse");
+        adapter = new MainSliderAdapter(v.getContext(), "newCourse");
         viewPager.setAdapter(adapter);
 
         viewPager2 = (ViewPager) v.findViewById(R.id.hot_course_slider);
-        adapter2 = new AdapterMainNewCourseSlider(v.getContext(), "hotCourse");
+        adapter2 = new MainSliderAdapter(v.getContext(), "hotCourse");
         viewPager2.setAdapter(adapter2);
         return v;
     }
@@ -63,4 +64,5 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
 }

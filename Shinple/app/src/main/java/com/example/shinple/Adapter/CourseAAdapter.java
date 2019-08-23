@@ -1,16 +1,16 @@
-package com.example.shinple;
+package com.example.shinple.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 
 import java.util.List;
@@ -48,8 +48,8 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
     @Override
     public void onBindViewHolder(CourseAAdapter.ViewHolder holder, int position) {
         TextView courseName = (TextView) holder.itemView.findViewById(R.id.tv_courseName);
-        TextView courseLevel = (TextView) holder.itemView.findViewById(R.id.tv_lv);
-        TextView tagName = (TextView) holder.itemView.findViewById(R.id.tv_courseInfo);
+        TextView courseLevel = (TextView) holder.itemView.findViewById(R.id.tv_cl2_lv);
+//        TextView tagName = (TextView) holder.itemView.findViewById(R.id.tv_lec_courseInfo);
 
         courseName.setText(courseList.get(position).getcourseName());
         courseLevel.setText(courseList.get(position).getcourseLevel());

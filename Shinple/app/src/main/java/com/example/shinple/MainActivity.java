@@ -1,10 +1,20 @@
 package com.example.shinple;
 
+
+import android.content.res.Configuration;
+
+import android.graphics.Color;
+
 import android.os.Bundle;
 
+import com.example.shinple.Fragment.CopFragment;
+import com.example.shinple.Fragment.LectureRoomFragment;
+import com.example.shinple.Fragment.MainFragment;
+import com.example.shinple.Fragment.TagFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -22,6 +32,15 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.view.Menu;
 
+
+import android.view.Surface;
+import android.view.View;
+import android.view.WindowManager;
+
+
+import android.widget.EditText;
+import android.widget.SearchView;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,7 +51,8 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     ActionBarDrawerToggle toggle;
     BackPressHandler backPressHandler = new BackPressHandler(this);
-
+    BottomNavigationView navView;
+    boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +60,11 @@ public class MainActivity extends AppCompatActivity
 
         //toolbar 설정
         toolbar = findViewById(R.id.toolbar);
+        //toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
+        actionBar.setDisplayShowTitleEnabled(false);
 
         //사이드바 설정 및 토글 기능 정의
         drawer = findViewById(R.id.drawer_layout);
@@ -51,7 +75,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //하단바 정의
-        BottomNavigationView navView = findViewById(R.id.nav_view2);
+        navView = findViewById(R.id.nav_view2);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Fragment 전환을 위한 초기 설정
@@ -61,11 +85,27 @@ public class MainActivity extends AppCompatActivity
         fr = new MainFragment();
         switchFragment(fr);
     }
+    public void CommonSectionVisibleToggle(boolean visible)
+    {
+        if(visible) {
+            toolbar.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+        }
+        else {
+            toolbar.setVisibility(View.INVISIBLE);
+            navView.setVisibility(View.INVISIBLE);
+
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("태그명으로 검색합니다.");
         return true;
     }
 
@@ -160,5 +200,25 @@ public class MainActivity extends AppCompatActivity
         } else {
                 backPressHandler.onBackPressed();
             }
+    }
+
+
+    public boolean getWindowMode() {
+        return windowMode;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+//        exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
+        if(rotation== Surface.ROTATION_90 || rotation ==Surface.ROTATION_270 ) {  //가로일 때
+            navView.setVisibility(View.INVISIBLE);
+            windowMode= false;
+        }else {  //세로로 바뀔 때,
+            toolbar.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+            windowMode = true;
+        }
     }
 }

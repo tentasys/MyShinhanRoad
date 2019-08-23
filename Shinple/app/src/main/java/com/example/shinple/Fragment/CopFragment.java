@@ -1,4 +1,4 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
 
 import android.os.Bundle;
@@ -13,6 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.shinple.Adapter.CopAdapter;
+import com.example.shinple.R;
 
 import com.example.shinple.VO.CopVO;
 

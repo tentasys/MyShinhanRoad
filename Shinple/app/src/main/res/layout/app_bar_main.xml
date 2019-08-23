@@ -14,9 +14,24 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:layout_height="41dp"
+            android:background="#ffffff"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/myToolbar"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shinple"
+                android:textStyle="bold"
+                android:textColor="#3a93cb"
+                android:layout_gravity="center"
+                android:id="@+id/toolbar_title"
+                android:textSize="20sp"
+                />
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -27,6 +42,7 @@
 
     <include
         layout="@layout/bottom_nav"
+        android:theme="@style/myToolbar"
         app:layout_anchor="@+id/fab"
         app:layout_anchorGravity="start|center" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

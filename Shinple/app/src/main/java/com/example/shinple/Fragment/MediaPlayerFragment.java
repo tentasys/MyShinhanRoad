@@ -1,42 +1,51 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
 import android.app.ProgressDialog;
+import android.media.MediaDataSource;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.shinple.MainActivity;
+import com.example.shinple.R;
 
-public class VideoPlayerFragment extends Fragment implements SurfaceHolder.Callback{
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
+
+public class MediaPlayerFragment extends Fragment implements SurfaceHolder.Callback{
     private static final String ARG_PARAM1 = "param1";
-    VideoView videoView;
     ProgressDialog progressDialog;
     String videourl;
-
 
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
     MediaPlayer mediaPlayer;
-
+    View view;
 
     private String mParam1;
 
-    public VideoPlayerFragment() {
+    public MediaPlayerFragment() {
     }
 
-    public static VideoPlayerFragment newInstance(String param1) {
-        VideoPlayerFragment fragment = new VideoPlayerFragment();
+    public static MediaPlayerFragment newInstance(String param1) {
+        MediaPlayerFragment fragment = new MediaPlayerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -56,35 +65,18 @@ public class VideoPlayerFragment extends Fragment implements SurfaceHolder.Callb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_video_player, container, false);
-//        videoView = view.findViewById(R.id.videoView);
-//
-//        progressDialog = new ProgressDialog(view.getContext());
-//        progressDialog.setTitle("streaming");
-//        progressDialog.setMessage("Loading...");
-//        progressDialog.setCancelable(false);
-//        progressDialog.show();
-//        MediaController mediaController = new MediaController(view.getContext());
-//        mediaController.setAnchorView(videoView);
-//        Uri uri = Uri.parse(videourl);
-//        videoView.setMediaController(mediaController);
-//        videoView.setVideoURI(uri);
-//        videoView.requestFocus();
-//        progressDialog.dismiss();
-//        videoView.start();
+         view = inflater.inflate(R.layout.fragment_mediaplayer, container, false);
+         progressDialog = new ProgressDialog(view.getContext());
+         surfaceView = view.findViewById(R.id.videoView);
 
-        surfaceView = view.findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
-
-
-
-
         return view;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
+
         if (mediaPlayer == null) {
             mediaPlayer = new MediaPlayer();
         } else {
@@ -93,16 +85,12 @@ public class VideoPlayerFragment extends Fragment implements SurfaceHolder.Callb
 
         try {
 
-            String path = "http://192.168.1.187/video/dog.mp4";
-            mediaPlayer.setDataSource(path);
-
-            //mediaPlayer.setVolume(0, 0); //볼륨 제거
-            mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
-            mediaPlayer.prepare(); // 비디오 load 준비
-
-            //mediaPlayer.setOnCompletionListener(completionListener); // 비디오 재생 완료 리스너
-
-            mediaPlayer.start();
+                mediaPlayer.setDataSource(videourl);
+                //mediaPlayer.setVolume(0, 0); //볼륨 제거
+                mediaPlayer.setDisplay(surfaceHolder); // 화면 호출
+                mediaPlayer.prepare(); // 비디오 load 준비
+                //mediaPlayer.setOnCompletionListener(completionListener); // 비디오 재생 완료 리스너
+                mediaPlayer.start();
 
         } catch (Exception e) {
             Log.e("MyTag","surface view error : " + e.getMessage());

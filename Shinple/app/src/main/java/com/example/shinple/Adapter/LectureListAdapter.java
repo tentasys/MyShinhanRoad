@@ -1,4 +1,4 @@
-package com.example.shinple;
+package com.example.shinple.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.shinple.R;
 import com.example.shinple.VO.LectureVO;
 
 import java.util.List;
@@ -16,12 +17,20 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
 
     private List<LectureVO> lectureList;
     private Context context;
-    private View.OnClickListener onClickItem;
 
-    public LectureListAdapter(Context context, List<LectureVO> lectureList, View.OnClickListener onClickItem) {
+    public LectureListAdapter(Context context, List<LectureVO> lectureList) {
         this.context = context;
         this.lectureList = lectureList;
-        this.onClickItem = onClickItem;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, String lectureName, String lectureInfo);
+    }
+
+    private LectureListAdapter.OnItemClickListener mListener = null ;
+
+    public void setOnItemClickListener(LectureListAdapter.OnItemClickListener listener) {
+        this.mListener = listener ;
     }
 
     @Override
@@ -40,7 +49,7 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
         TextView lectureTag = (TextView)holder.itemView.findViewById(R.id.tv_lectureTag);
 
 
-        lectureNum.setText(lectureList.get(position).getlectureName());
+        lectureNum.setText(lectureList.get(position).getlectureNum());
         lectureName.setText(lectureList.get(position).getlectureName());
         lectureTag.setText(lectureList.get(position).getlectureTag());
 
@@ -53,9 +62,21 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-
         public ViewHolder(View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getAdapterPosition();
+                    if (pos != RecyclerView.NO_POSITION){
+                        if(mListener != null){
+                            mListener.onItemClick(view,lectureList.get(pos).getlectureName(),lectureList.get(pos).getlectureTag());
+                        }
+                    }
+
+                }
+            });
 
         }
     }

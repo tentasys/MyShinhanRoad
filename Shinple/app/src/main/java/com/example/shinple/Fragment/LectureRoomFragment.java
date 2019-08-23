@@ -1,21 +1,18 @@
-package com.example.shinple;
+package com.example.shinple.Fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
+import com.example.shinple.Adapter.CourseBAdapter;
+import com.example.shinple.MainActivity;
+import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
 
@@ -25,7 +22,7 @@ import java.util.List;
 
 public class LectureRoomFragment extends Fragment{
 
-    private CourseAAdapter adapter;
+    private CourseBAdapter adapter;
     private List<CourseVO> courseList;
     private RecyclerView recyclerView;
 
@@ -72,12 +69,12 @@ public class LectureRoomFragment extends Fragment{
             courseList.add(course);//리스트뷰에 값을 추가해줍니다
 
             recyclerView = v.findViewById(R.id.rv_courseList);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
             recyclerView.setLayoutManager(layoutManager);
-            adapter = new CourseAAdapter(v.getContext(),courseList);
+            adapter = new CourseBAdapter(v.getContext(),courseList);
             recyclerView.setAdapter(adapter);
 
-            adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+            adapter.setOnItemClickListener(new CourseBAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(View view, String courseName, String courseInfo) {
                     //new CourseListFragment.BackgroundTask().execute();

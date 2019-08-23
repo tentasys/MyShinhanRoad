@@ -3,39 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VideoPlayerFragment">
+    tools:context=".Fragment.MediaPlayerFragment">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+            <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <SurfaceView
-                android:layout_width="400dp"
-                android:layout_height="240dp"
-                android:id="@+id/videoView" />
+        <!--  여기 비디오 코드 삽입 -->
+                <com.google.android.exoplayer2.ui.PlayerView
+                    android:id="@+id/exoPlayerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="150dp">
-
-                <SurfaceView
-                    android:id="@+id/surfaceView"
-                    android:layout_width="413dp"
-                    android:layout_height="150dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TextView
+                <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:text="VideoView" />
 
-            <androidx.recyclerview.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_videolist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
