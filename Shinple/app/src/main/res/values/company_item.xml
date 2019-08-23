@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="회사">
+        <item>신한DS</item>
+        <item>신한은행</item>
+        <item>신한카드</item>
+        <item>신한금융투자</item>
+        <item>신한생명</item>
+    </string-array>
+</resources>

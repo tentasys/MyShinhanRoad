@@ -7,6 +7,7 @@
     tools:context=".RegisterActivity">
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -22,11 +23,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="140dp" />
+
+        <TextView
+            android:id="@+id/Register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="Shinple"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
         <EditText
             android:id="@+id/et_Unum"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="사번"
             android:inputType="number"
             android:padding="10dp" />
 
@@ -35,6 +52,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="이름"
             android:inputType="textCapWords"
             android:padding="10dp" />
 
@@ -43,70 +61,50 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="비밀번호"
             android:inputType="textPassword"
             android:padding="10dp" />
 
         <!-- Login Button -->
 
-        <RadioGroup
-            android:id="@+id/rg_reg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="356dp"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
 
-            <RadioButton
-                android:id="@+id/rb__ds"
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="127dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:text="계열사"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="20dp"/>
+
+            <Space
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="RadioButton" />
+                android:layout_weight="1" />
 
-            <RadioButton
-                android:id="@+id/rb_bank"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="RadioButton" />
-
-            <RadioButton
-                android:id="@+id/rb_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="RadioButton" />
-
-            <RadioButton
-                android:id="@+id/rb_invest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="RadioButton" />
-
-            <RadioButton
-                android:id="@+id/rb_life"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="RadioButton" />
-        </RadioGroup>
+            <Spinner
+                android:id="@+id/spinner_com"
+                android:layout_width="182dp"
+                android:layout_height="match_parent"
+                android:entries="@array/회사" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/bt_reg"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
+            android:layout_marginTop="100dp"
             android:background="#ea4c88"
-            android:text="회원가입" />
+            android:text="회원가입"
+            android:textSize="20dp"/>
 
         <!-- Link to Login Screen -->
 
-        <Button
-            android:id="@+id/btnLoginScreen"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dip"
-            android:background="@null"
-            android:textAllCaps="false"
-            android:textSize="15dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
