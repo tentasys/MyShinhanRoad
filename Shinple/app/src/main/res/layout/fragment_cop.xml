@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3a93cb"
     tools:context=".Fragment.CopFragment">
 
     <!--나타나는 CoP 정보는 DB에 저장된 순서로 나타내도 될 듯. 회원별로 보유한 CoP 수 만큼 출력-->
@@ -28,147 +29,12 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/my_cop_01"
+            <!--하나의 constraintlayout은 내 cop 하나를 나타냄-->
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="16dp"
-                android:background="#FFFFFF">
-
-                <!--CoP 이름-->
-                <TextView
-                    android:id="@+id/my_cop_01_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginLeft="36dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="34dp"
-                    android:text="행복한 CoP"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!--CoP 1~3위 일경우 나타나는 트로피 이미지-->
-                <ImageView
-                    android:id="@+id/my_cop_01_prize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginLeft="120dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="33dp"
-                    android:src="@drawable/prize2nd"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/my_cop_rank"
-                    app:layout_constraintStart_toStartOf="@+id/my_cop_01_name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0" />
-                <!--CoP의 랭크-->
-                <TextView
-                    android:id="@+id/my_cop_01_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="1dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginBottom="36dp"
-                    android:text="2"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/my_cop_rank"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <TextView
-                    android:id="@+id/my_cop_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginBottom="37dp"
-                    android:text="위"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!--하나의 constraintlayout은 내 cop 하나를 나타냄-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/my_cop_02"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:background="#FFFFFF">
-
-                <!--CoP 이름-->
-                <TextView
-                    android:id="@+id/my_cop_rank02"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginBottom="37dp"
-                    android:text="위"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/my_cop_02_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="36dp"
-                    android:layout_marginLeft="36dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginBottom="34dp"
-                    android:text="즐거운 CoP"
-                    android:textSize="36sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!--CoP 1~3위 일경우 나타나는 트로피 이미지-->
-                <ImageView
-                    android:id="@+id/my_cop_02_prize"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
-                    android:layout_marginLeft="120dp"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginBottom="33dp"
-                    android:src="@drawable/prize2nd"
-                    android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/my_cop_rank02"
-                    app:layout_constraintStart_toStartOf="@+id/my_cop_02_name"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="1.0"
-                    tools:visibility="invisible" />
-
-                <!--CoP의 랭크-->
-                <TextView
-                    android:id="@+id/my_cop_02_rank"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginBottom="36dp"
-                    android:text="17"
-                    android:textSize="30sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/my_cop_rank02"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:id="@+id/my_cop_list"/>
 
             <TextView
                 android:id="@+id/total_cop_rank_text"
@@ -180,14 +46,10 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/total_cop_list"
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="16dp"
-                android:background="#FFFFFF"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_height="match_parent"
+                android:id="@+id/total_cop_list"/>
 
         </LinearLayout>
     </ScrollView>
