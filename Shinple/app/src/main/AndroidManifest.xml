@@ -39,9 +39,7 @@
             android:windowSoftInputMode="adjustResize|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
-
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:scheme="content" />

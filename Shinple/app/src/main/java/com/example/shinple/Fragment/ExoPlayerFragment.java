@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelStore;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.shinple.MainActivity;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -25,6 +28,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
@@ -41,6 +45,8 @@ public class ExoPlayerFragment extends Fragment {
     private Long playbackPosition = 0L;
     String mParam1;
     String videourl;
+    TextView textView;
+    RecyclerView recyclerView;
     public static ExoPlayerFragment newInstance(String param1) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
@@ -58,7 +64,7 @@ public class ExoPlayerFragment extends Fragment {
         }
         else
         {
-            videourl = "http://192.168.1.187/video/dog.mp4";
+            videourl =  "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";;
         }
 
     }
@@ -67,6 +73,8 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exoplayer, container, false);
+        textView = view.findViewById(R.id.textView);
+        recyclerView = view.findViewById(R.id.rv_videolist);
         exoPlayerView = view.findViewById(R.id.exoPlayerView);
         return view;
     }
@@ -115,7 +123,7 @@ public class ExoPlayerFragment extends Fragment {
 
     private MediaSource buildMediaSource(Uri uri) {
 
-        String userAgent = Util.getUserAgent(view.getContext(), "blackJin");
+        String userAgent = Util.getUserAgent(view.getContext(), "ExoVideoPlayer");
 
         if ( uri.getLastPathSegment().contains("mp4")) {
 
@@ -167,20 +175,26 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        ((MainActivity)getActivity()).playerLandscapeToggle();
 
-        if (((MainActivity) getActivity()).getWindowMode()) {
-
+        if (((MainActivity) getActivity()).getWindowMode()) {    //세로일 때
             ((MainActivity) view.getContext()).getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        } else
+        } else      //가로일때
         {
+            textView.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
             ((MainActivity) view.getContext()).getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
             ((MainActivity) view.getContext()).getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                    exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+            LinearLayout.LayoutParams videoPlayer = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+            exoPlayerView.setLayoutParams(videoPlayer);
+
         }
     }
 }

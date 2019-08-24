@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.example.shinple.Fragment.CopFragment;
+import com.example.shinple.Fragment.ExoPlayerFragment;
 import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
@@ -82,21 +83,11 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame, MainFragment.newInstance()).commit();
 
-        fr = new MainFragment();
+//        fr = new MainFragment();
+        fr = new ExoPlayerFragment();
         switchFragment(fr);
     }
-    public void CommonSectionVisibleToggle(boolean visible)
-    {
-        if(visible) {
-            toolbar.setVisibility(View.VISIBLE);
-            navView.setVisibility(View.VISIBLE);
-        }
-        else {
-            toolbar.setVisibility(View.INVISIBLE);
-            navView.setVisibility(View.INVISIBLE);
 
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -218,13 +209,20 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 //        exoPlayerView.setResizeMode(AspectRatioFrameLayout.RESIZE_MODE_ZOOM);
+
+    }
+
+    public void playerLandscapeToggle(){
         int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
         if(rotation== Surface.ROTATION_90 || rotation ==Surface.ROTATION_270 ) {  //가로일 때
-            navView.setVisibility(View.INVISIBLE);
+            toolbar.setVisibility(View.GONE);
+            navView.setVisibility(View.GONE);
+            navigationView.setVisibility(View.GONE);
             windowMode= false;
         }else {  //세로로 바뀔 때,
             toolbar.setVisibility(View.VISIBLE);
             navView.setVisibility(View.VISIBLE);
+            navigationView.setVisibility(View.VISIBLE);
             windowMode = true;
         }
     }
