@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class ExoPlayerFragment extends Fragment {
     TextView textView;
     RecyclerView recyclerView;
     ScrollView scrollView;
+    FrameLayout frameLayout;
     public static ExoPlayerFragment newInstance(String param1) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
@@ -81,6 +83,7 @@ public class ExoPlayerFragment extends Fragment {
         recyclerView = view.findViewById(R.id.rv_videolist);
         exoPlayerView = view.findViewById(R.id.exoPlayerView);
         scrollView = view.findViewById(R.id.fragment_scrollview);
+        frameLayout = view.findViewById(R.id.fragment_exoplayer_framelayout);
         return view;
     }
 
@@ -194,16 +197,18 @@ public void onConfigurationChanged(Configuration newConfig) {
         int px = (int) (240 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
         LinearLayout.LayoutParams explayersize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,px);
         exoPlayerView.setLayoutParams(explayersize);
-
+        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        px = (int) (55 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        param.bottomMargin=px;
+        frameLayout.setLayoutParams(param);
     } else      //가로일때
     {
         textView.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         scrollView.setFillViewport(true);
-
-        Resources resources = getContext().getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-
+        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        param.bottomMargin=0;
+        frameLayout.setLayoutParams(param);
         LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
         exoPlayerView.setLayoutParams(layoutsize);
 

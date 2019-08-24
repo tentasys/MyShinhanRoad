@@ -4,11 +4,13 @@
     android:id="@+id/fragment_exoplayer_framelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.MediaPlayerFragment">
+    tools:context=".Fragment.MediaPlayerFragment"
+    >
     <ScrollView
         android:id="@+id/fragment_scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         >
 
         <LinearLayout
