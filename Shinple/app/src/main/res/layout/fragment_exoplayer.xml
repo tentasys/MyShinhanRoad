@@ -1,35 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_exoplayer_framelayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.MediaPlayerFragment">
-
     <ScrollView
+        android:id="@+id/fragment_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
-            <LinearLayout
+        <LinearLayout
+            android:id="@+id/fragment_exoplayer_linearlayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <!--  여기 비디오 코드 삽입 -->
-                <com.google.android.exoplayer2.ui.PlayerView
-                    android:id="@+id/exoPlayerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="240dp" />
+            <!--  여기 비디오 코드 삽입 -->
 
-                <TextView
+            <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/exoPlayerView"
+                android:layout_width="match_parent"
+                android:layout_height="240dp" />
+
+            <TextView
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="31dp"
                 android:text="VideoView" />
 
-                <androidx.recyclerview.widget.RecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_videolist"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
         </LinearLayout>
     </ScrollView>
 </FrameLayout>
