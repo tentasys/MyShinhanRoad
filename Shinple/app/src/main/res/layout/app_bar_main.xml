@@ -21,15 +21,14 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
+                android:id="@+id/toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shinple"
-                android:textStyle="bold"
-                android:textColor="@color/shinhan1"
                 android:layout_gravity="center"
-                android:id="@+id/toolbar_title"
+                android:text="Shinple"
+                android:textColor="@color/shinhan1"
                 android:textSize="20sp"
-                />
+                android:textStyle="bold" />
 
         </androidx.appcompat.widget.Toolbar>
 

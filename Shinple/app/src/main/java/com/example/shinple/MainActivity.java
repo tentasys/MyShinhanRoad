@@ -42,6 +42,7 @@ import android.view.WindowManager;
 
 import android.widget.EditText;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     ActionBarDrawerToggle toggle;
     BackPressHandler backPressHandler = new BackPressHandler(this);
     BottomNavigationView navView;
+    TextView toolbar_title;
     boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +64,20 @@ public class MainActivity extends AppCompatActivity
 
         //toolbar 설정
         toolbar = findViewById(R.id.toolbar);
+
         //toolbar.setBackgroundColor(Color.parseColor("#ffffff"));
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         actionBar.setDisplayShowTitleEnabled(false);
+        toolbar.findViewById(R.id.toolbar_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fr = MainFragment.newInstance();
+                switchFragment(fr);
+            }
+        });
+
 
         //사이드바 설정 및 토글 기능 정의
         drawer = findViewById(R.id.drawer_layout);
@@ -84,9 +95,10 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame, MainFragment.newInstance()).commit();
 
-//        fr = new MainFragment();
-        fr = new ExoPlayerFragment();
+        fr = new MainFragment();
+//        fr = new ExoPlayerFragment();
         switchFragment(fr);
+
     }
 
 
@@ -112,6 +124,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -175,7 +188,6 @@ public class MainActivity extends AppCompatActivity
         return false;
         }
     };
-
     public void switchFragment(Fragment frr) {
         Fragment fr = frr;
         FragmentManager fm = getSupportFragmentManager();

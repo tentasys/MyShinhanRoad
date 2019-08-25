@@ -31,6 +31,9 @@
         <item name="android:tint">@color/shinhan1</item>
     </style>
 
+    <style name="navSide">
+
+    </style>
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragment.MainFragment">
-
+<!--TODO: UI 구성 다시 확인하기 -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,49 +16,115 @@
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/hot_course_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="408dp"
-                    android:layout_height="205dp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_launcher_round"
+                    android:background="#3a93cb"
+                    android:padding="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.034"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/my_learning_status">
+
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="179dp"
+                        android:layout_height="116dp"
+                        android:layout_marginStart="80dp"
+                        android:layout_marginLeft="80dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginBottom="8dp"
+
+                        android:padding="8dp"
+                        android:src="@drawable/medal_gold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.893"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <view
                     android:id="@+id/new_course_slider"
                     class="androidx.viewpager.widget.ViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@+id/new_course_text"
+                    tools:layout_editor_absoluteX="0dp" />
 
                 <view
                     android:id="@+id/hot_course_slider"
                     class="androidx.viewpager.widget.ViewPager"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    app:layout_constraintTop_toBottomOf="@+id/인기강좌"
+                    tools:layout_editor_absoluteX="16dp" />
+
+                <TextView
+                    android:id="@+id/my_learning_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:contentDescription="홍길동님 학습현황"
+                    android:fontFamily="@font/oneshinhanbold"
+                    android:text="홍길동님 학습현황"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:layout_editor_absoluteX="-16dp" />
+
+                <TextView
+                    android:id="@+id/인기강좌"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="인기 강좌"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     app:layout_constraintTop_toBottomOf="@+id/new_course_slider"
-                    app:layout_constraintVertical_bias="0.0" />
+                    tools:layout_editor_absoluteX="-16dp" />
+
+                <TextView
+                    android:id="@+id/new_course_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="신규 강좌"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                    tools:layout_editor_absoluteX="-52dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
+
 </FrameLayout>
+
+<!--
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintBottom_toTopOf="@+id/new_course_slider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/my_learning_status"
+                    app:layout_constraintVertical_bias="0.646"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="163dp"
+tools:layout_editor_absoluteX="-7dp"
+                    tools:layout_editor_absoluteY="371dp"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/new_course_slider"
+                    -->
