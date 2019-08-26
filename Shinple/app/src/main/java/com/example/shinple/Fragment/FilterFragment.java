@@ -220,7 +220,7 @@ public class FilterFragment extends Fragment {
                     if(level[i] != null){
                         Log.d("level",level[i]);
                         try {
-                            data += "&" + URLEncoder.encode(String.valueOf(i+1), "UTF-8") + "=" + URLEncoder.encode(level[i], "UTF-8");
+                            data += "&" + URLEncoder.encode("level[]", "UTF-8") + "=" + URLEncoder.encode(level[i], "UTF-8");
                         } catch (Exception e){
 
                         }
