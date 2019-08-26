@@ -46,6 +46,7 @@ public class LectureListFragment extends Fragment {
     private List<LectureVO> lectureList;
     private  TextView tv_courseName;
     private  TextView tv_courseInfo;
+    private TextView tv_level;
     private Button bt_test;
     public String videourl="http://192.168.1.187/video/dog.mp4";
     public boolean FileValideCheckResult = false;
@@ -85,10 +86,11 @@ public class LectureListFragment extends Fragment {
 
         tv_courseName = view.findViewById(R.id.tv_lec_courseN);
         tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
+        tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
 
         tv_courseName.setText(courseName);
-        tv_courseInfo.setText(courseInfo);
+        tv_level.setText(courseInfo);
 
         recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -110,7 +112,7 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lectureName, String lectureInfo) {
-                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
+                BackgroundTask backgroundTask = new BackgroundTask("https://42cf57c4.ngrok.io//lectureList.php");
                 backgroundTask.execute();
                 isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){

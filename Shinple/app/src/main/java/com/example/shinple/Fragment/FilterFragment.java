@@ -233,7 +233,7 @@ public class FilterFragment extends Fragment {
                 }
 
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/courseList.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("https://42cf57c4.ngrok.io/courseList.php",data);
                 try{
                     result = backgroundTask.execute().get();
                 } catch (Exception e){
