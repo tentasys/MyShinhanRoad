@@ -21,6 +21,8 @@ public class MainFragment extends Fragment {
     ViewPager viewPager;
     MainSliderAdapter adapter2;
     ViewPager viewPager2;
+    MainSliderAdapter adapter3;
+    ViewPager viewPager3;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -45,6 +47,7 @@ public class MainFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
+
 //        scrollView = v.findViewById(R.id.ScrollView);
 //        scrollView.setFillViewport (true);
 
@@ -56,6 +59,7 @@ public class MainFragment extends Fragment {
         viewPager2 = (ViewPager) v.findViewById(R.id.hot_course_slider);
         adapter2 = new MainSliderAdapter(v.getContext(), "hotCourse");
         viewPager2.setAdapter(adapter2);
+
         return v;
     }
 

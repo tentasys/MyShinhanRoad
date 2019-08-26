@@ -232,13 +232,11 @@ public class MainActivity extends AppCompatActivity
             navigationView.setVisibility(View.GONE);
             windowMode= false;
 
-            /* TODO: navigationbar 지우기 */
-/*
+/*            *//* TODO: navigationbar 지우기 *//*
                   getWindow().findViewById(R.id.frame).setSystemUiVisibility(
                             View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-*/
+                                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);*/
 
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                     WindowManager.LayoutParams.FLAG_FULLSCREEN);
