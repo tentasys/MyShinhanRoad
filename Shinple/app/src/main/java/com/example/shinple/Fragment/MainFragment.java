@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shinple.Adapter.MainSliderAdapter;
+import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 
 
@@ -21,8 +23,9 @@ public class MainFragment extends Fragment {
     ViewPager viewPager;
     MainSliderAdapter adapter2;
     ViewPager viewPager2;
-    MainSliderAdapter adapter3;
-    ViewPager viewPager3;
+    ConstraintLayout learning_status;
+    ConstraintLayout recent_course_layout1;
+    ConstraintLayout recent_course_layout2;
     public MainFragment() {
         // Required empty public constructor
     }
@@ -46,11 +49,45 @@ public class MainFragment extends Fragment {
         // Inflate the layout for this fragment
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-
+        learning_status = v.findViewById(R.id.learning_status);
+        recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
+        recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
 
 //        scrollView = v.findViewById(R.id.ScrollView);
 //        scrollView.setFillViewport (true);
-
+        learning_status.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureRoomFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        recent_course_layout1.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세"))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        recent_course_layout2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세"))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         /* 이미지 슬라이더 실행 구현부 */
         viewPager = (ViewPager) v.findViewById(R.id.new_course_slider);
         adapter = new MainSliderAdapter(v.getContext(), "newCourse");
