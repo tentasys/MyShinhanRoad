@@ -14,7 +14,7 @@ import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 
 public class MainSliderAdapter extends PagerAdapter {
-//    private int[] images = {R.drawable.new_course_image1,R.drawable.new_course_image2, R.drawable.new_course_image3};
+    private int[] images = {R.drawable.new_course_image1,R.drawable.new_course_image2, R.drawable.new_course_image3};
     private LayoutInflater inflater;
     private Context context;
     private String viewpager;
@@ -28,7 +28,7 @@ public class MainSliderAdapter extends PagerAdapter {
     @Override
     public int getCount() {
 //        return images.length;
-        return 2;
+        return images.length;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MainSliderAdapter extends PagerAdapter {
         View v = null;
 
         if(viewpager=="newCourse") {
-            int[] images = {R.drawable.new_course_image1,R.drawable.new_course_image2};
+            int[] images = {R.drawable.new_course_image1,R.drawable.new_course_image2,R.drawable.new_course_image3};
             v= inflater.inflate(R.layout.main_slider, container, false);
             ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
             imageView.setImageResource(images[position]);
@@ -65,7 +65,7 @@ public class MainSliderAdapter extends PagerAdapter {
         }
         else if(viewpager=="hotCourse")
         {
-            int[] images2 = {R.drawable.new_course_image2,R.drawable.new_course_image3};
+            int[] images2 = {R.drawable.new_course_image3, R.drawable.new_course_image2,R.drawable.new_course_image1};
             v= inflater.inflate(R.layout.main_slider, container, false);
             ImageView imageView2 = (ImageView) v.findViewById(R.id.imageView);
             imageView2.setImageResource(images2[position]);
