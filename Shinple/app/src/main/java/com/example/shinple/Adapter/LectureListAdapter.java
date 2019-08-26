@@ -37,21 +37,20 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
     public LectureListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // context 와 parent.getContext() 는 같다.
-        View view = LayoutInflater.from(context).inflate(R.layout.lecture, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.lecture2, parent, false);
 
         return new LectureListAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(LectureListAdapter.ViewHolder holder, int position) {
-        TextView lectureNum = (TextView)holder.itemView.findViewById(R.id.tv_lectureN);
-        TextView lectureName = (TextView)holder.itemView.findViewById(R.id.tv_lectureName);
-        TextView lectureTag = (TextView)holder.itemView.findViewById(R.id.tv_lectureTag);
-
+        TextView lectureNum = (TextView)holder.itemView.findViewById(R.id.tv_lecture_num);
+        TextView lectureName = (TextView)holder.itemView.findViewById(R.id.tv_lecture_name);
+        TextView lectureTag = (TextView)holder.itemView.findViewById(R.id.tv_playtime);
 
         lectureNum.setText(lectureList.get(position).getlectureNum());
         lectureName.setText(lectureList.get(position).getlectureName());
-        lectureTag.setText(lectureList.get(position).getlectureTag());
+        //lectureTag.setText(lectureList.get(position).getlectureTag());
 
     }
 
