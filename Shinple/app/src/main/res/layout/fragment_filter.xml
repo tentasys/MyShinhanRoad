@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.FilterFragment">
+    tools:context=".Fragment.FilterFragment"
+    android:layout_marginBottom="55dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -119,17 +120,20 @@
             android:layout_marginBottom="5dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/CR1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:gravity="center"
-            >
+            android:gravity="center">
 
             <ScrollView
                 android:id="@+id/scrollView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:layout_editor_absoluteY="477dp">
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toTopOf="@+id/CR_2"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -138,19 +142,21 @@
 
                     <GridView
                         android:id="@+id/gv_tag"
-                        android:layout_width="397dp"
-                        android:layout_height="520dp"
+                        android:layout_width="380dp"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:numColumns="3" />
                 </LinearLayout>
             </ScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/CR_2"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:layout_marginBottom="55dp"
-                app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <Button
@@ -171,8 +177,8 @@
 
                 <Button
                     android:id="@+id/bt_filter"
-                    android:layout_width="255dp"
-                    android:layout_height="0dp"
+                    android:layout_width="244dp"
+                    android:layout_height="40dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
@@ -183,7 +189,8 @@
                     android:textSize="25dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

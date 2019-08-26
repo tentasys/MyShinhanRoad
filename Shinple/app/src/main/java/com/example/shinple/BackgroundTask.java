@@ -83,7 +83,6 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         if(result != null) {
-            Log.d("WHYWHY", result);
         }
     }
 }

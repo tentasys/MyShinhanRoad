@@ -12,10 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.shinple.Adapter.CourseAAdapter;
+import com.example.shinple.Adapter.FilterAdapter;
+import com.example.shinple.Adapter.StringAdapter;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
+import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
 
 import org.json.JSONArray;
@@ -34,23 +37,25 @@ public class CourseListFragment extends Fragment{
 
 
     private CourseAAdapter adapter;
-    private CourseAAdapter adapter2;
-    private CourseAAdapter adapter3;
+    private StringAdapter adapter2;
     private List<CourseVO> courseList;
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2;
-    private RecyclerView recyclerView3;
-    private String resultt = "";
     private String result_course = "";
+    private ArrayList<String> all = new ArrayList<String>();
+
+
     private static final String ARG_PARM = "course";
+    private static final String ARG_PARM2 = "lv";
 
     public CourseListFragment() {
         // Required empty public constructor
     }
-    public static CourseListFragment newInstance(String result) {
+    public static CourseListFragment newInstance(String result,ArrayList<String> all) {
         CourseListFragment fragment = new CourseListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARM, result);
+        args.putStringArrayList(ARG_PARM2,all);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,6 +65,7 @@ public class CourseListFragment extends Fragment{
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             result_course = getArguments().getString(ARG_PARM);
+            all.addAll(getArguments().getStringArrayList(ARG_PARM2));
         }
     }
 
@@ -72,23 +78,17 @@ public class CourseListFragment extends Fragment{
 
         courseList = new ArrayList<CourseVO>();
 
-
-        recyclerView = v.findViewById(R.id.rv_level1);
-        recyclerView2 = v.findViewById(R.id.rv_level2);
-        recyclerView3 = v.findViewById(R.id.rv_level3);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(v.getContext(),LinearLayoutManager.HORIZONTAL,false);
+        recyclerView = v.findViewById(R.id.rv_list);
+        recyclerView2 = v.findViewById(R.id.rv_tag);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
+        LinearLayoutManager layoutManager2 = new LinearLayoutManager(v.getContext(),RecyclerView.HORIZONTAL,false);
 
         recyclerView.setLayoutManager(layoutManager);
         recyclerView2.setLayoutManager(layoutManager2);
-        recyclerView3.setLayoutManager(layoutManager3);
         adapter = new CourseAAdapter(v.getContext(),courseList);
-        adapter2 = new CourseAAdapter(v.getContext(),courseList);
-        adapter3 = new CourseAAdapter(v.getContext(),courseList);
+        adapter2 = new StringAdapter(v.getContext(),all);
         recyclerView.setAdapter(adapter);
         recyclerView2.setAdapter(adapter2);
-        recyclerView3.setAdapter(adapter3);
 
 
         adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
@@ -105,49 +105,11 @@ public class CourseListFragment extends Fragment{
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-        adapter2.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, String courseName, String courseInfo) {
-                String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
-                try{
-                     result = backgroundTask.execute().get();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                ((MainActivity) view.getContext())
-                        .getSupportFragmentManager()
-                        .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, result))
                         .addToBackStack(null)
                         .commit();
             }
         });
-        adapter3.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, String courseName, String courseInfo) {
-                String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
-                try{
-                    result = backgroundTask.execute().get();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-                ((MainActivity) view.getContext())
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, resultt))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
-
 
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다

@@ -40,6 +40,7 @@ public class FilterFragment extends Fragment {
     private ToggleButton tb6;
     private ToggleButton tb7;
     private String data;
+    private ArrayList<String> alll;
 
     public FilterFragment() {
         // Required empty public constructor
@@ -193,6 +194,7 @@ public class FilterFragment extends Fragment {
             @Override
             public void onCheck(View view, int pos, String Filter) {
                 filter[pos] = Filter;
+
             }
         });
         try{
@@ -205,29 +207,31 @@ public class FilterFragment extends Fragment {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                for(int i = 0; i < filter.length; i++) {
-                    if(filter[i] != null) {
-                        Log.d("Value", filter[i]);
-                        try {
-                            data += "&" + URLEncoder.encode("filter[]", "UTF-8") + "=" + URLEncoder.encode(filter[i], "UTF-8");
-                        } catch (Exception e){
-                        }
-                    }
-                }
+                alll = new ArrayList<String>();
 
                 for(int i = 0; i < level.length; i++){
                     if(level[i] != null){
                         Log.d("level",level[i]);
                         try {
                             data += "&" + URLEncoder.encode("level[]", "UTF-8") + "=" + URLEncoder.encode(level[i], "UTF-8");
+                            alll.add(level[i]);
                         } catch (Exception e){
 
                         }
                     }
                 }
 
-                Log.d("hihi",data);
+                for(int i = 0; i < filter.length; i++) {
+                    if(filter[i] != null) {
+                        Log.d("Value", filter[i]);
+                        try {
+                            data += "&" + URLEncoder.encode("filter[]", "UTF-8") + "=" + URLEncoder.encode(filter[i], "UTF-8");
+                            alll.add(filter[i]);
+                        } catch (Exception e){
+                        }
+                    }
+                }
+
                 String result = "";
                 BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/courseList.php",data);
                 try{
@@ -235,11 +239,10 @@ public class FilterFragment extends Fragment {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                Log.d("UUUUUU",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,CourseListFragment.newInstance(result))
+                        .replace(R.id.frame,CourseListFragment.newInstance(result,alll))
                         .addToBackStack(null)
                         .commit();
             }

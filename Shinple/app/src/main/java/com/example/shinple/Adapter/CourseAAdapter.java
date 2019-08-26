@@ -40,15 +40,15 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
 
         // context 와 parent.getContext() 는 같다.
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.course_item, parent, false);
+                .inflate(R.layout.course_item3, parent, false);
 
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(CourseAAdapter.ViewHolder holder, int position) {
-        TextView courseName = (TextView) holder.itemView.findViewById(R.id.tv_courseName);
-        TextView courseLevel = (TextView) holder.itemView.findViewById(R.id.tv_cl2_lv);
+        TextView courseName = (TextView) holder.itemView.findViewById(R.id.tv_courseName3);
+        TextView courseLevel = (TextView) holder.itemView.findViewById(R.id.tv_cl2_lv3);
 //        TextView tagName = (TextView) holder.itemView.findViewById(R.id.tv_lec_courseInfo);
 
         courseName.setText(courseList.get(position).getcourseName());
@@ -65,7 +65,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         Button bt_sub;
         public ViewHolder(final View itemView) {
             super(itemView);
-            bt_sub = itemView.findViewById(R.id.bt_subCC);
+            bt_sub = itemView.findViewById(R.id.bt_subCC3);
             bt_sub.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
