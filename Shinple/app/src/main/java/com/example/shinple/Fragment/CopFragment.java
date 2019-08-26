@@ -83,8 +83,8 @@ public class CopFragment extends Fragment {
         //리스트 생성
         my_cop_list = new ArrayList<CopVO>();
 
-        String my_cop_name[] = {"블록체인 모임", "클라우드 모임", "핀테크 모임"};
-        String my_cop_rank[] = {"1", "3", "17"};
+        String my_cop_name[] = {"블록체인 모임", "클라우드 모임", "핀테크 모임", "핀테크 모임2"};
+        String my_cop_rank[] = {"1", "3", "17", "22"};
 
         //JSON 배열 길이만큼 반복문을 실행
         for (int i = 0; i < my_cop_name.length; i++) {
