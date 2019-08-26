@@ -6,9 +6,12 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shinple.R;
 import com.example.shinple.VO.FilterVO;
@@ -19,6 +22,17 @@ public class FilterAdapter extends BaseAdapter {
     private Context context;
     private List<FilterVO> filterList;
     private ToggleButton tb;
+
+    public interface OnCheckedChangeListener {
+        void onCheck(View view, int pos, String Filter);
+    }
+
+    private FilterAdapter.OnCheckedChangeListener mListener = null ;
+
+    public void setOnCheckListener (FilterAdapter.OnCheckedChangeListener listener){
+        this.mListener = listener;
+    }
+
 
     public FilterAdapter(Context context, List<FilterVO> filterList){
         this.context = context;
@@ -55,17 +69,27 @@ public class FilterAdapter extends BaseAdapter {
             tb.setTextOff(fi);
             tb.setTextOn(fi);
         }
-        /*
-        layout.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Fragment fm = CourseListFragment.newInstance();
-                Bundle bundle = new Bundle();
-                bundle.putString("tag", "tag_name");
-                ((MainActivity)view.getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frame, fm).addToBackStack(null).commit();
-            }
-        });*/
 
+        tb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    int pos = i;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onCheck(v, i, fi);
+                        }
+                    }
+                } else {
+                    int pos = i;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        if (mListener != null) {
+                            mListener.onCheck(v, i, null);
+                        }
+                    }
+                }
+            }
+        });
         return v;
     }
 }

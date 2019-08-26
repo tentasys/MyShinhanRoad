@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,15 @@ import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
+import com.example.shinple.VO.LectureVO;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.shinple.Fragment.ExoPlayerFragment.ARG_PARAM1;
 
 /**
  * 하단 강좌(강의 리스트) 누르면 연결되는 페이지
@@ -34,18 +41,25 @@ public class CourseListFragment extends Fragment{
     private RecyclerView recyclerView2;
     private RecyclerView recyclerView3;
     private String resultt = "";
+    private String result_course = "";
+    private static final String ARG_PARM = "course";
 
     public CourseListFragment() {
         // Required empty public constructor
     }
-    public static CourseListFragment newInstance() {
-        return new CourseListFragment();
+    public static CourseListFragment newInstance(String result) {
+        CourseListFragment fragment = new CourseListFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARM, result);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            result_course = getArguments().getString(ARG_PARM);
         }
     }
 
@@ -54,25 +68,10 @@ public class CourseListFragment extends Fragment{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_course_list, container, false);
 
-
         // Inflate the layout for this fragment
 
         courseList = new ArrayList<CourseVO>();
-        /*  */
-        String courseName[] ={"Name1","Name2","Name3"};
-        String courseLevel[] ={"1","2","3"};
-        String tagName[]={"bigdata","blockchain","AI"};
 
-        int length =courseName.length;
-        //JSON 배열 길이만큼 반복문을 실행
-        for(int each_course=0;each_course<length;each_course++) {
-            String each_name = courseName[each_course];
-            String each_level = courseLevel[each_course];
-            String each_tagName = tagName[each_course];
-
-            CourseVO course = new CourseVO(each_name, each_level, each_tagName);
-            courseList.add(course);//리스트뷰에 값을 추가해줍니다
-        }
 
         recyclerView = v.findViewById(R.id.rv_level1);
         recyclerView2 = v.findViewById(R.id.rv_level2);
@@ -90,6 +89,7 @@ public class CourseListFragment extends Fragment{
         recyclerView.setAdapter(adapter);
         recyclerView2.setAdapter(adapter2);
         recyclerView3.setAdapter(adapter3);
+
 
         adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
@@ -147,6 +147,37 @@ public class CourseListFragment extends Fragment{
                         .commit();
             }
         });
+
+
+        try{
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(result_course);
+
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            int count = 0;
+
+            String courseName, courseLevel, tagName;
+
+            //JSON 배열 길이만큼 반복문을 실행
+            while(count < jsonArray.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(count);
+
+                courseName = object.getString("courseName");//여기서 ID가 대문자임을 유의
+                courseLevel = object.getString("courseLevel");
+                tagName= object.getString("tagName");
+
+                //값들을 User클래스에 묶어줍니다
+                CourseVO course = new CourseVO(courseName, courseLevel, tagName);
+                courseList.add(course);//리스트뷰에 값을 추가해줍니다
+                count++;
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
+
         return v;
     }
 }

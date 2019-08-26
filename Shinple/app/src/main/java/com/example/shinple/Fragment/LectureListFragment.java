@@ -133,7 +133,6 @@ public class LectureListFragment extends Fragment {
                     progressDialog.show();
                 } //ifelse 끝
             }//onItemClick 끝
-
         });//setOnItemClickListener끝
 
 

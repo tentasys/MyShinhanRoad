@@ -138,7 +138,7 @@
 
                     <GridView
                         android:id="@+id/gv_tag"
-                        android:layout_width="353dp"
+                        android:layout_width="397dp"
                         android:layout_height="520dp"
                         android:layout_gravity="center"
                         android:numColumns="3" />
