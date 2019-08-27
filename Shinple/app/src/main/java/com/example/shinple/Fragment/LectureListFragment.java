@@ -118,6 +118,8 @@ public class LectureListFragment extends Fragment {
         adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
 
+
+        /*  이어보기 버튼 추후 개발 예정
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,13 +130,13 @@ public class LectureListFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl))
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
                                 .commit();
                     }
                 }else{
@@ -144,7 +146,7 @@ public class LectureListFragment extends Fragment {
                 } //ifelse 끝
             }//onItemClick 끝
         });//setOnItemClickListener끝
-
+        */
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,22 +160,24 @@ public class LectureListFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lec_order) {
+            public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
                 videourl = "https://98d72f78.ngrok.io/video/"+ courseNum + "/" + lec_order + ".mp4";
-                Log.d("order",videourl);
+                String url =  "https://98d72f78.ngrok.io/video/"+ courseNum + "/";
+                String video = lec_order + ".mp4";
+                Log.d("order",result);
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result,lec_title,lec_text,video))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl))
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result,lec_title,lec_text))
                                 .commit();
                     }
                 }else{

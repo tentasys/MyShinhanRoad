@@ -19,15 +19,17 @@ public class CopListFragment extends Fragment{
 
     private String cop_name;
     private String cop_rank;
+    private String cop_intro;
 
     public CopListFragment() {
     }
 
-    public static CopListFragment newInstance(String param1, String param2) {
+    public static CopListFragment newInstance(String param1, String param2, String param3) {
         CopListFragment fragment = new CopListFragment();
         Bundle args = new Bundle();
         args.putString("cop_name", param1);
         args.putString("cop_rank", param2);
+        args.putString("cop_intro",param3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,6 +45,7 @@ public class CopListFragment extends Fragment{
         if (getArguments() != null) {
             cop_name = getArguments().getString("cop_name");
             cop_rank = getArguments().getString("cop_rank");
+            cop_intro = getArguments().getString("cop_intro");
         }
     }
 
@@ -63,7 +66,7 @@ public class CopListFragment extends Fragment{
 
         copName.setText(cop_name);
         copRank.setText(cop_rank);
-        copText.setText("    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+        copText.setText(cop_intro);
 
         return view;
     }
