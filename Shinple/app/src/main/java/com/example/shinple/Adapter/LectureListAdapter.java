@@ -24,7 +24,7 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, String lec_order);
+        void onItemClick(View view, String lec_order, String lec_title, String lec_text);
     }
 
     private LectureListAdapter.OnItemClickListener mListener = null ;
@@ -74,7 +74,7 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
                         if(mListener != null){
-                            mListener.onItemClick(view,lectureList.get(pos).getLec_order());
+                            mListener.onItemClick(view,lectureList.get(pos).getLec_order(),lectureList.get(pos).getLec_title(),lectureList.get(pos).getLec_text());
                         }
                     }
 
