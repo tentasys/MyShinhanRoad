@@ -43,7 +43,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
         ImageView imageView = (ImageView) holder.itemView.findViewById(R.id.iv_cop);
         String ss = "wampstack";
         Glide.with(context)
-                .load("https://8d2d5c7c.ngrok.io/img/" + ss + ".png")
+                .load("https://67db0c58.ngrok.io/img/" + ss + ".png")
                 .into(imageView);
 
         copName.setText(my_cop_list.get(position).getCopName());

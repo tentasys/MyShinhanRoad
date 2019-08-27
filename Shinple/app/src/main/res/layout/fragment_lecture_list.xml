@@ -94,7 +94,7 @@
 
                 <TextView
                     android:id="@+id/tv_lec_tchName"
-                    android:layout_width="149dp"
+                    android:layout_width="45dp"
                     android:layout_height="24dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
@@ -102,12 +102,14 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="40dp"
+                    android:gravity="center"
                     android:text="#블록체인 #홍길동"
                     android:textColor="@color/shinhan3"
+                    android:textSize="15dp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.304"
+                    app:layout_constraintHorizontal_bias="0.255"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_lec_courseN"
                     app:layout_constraintVertical_bias="0.0" />
@@ -142,6 +144,7 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"
                     android:text="강사"
+                    android:gravity="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/tv_lec_tchName"
                     app:layout_constraintHorizontal_bias="1.0"

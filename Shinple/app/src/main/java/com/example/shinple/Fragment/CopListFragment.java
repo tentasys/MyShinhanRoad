@@ -57,7 +57,7 @@ public class CopListFragment extends Fragment{
         TextView copText = (TextView) view.findViewById(R.id.cop_description);
 
         Glide.with(getContext())
-                .load("https://8d2d5c7c.ngrok.io/img/sample.jpg")
+                .load("https://67db0c58.ngrok.io/img/sample.jpg")
                 .centerCrop()
                 .into(imageView);
 
