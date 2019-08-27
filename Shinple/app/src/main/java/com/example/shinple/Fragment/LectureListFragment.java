@@ -104,7 +104,7 @@ public class LectureListFragment extends Fragment {
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                BackgroundTask backgroundTask = new BackgroundTask("lectureList.php");
                 backgroundTask.execute();
                 isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){
@@ -143,7 +143,7 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lectureName, String lectureInfo) {
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                BackgroundTask backgroundTask = new BackgroundTask("ectureList.php");
                 backgroundTask.execute();
                 isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){

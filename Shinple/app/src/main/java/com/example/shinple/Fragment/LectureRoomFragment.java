@@ -78,7 +78,7 @@ public class LectureRoomFragment extends Fragment{
                 @Override
                 public void onItemClick(View view, String courseName, String courseInfo) {
                     //new CourseListFragment.BackgroundTask().execute();
-                    BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
+                    BackgroundTask backgroundTask = new BackgroundTask("lectureList.php");
                     backgroundTask.execute();
                     ((MainActivity) view.getContext())
                             .getSupportFragmentManager()

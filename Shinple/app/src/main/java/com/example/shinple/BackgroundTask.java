@@ -14,16 +14,17 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
 
     String target;
     String param1;
-
+    String server = "http://192.168.1.187/";
+    // 서버 주소 저장
     public BackgroundTask(String target) {
         super();
-        this.target = target;
+        this.target = server + target;
     }
 
     // parameter 값 받기
     public BackgroundTask(String target, String param1) {
         super();
-        this.target = target;
+        this.target = server + target;
         if (param1 != null){
             this.param1 = param1;
         }

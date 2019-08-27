@@ -96,7 +96,7 @@ public class CourseListFragment extends Fragment{
             public void onItemClick(View view, String courseName, String courseInfo) {
                 //new CourseListFragment.BackgroundTask().execute();
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                BackgroundTask backgroundTask = new BackgroundTask("lectureList.php");
                 try{
                     result = backgroundTask.execute().get();
                 } catch (Exception e){
