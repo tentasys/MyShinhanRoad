@@ -53,6 +53,7 @@ public class RegisterActivity extends AppCompatActivity {
         reg = findViewById(R.id.bt_reg);
         spinner = findViewById(R.id.spinner_com);
 
+        //회사 선택
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -65,6 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        // 회원가입 버튼
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,17 +80,16 @@ public class RegisterActivity extends AppCompatActivity {
                     data+= "&"+URLEncoder.encode("mem_code","UTF-8")+"="+ URLEncoder.encode("2","UTF-8");
                     Log.d("WoWWEWEW",data);
                 } catch (Exception e){
-                    Log.d("WoW","ASDASDASDASD");
                 }
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.134/UserRegister.php",data);
-                try{
-                    result = backgroundTask.execute().get();
+//                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.134/UserRegister.php",data);
+/*                try{
+//                    result = backgroundTask.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
-                }
+                }*/
                 Log.d("result",result);
-                onResponse(result);
+                onResponse("success");
             }
         });
     }

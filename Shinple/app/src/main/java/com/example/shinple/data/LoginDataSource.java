@@ -1,6 +1,6 @@
 package com.example.shinple.data;
 
-import com.example.shinple.data.model.LoggedInUser;
+import com.example.shinple.VO.UserVO;
 
 import java.io.IOException;
 
@@ -9,14 +9,13 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public Result<UserVO> login(String username, String password) {
 
         try {
             // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
+
+            /*TODO : DB에 정보 넘겨주고 받아오기 */
+            UserVO fakeUser = new UserVO("id","password","name","company_code");
             return new Result.Success<>(fakeUser);
         } catch (Exception e) {
             return new Result.Error(new IOException("Error logging in", e));

@@ -26,97 +26,58 @@ import android.widget.Toast;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.RegisterActivity;
+import com.example.shinple.data.LoginDataSource;
+import com.example.shinple.data.LoginRepository;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private LoginViewModel loginViewModel;
-
+    LoginViewModel loginViewModel;
+    EditText userIdEditText;
+    EditText passwordEditText;
+    Button loginButton ;
+    Button regButton;
+    ProgressBar loadingProgressBar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
-
-        final EditText usernameEditText = findViewById(R.id.user_id);
-        final EditText passwordEditText = findViewById(R.id.user_pw);
-        final Button loginButton = findViewById(R.id.login);
-        final Button regButton = findViewById(R.id.bt_register);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
-
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+        userIdEditText = findViewById(R.id.user_id);
+        passwordEditText = findViewById(R.id.user_pw);
+        loginButton = findViewById(R.id.login);
+        regButton = findViewById(R.id.bt_register);
+        loadingProgressBar = findViewById(R.id.loading);
+        loginViewModel = new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-                loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-                    usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-                    passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
-            }
-        });
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null)    {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
-
-                //Complete and destroy login activity once successful
-                finish();
-            }
-        });
-
-        TextWatcher afterTextChangedListener = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                loginButton.setEnabled(true);
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+            public void afterTextChanged(Editable editable) {
+                if(editable.length()!= 0){
+                    loginButton.setEnabled(true);
+                }
             }
         };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });
+        passwordEditText.addTextChangedListener(textWatcher);
+        userIdEditText.addTextChangedListener(textWatcher);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+                boolean loginResult = loginViewModel.login(userIdEditText.getText().toString(),
                         passwordEditText.getText().toString());
+
+                if(loginResult)         //성공하면 이동할 뷰
+                    updateUiWithUser();
+                else     //실패하면 띄울 다이얼로그
+                    showLoginFailed();
+
             }
         });
 
@@ -128,21 +89,17 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             }
         });
-    }
 
-    /**
-     * 정상 로그인 정보일 때 mainactivity로 intent를 옮김.
-     * @param model
-     */
-    private void updateUiWithUser(LoggedInUserView model) {
-        //String welcome = getString(R.string.welcome) + model.getDisplayName();
+
+    }
+    private void updateUiWithUser() {
         // TODO : initiate successful logged in experience
-        //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("goto_activity","main");
         startActivity(intent);
     }
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+
+    //Toast.LENGTH_SHORT로 에러메세지 저장
+    private void showLoginFailed() {
+        Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
     }
 }

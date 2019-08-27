@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frame, MainFragment.newInstance()).commit();
 
-//        fr = new MainFragment();
-        fr = new ExoPlayerFragment();
+        fr = new MainFragment();
+//        fr = new ExoPlayerFragment();
         switchFragment(fr);
 
     }

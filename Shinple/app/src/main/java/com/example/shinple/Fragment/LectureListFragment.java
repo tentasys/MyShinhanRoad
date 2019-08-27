@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.Adapter.LectureListAdapter;
@@ -130,9 +131,8 @@ public class LectureListFragment extends Fragment {
                                 .commit();
                     }
                 }else{
-                    progressDialog.setMessage("파일 경로를 확인해주세요.");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
+                    Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
+
                 } //ifelse 끝
             }//onItemClick 끝
         });//setOnItemClickListener끝
