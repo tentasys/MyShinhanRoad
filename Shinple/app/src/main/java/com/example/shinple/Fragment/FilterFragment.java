@@ -273,7 +273,7 @@ public class FilterFragment extends Fragment {
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,CourseListFragment.newInstance(result,alll))
-                        .addToBackStack(null)
+                        .addToBackStack("course")
                         .commit();
             }
         });

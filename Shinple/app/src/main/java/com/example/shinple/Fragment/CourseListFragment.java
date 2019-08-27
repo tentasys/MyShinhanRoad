@@ -28,7 +28,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.shinple.Fragment.ExoPlayerFragment.ARG_PARAM1;
 
 /**
  * 하단 강좌(강의 리스트) 누르면 연결되는 페이지
@@ -115,7 +114,7 @@ public class CourseListFragment extends Fragment{
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo,  result, courseLevel, tch, courseNum))
-                        .addToBackStack(null)
+                        .addToBackStack("lecture_list")
                         .commit();
             }
         });

@@ -82,7 +82,7 @@ public class MainFragment extends Fragment {
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureRoomFragment.newInstance())
-                        .addToBackStack(null)
+                        .addToBackStack("lectureroom")
                         .commit();
             }
         });
@@ -95,7 +95,7 @@ public class MainFragment extends Fragment {
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
-                        .addToBackStack(null)
+                        .addToBackStack("lecturelist")
                         .commit();
             }
         });
@@ -108,7 +108,7 @@ public class MainFragment extends Fragment {
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
-                        .addToBackStack(null)
+                        .addToBackStack("lecturelist")
                         .commit();
             }
         });

@@ -57,7 +57,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, String copName, String copRank);
+        void onItemClick(View view, String copName, String copRank, String copIntro);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -75,7 +75,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
                         if(mListener != null){
-                            mListener.onItemClick(view,my_cop_list.get(pos).getCopName(),my_cop_list.get(pos).getCopRank());
+                            mListener.onItemClick(view,my_cop_list.get(pos).getCopName(),my_cop_list.get(pos).getCopRank(), my_cop_list.get(pos).getCopInfo());
                         }
                     }
 

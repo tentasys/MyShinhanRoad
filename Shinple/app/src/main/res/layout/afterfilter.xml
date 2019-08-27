@@ -7,11 +7,12 @@
 
     <Button
         android:id="@+id/bt_tagg"
-        android:layout_width="60dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="46dp"
         android:layout_margin="5dp"
         android:background="@drawable/toggle_on"
-        android:text="블록체인"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:textColor="#ffffff"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
