@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
     <title>Shinple Admin</title>
     <link rel="shortcut icon" href="images/Shinhanlogo.ico">
 
@@ -21,6 +21,18 @@
 
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
+
+    <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      background-image: url('/images/login.png') !important;
+      background-size: cover !important;
+      background-position: center !important;
+    }
+    </style>
   </head>
 
   <body class="login">
@@ -28,9 +40,13 @@
       <a class="hiddenanchor" id="signup"></a>
       <a class="hiddenanchor" id="signin"></a>
 
+      
       <div class="login_wrapper">
-        <div class="animate form login_form">
+        <div class="animate form login_form"style="
+        padding-top: 180px;
+        padding-left: 200px;">
           <section class="login_content">
+            
             <form>
               <h1>Admin Page</h1>
               <div>
@@ -54,10 +70,15 @@
                   <p>Copyright ⓒ 2019. Shinhan DS. All right reserved.</p>
                 </div>
               </div>
+              
             </form>
+          
           </section>
+          
         </div>
-
+       
+      </div>
+      <!--
         <div id="register" class="animate form registration_form">
           <section class="login_content">
             <form>
@@ -89,12 +110,15 @@
                   <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
                   <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
+               
               </div>
+            
             </form>
           </section>
-        </div>
+        </div>-->
       </div>
     </div>
+    
     <!-- <?php
     mysql_connect('localhost','root','111111','webtest');
     var_dump($ye_connect);

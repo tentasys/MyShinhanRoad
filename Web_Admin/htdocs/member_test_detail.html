@@ -26,7 +26,22 @@
 
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">
-    </head>
+
+    <style>
+      .fin:hover{
+          text-decoration-line:underline; 
+          cursor:pointer;
+                }
+
+    </style>
+
+      <script>
+        function fin_click( ) {
+          alert("수료처리 되었습니다.");
+        }
+      </script>
+
+  </head>
 
   <body class="nav-md">
     <div class="container body">
@@ -168,11 +183,11 @@
                             <!-- <th>
                               <input type="checkbox" id="check-all" class="flat">
                             </th> -->
-                            <th class="column-title">회사코드</th>
-                            <th class="column-title">사번</th>
-                            <th class="column-title">이름</th>
-                            <th class="column-title">점수</th>
-                            <th class="column-title">수료 처리</th>
+                            <th class="column-title" style="text-align:center;">회사코드</th>
+                            <th class="column-title" style="text-align:center;">사번</th>
+                            <th class="column-title" style="text-align:center;">이름</th>
+                            <th class="column-title" style="text-align:center;">점수</th>
+                            <th class="column-title" style="text-align:center;">수료 처리</th>
                             <!-- <th class="column-title">Bill to Name </th> -->
                             <!-- <th class="column-title">태그</th> -->
                             <!-- <th class="column-title">Amount </th> -->
@@ -184,8 +199,9 @@
                           </tr>
                         </thead>
 
+                        
                         <tbody>
-                          <tr class="even pointer">
+                          <tr class="even pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -193,13 +209,13 @@
                             <td class=" ">11111111</td>
                             <td class=" ">김영은</td>
                             <td class=" ">80점(db필요)</td>
-                            <td class=" ">수료(여기 조건넣어야함)</td>
+                            <td class="fin" onclick="fin_click()">수료(여기 조건넣어야함)</td>
                             <!-- <td class=" ">파이썬</td>
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                              
                             </td>
                           </tr>
-                          <tr class="odd pointer">
+                          <tr class="odd pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -212,7 +228,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="even pointer">
+                          <tr class="even pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -225,7 +241,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="odd pointer">
+                          <tr class="odd pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -238,7 +254,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="even pointer">
+                          <tr class="even pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -251,7 +267,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="odd pointer">
+                          <tr class="odd pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -264,7 +280,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="even pointer">
+                          <tr class="even pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -277,7 +293,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="odd pointer">
+                          <tr class="odd pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -291,7 +307,7 @@
                             </td>
                           </tr>
 
-                          <tr class="even pointer">
+                          <tr class="even pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -304,7 +320,7 @@
                             <td class=" last"><a href="study_edit.html">Edit</a> -->
                             </td>
                           </tr>
-                          <tr class="odd pointer">
+                          <tr class="odd pointer" style="text-align:center;">
                             <!-- <td class="a-center ">
                               <input type="checkbox" class="flat" name="table_records">
                             </td> -->
@@ -344,21 +360,19 @@
     </div>
 
     <!-- jQuery -->
-    <script src="../vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="../vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="vendors/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- FastClick -->
-    <script src="../vendors/fastclick/lib/fastclick.js"></script>
+    <script src="vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
-    <script src="../vendors/nprogress/nprogress.js"></script>
-    <!-- iCheck -->
-    <script src="../vendors/iCheck/icheck.min.js"></script>
-
+    <script src="vendors/nprogress/nprogress.js"></script>
+   
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="build/js/custom.min.js"></script>
 
     <!-- Custom script Add -->
-    <script src="../build/js/script.js"></script>
+    <script src="build/js/script.js"></script>
 
   </body>
 </html>
