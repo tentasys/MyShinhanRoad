@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="55dp"
-    android:background="#3a93cb"
     tools:context=".Fragment.CopFragment">
 
     <!--나타나는 CoP 정보는 DB에 저장된 순서로 나타내도 될 듯. 회원별로 보유한 CoP 수 만큼 출력-->
@@ -17,19 +16,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#3a93cb"
             android:orientation="vertical">
 
             <!--하나의 constraintlayout은 내 cop 하나를 나타냄-->
             <TextView
                 android:id="@+id/my_cop_text"
-                android:layout_width="match_parent"
+                android:layout_width="379dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:padding="10dp"
                 android:text="나의 CoP"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="15dp" />
 
             <!--하나의 constraintlayout은 내 cop 하나를 나타냄-->
 
@@ -37,23 +34,24 @@
                 android:id="@+id/my_cop_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                android:background="#ffffff"/>
 
             <TextView
                 android:id="@+id/total_cop_rank_text"
-                android:layout_width="match_parent"
+                android:layout_width="379dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:padding="10dp"
                 android:text="전체 CoP 랭킹"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="15dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/total_cop_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:overScrollMode="never"
+                android:background="#ffffff"/>
 
         </LinearLayout>
     </ScrollView>

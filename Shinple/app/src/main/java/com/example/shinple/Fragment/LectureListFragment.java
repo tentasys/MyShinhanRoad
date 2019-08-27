@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shinple.BackgroundTask;
@@ -48,6 +49,7 @@ public class LectureListFragment extends Fragment {
     private  TextView tv_courseInfo;
     private TextView tv_level;
     private Button bt_test;
+    private LinearLayout bt_continue;
     public String videourl="http://192.168.1.187/video/dog.mp4";
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
@@ -88,6 +90,7 @@ public class LectureListFragment extends Fragment {
         tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
+        bt_continue = view.findViewById(R.id.bt_continue);
 
         tv_courseName.setText(courseName);
         tv_level.setText(courseInfo);
@@ -97,6 +100,34 @@ public class LectureListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
+
+        bt_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
+                backgroundTask.execute();
+                isFileValid();  //파일이 유효한 지 체크
+                if(FileValideCheckResult){
+                    try {   // exo해보고
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
+                                .commit();
+                    }catch (Exception e){  //exo안되면 media로 가자!
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl))
+                                .commit();
+                    }
+                }else{
+                    progressDialog.setMessage("파일 경로를 확인해주세요.");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                } //ifelse 끝
+            }//onItemClick 끝
+        });//setOnItemClickListener끝
 
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +143,7 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lectureName, String lectureInfo) {
-                BackgroundTask backgroundTask = new BackgroundTask("https://42cf57c4.ngrok.io//lectureList.php");
+                BackgroundTask backgroundTask = new BackgroundTask("http://192.168.1.187/lectureList.php");
                 backgroundTask.execute();
                 isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){
