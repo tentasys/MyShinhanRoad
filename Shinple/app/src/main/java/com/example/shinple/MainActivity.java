@@ -50,7 +50,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    private String result;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity
                             switchFragment(fr);
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
-                            String result = "";
+                            result = "";
                             BackgroundTask backgroundTask = new BackgroundTask("app/tag.php");
                             try{
                                 result = backgroundTask.execute().get();
@@ -198,15 +198,19 @@ public class MainActivity extends AppCompatActivity
                                 e.printStackTrace();
                             }
                             Log.d("tag",result);
-                            FragmentManager fm = getSupportFragmentManager();
-                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                            fragmentTransaction.replace(R.id.frame, FilterFragment.newInstance(result));
-                            fragmentTransaction.commit();
+                            switchFragment(FilterFragment.newInstance(result));
 
                              return true;
                         case R.id.navigation_notifications:
-                            fr = new CopFragment();  //CoP 리스트
-                             switchFragment(fr);
+                            result = "";
+                            BackgroundTask backgroundTask2 = new BackgroundTask("app/cop.php");
+                            try{
+                                result = backgroundTask2.execute().get();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            Log.d("tag",result);
+                            switchFragment(CopFragment.newInstance(result));
                              return true;
         }
         return false;
