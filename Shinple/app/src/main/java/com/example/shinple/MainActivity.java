@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
@@ -189,8 +190,19 @@ public class MainActivity extends AppCompatActivity
                             switchFragment(fr);
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
-                            fr = new FilterFragment();
-                            switchFragment(fr);
+                            String result = "";
+                            BackgroundTask backgroundTask = new BackgroundTask("app/tag.php");
+                            try{
+                                result = backgroundTask.execute().get();
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            Log.d("tag",result);
+                            FragmentManager fm = getSupportFragmentManager();
+                            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                            fragmentTransaction.replace(R.id.frame, FilterFragment.newInstance(result));
+                            fragmentTransaction.commit();
+
                              return true;
                         case R.id.navigation_notifications:
                             fr = new CopFragment();  //CoP 리스트

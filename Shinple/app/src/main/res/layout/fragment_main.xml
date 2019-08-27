@@ -242,7 +242,7 @@
                             android:layout_marginRight="8dp"
                             android:layout_marginBottom="8dp"
                             android:text="TextView"
-                            app:layout_constraintBottom_toTopOf="@+id/tv_lec_tagName"
+                            app:layout_constraintBottom_toTopOf="@+id/tv_lec_tchName"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tv_lec_courseN1" />

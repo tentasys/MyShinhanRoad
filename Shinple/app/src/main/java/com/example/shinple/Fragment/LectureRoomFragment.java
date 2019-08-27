@@ -54,6 +54,7 @@ public class LectureRoomFragment extends Fragment{
 
         courseList = new ArrayList<CourseVO>();
         /*  */
+        /*
         String courseName[] ={"Name1","Name2","Name3"};
         String courseLevel[] ={"1","2","3"};
         String tagName[]={"bigdata","blockchain","AI"};
@@ -78,7 +79,7 @@ public class LectureRoomFragment extends Fragment{
                 @Override
                 public void onItemClick(View view, String courseName, String courseInfo) {
                     //new CourseListFragment.BackgroundTask().execute();
-                    BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.187/lectureList.php");
+                    BackgroundTask backgroundTask = new BackgroundTask("lectureList.php");
                     backgroundTask.execute();
                     ((MainActivity) view.getContext())
                             .getSupportFragmentManager()
@@ -89,6 +90,7 @@ public class LectureRoomFragment extends Fragment{
                 }
             });
         }
+        */
         return v;
     }
 

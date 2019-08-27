@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,20 +37,28 @@ public class LectureListFragment extends Fragment {
     private static final String ARG_PARAM1 = "courseName";
     private static final String ARG_PARAM2 = "courseInfo";
     private static final String ARG_PARAM3 = "lectureList";
+    private static final String ARG_PARAM4 = "courseLv";
+    private static final String ARG_PARAM5 = "tch";
+    private static final String ARG_PARAM6 = "courseNum";
 
     // TODO: Rename and change types of parameters
     private String courseName;
     private String courseInfo;
     private String result = "";
+    private String courseLv;
+    private String tch;
+    private String courseNum;
 
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
     private List<LectureVO> lectureList;
     private  TextView tv_courseName;
     private  TextView tv_courseInfo;
+    private  TextView tv_tch;
     private TextView tv_level;
     private Button bt_test;
-    public String videourl="http://192.168.1.187/video/dog.mp4";
+    private LinearLayout bt_continue;
+    public String videourl;
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
 
@@ -57,12 +66,15 @@ public class LectureListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LectureListFragment newInstance(String param1, String param2, String param3) {
+    public static LectureListFragment newInstance(String param1, String param2, String param3,String param4, String param5, String param6) {
         LectureListFragment fragment = new LectureListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         args.putString(ARG_PARAM3, param3);
+        args.putString(ARG_PARAM4,param4);
+        args.putString(ARG_PARAM5,param5);
+        args.putString(ARG_PARAM6,param6);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,6 +86,9 @@ public class LectureListFragment extends Fragment {
             courseName = getArguments().getString(ARG_PARAM1);
             courseInfo = getArguments().getString(ARG_PARAM2);
             result = getArguments().getString(ARG_PARAM3);
+            courseLv = getArguments().getString(ARG_PARAM4);
+            tch = getArguments().getString(ARG_PARAM5);
+            courseNum = getArguments().getString(ARG_PARAM6);
         }
     }
 
@@ -87,17 +102,48 @@ public class LectureListFragment extends Fragment {
 
         tv_courseName = view.findViewById(R.id.tv_lec_courseN);
         tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
+        tv_tch = view.findViewById(R.id.tv_lec_tchName);
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
+        bt_continue = view.findViewById(R.id.bt_continue);
 
+        tv_courseInfo.setText(courseInfo);
         tv_courseName.setText(courseName);
-        tv_level.setText(courseInfo);
+        tv_tch.setText(tch);
+        tv_level.setText(courseLv);
 
         recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
+
+        bt_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                isFileValid();  //파일이 유효한 지 체크
+                if(FileValideCheckResult){
+                    try {   // exo해보고
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl))
+                                .commit();
+                    }catch (Exception e){  //exo안되면 media로 가자!
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl))
+                                .commit();
+                    }
+                }else{
+                    progressDialog.setMessage("파일 경로를 확인해주세요.");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                } //ifelse 끝
+            }//onItemClick 끝
+        });//setOnItemClickListener끝
 
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,10 +158,10 @@ public class LectureListFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lectureName, String lectureInfo) {
-                BackgroundTask backgroundTask = new BackgroundTask("https://42cf57c4.ngrok.io//lectureList.php");
-                backgroundTask.execute();
-                isFileValid();  //파일이 유효한 지 체크
+            public void onItemClick(View view, String lec_order) {
+                videourl = "http://192.168.1.134/video/"+ courseNum + "/" + lec_order + ".mp4";
+                Log.d("order",videourl);
+                isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
@@ -147,19 +193,20 @@ public class LectureListFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lectureNum, lectureName, lectureTag;
+            String lec_title, lec_order, lec_text, lec_time;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
                 //count는 배열의 인덱스를 의미
                 JSONObject object = jsonArray.getJSONObject(count);
 
-                lectureNum = object.getString("lectureNum");//여기서 ID가 대문자임을 유의
-                lectureName = object.getString("lectureName");
-                lectureTag = object.getString("lectureTag");
+                lec_title = object.getString("lec_title");//여기서 ID가 대문자임을 유의
+                lec_order = object.getString("lec_order");
+                lec_text = object.getString("lec_text");
+                lec_time = object.getString("lec_time");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lectureNum, lectureName, lectureTag);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }

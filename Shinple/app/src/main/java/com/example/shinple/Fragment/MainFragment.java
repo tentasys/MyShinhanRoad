@@ -94,7 +94,7 @@ public class MainFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세"))
+                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
                         .addToBackStack(null)
                         .commit();
             }
@@ -107,7 +107,7 @@ public class MainFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세"))
+                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
                         .addToBackStack(null)
                         .commit();
             }

@@ -24,7 +24,7 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, String lectureName, String lectureInfo);
+        void onItemClick(View view, String lec_order);
     }
 
     private LectureListAdapter.OnItemClickListener mListener = null ;
@@ -46,10 +46,14 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
     public void onBindViewHolder(LectureListAdapter.ViewHolder holder, int position) {
         TextView lectureNum = (TextView)holder.itemView.findViewById(R.id.tv_lecture_num);
         TextView lectureName = (TextView)holder.itemView.findViewById(R.id.tv_lecture_name);
-        TextView lectureTag = (TextView)holder.itemView.findViewById(R.id.tv_playtime);
+        TextView lectureTime = (TextView)holder.itemView.findViewById(R.id.tv_playtime);
+        TextView lectureText = (TextView)holder.itemView.findViewById(R.id.tv_lec_text);
 
-        lectureNum.setText(lectureList.get(position).getlectureNum());
-        lectureName.setText(lectureList.get(position).getlectureName());
+
+        lectureText.setText(lectureList.get(position).getLec_text());
+        lectureTime.setText(lectureList.get(position).getLec_time());
+        lectureNum.setText(lectureList.get(position).getLec_order());
+        lectureName.setText(lectureList.get(position).getLec_title());
         //lectureTag.setText(lectureList.get(position).getlectureTag());
 
     }
@@ -70,7 +74,7 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
                         if(mListener != null){
-                            mListener.onItemClick(view,lectureList.get(pos).getlectureName(),lectureList.get(pos).getlectureTag());
+                            mListener.onItemClick(view,lectureList.get(pos).getLec_order());
                         }
                     }
 
