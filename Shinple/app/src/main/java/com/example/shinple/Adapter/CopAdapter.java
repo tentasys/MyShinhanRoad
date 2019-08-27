@@ -41,8 +41,9 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
         TextView copName = (TextView) holder.itemView.findViewById(R.id.tv_copname);
         TextView copRank = (TextView) holder.itemView.findViewById(R.id.tv_coprank);
         ImageView imageView = (ImageView) holder.itemView.findViewById(R.id.iv_cop);
+        String ss = "wampstack";
         Glide.with(context)
-                .load("http://192.168.1.187/img/wampstack.png")
+                .load("http://192.168.1.187/img/" + ss + ".png")
                 .into(imageView);
 
         copName.setText(my_cop_list.get(position).getCopName());

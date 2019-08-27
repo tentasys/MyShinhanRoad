@@ -18,13 +18,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <ImageView
+                android:id="@+id/iv_coptitle"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:src="?attr/colorBackgroundFloating" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cop_summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
                 android:background="#ffffff"
-                android:padding="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
@@ -37,8 +43,9 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="행복한 CoP"
-                    android:textSize="36sp"
+                    android:textSize="20dp"
                     android:textStyle="bold"
+                    android:textColor="@color/shinhan1"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +59,8 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="10dp"
                     android:text="2"
-                    android:textSize="30sp"
+                    android:textSize="20dp"
+                    android:textColor="@color/shinhan2"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/cop_rank_text"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -66,7 +74,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="10dp"
                     android:text="위"
-                    android:textSize="30sp"
+                    android:textSize="13dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -76,7 +84,7 @@
                 android:id="@+id/View2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="10dp"
                 android:background="#ffffff"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +94,6 @@
                     android:id="@+id/cop_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
@@ -94,7 +101,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="10dp"
                     android:text="    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                    android:textSize="20sp"
+                    android:textSize="14dp"
+                    android:textColor="@color/shinhan3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -103,4 +111,5 @@
 
         </LinearLayout>
     </ScrollView>
+
 </FrameLayout>
