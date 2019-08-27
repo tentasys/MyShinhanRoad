@@ -146,7 +146,7 @@ public class CopFragment extends Fragment {
                         .getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame, CopListFragment.newInstance(copName, copRank))
-                        .addToBackStack(null)
+                        .addToBackStack("cop_info")
                         .commit();
             }
         });

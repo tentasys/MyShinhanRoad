@@ -223,15 +223,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackPressed() {   //뒤로가기 키 동작
         DrawerLayout drawer = findViewById(R.id.drawer_layout); //사이드바 닫기
+        FragmentManager fm = getSupportFragmentManager();
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            int count = getSupportFragmentManager().getBackStackEntryCount();
+            int count = fm.getBackStackEntryCount();
 
             if (count == 0) {
                 backPressHandler.onBackPressed();
             } else {
-                getSupportFragmentManager().popBackStack();
+                fm.popBackStack();
             }
 
         }

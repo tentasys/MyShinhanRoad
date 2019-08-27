@@ -4,25 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.FilterFragment"
-    android:layout_marginBottom="55dp">
+    android:layout_marginBottom="55dp"
+    android:background="#FFFFFF"
+    tools:context=".Fragment.FilterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Level"
-            android:textSize="15dp"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="5dp"/>
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Level"
+            android:textSize="15dp" />
 
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="351dp"
@@ -113,11 +114,11 @@
             android:id="@+id/Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tag"
-            android:textSize="15dp"
-            android:layout_marginTop="15dp"
             android:layout_marginLeft="20dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="Tag"
+            android:textSize="15dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/CR1"
