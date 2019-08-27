@@ -4,7 +4,9 @@ public class CourseVO {
 
     String courseName;
     String courseLevel;
-    String tagName;
+    String tchName;
+    String cousrseText;
+    String courseNum;
 
     public String getcourseName() {
         return courseName;
@@ -22,17 +24,36 @@ public class CourseVO {
         this.courseLevel = courseLevel;
     }
 
-    public String gettagName() {
-        return tagName;
+    public String getTchName() {
+        return tchName;
     }
 
-    public void settagName(String tagName) {
-        this.tagName = tagName;
+    public void setTchName(String tchName) {
+        this.tchName = tchName;
     }
 
-    public CourseVO(String courseName, String courseLevel, String tagName) {
+    public String getCousrseText() {
+        return cousrseText;
+    }
+
+    public void setCousrseText(String cousrseText) {
+        this.cousrseText = cousrseText;
+    }
+
+
+    public String getCourseNum() {
+        return courseNum;
+    }
+
+    public void setCourseNum(String courseNumo) {
+        this.courseNum = courseNum;
+    }
+
+    public CourseVO(String courseName, String courseLevel,String tchName, String courseText, String courseNum) {
         this.courseName = courseName;
         this.courseLevel = courseLevel;
-        this.tagName = tagName;
+        this.tchName = tchName;
+        this.cousrseText = courseText;
+        this.courseNum = courseNum;
     }
 }

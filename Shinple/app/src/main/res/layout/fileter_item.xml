@@ -7,7 +7,7 @@
 
     <ToggleButton
         android:id="@+id/tb_tag"
-        android:layout_width="120dp"
+        android:layout_width="130dp"
         android:layout_height="40dp"
         android:layout_margin="10dp"
         android:background="@drawable/toggle_selector"

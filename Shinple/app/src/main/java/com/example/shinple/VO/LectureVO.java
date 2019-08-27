@@ -1,37 +1,48 @@
 package com.example.shinple.VO;
 
 public class LectureVO {
-    String lectureNum;
-    String lectureName;
-    String lectureTag;
+    String lec_title;
+    String lec_order;
+    String lec_text;
+    String lec_time;
 
-    public String getlectureNum() {
-        return lectureNum ;
+    public String getLec_title() {
+        return lec_title ;
     }
 
-    public void setlectureNum(String lectureNum) {
-        this.lectureNum = lectureNum;
+    public void setLec_title(String lec_title) {
+        this.lec_title = lec_title;
     }
 
-    public String getlectureName() {
-        return lectureName;
+    public String getLec_order() {
+        return lec_order;
     }
 
-    public void setlectureName(String lectureName) {
-        this.lectureName = lectureName;
+    public void setLec_order(String lec_order) {
+        this.lec_order = lec_order;
     }
 
-    public String getlectureTag() {
-        return lectureTag;
+    public String getLec_time() {
+        return lec_time;
     }
 
-    public void setlectureTag(String lectureTag) {
-        this.lectureTag = lectureTag;
+    public void setLec_time(String lec_time) {
+        this.lec_time = lec_time;
     }
 
-    public LectureVO(String lectureNum, String lectureName, String lectureTag) {
-        this.lectureNum = lectureNum;
-        this.lectureName = lectureName;
-        this.lectureTag = lectureTag;
+
+    public String getLec_text() {
+        return lec_text;
+    }
+
+    public void setLec_text(String lec_text) {
+        this.lec_text = lec_text;
+    }
+
+    public LectureVO(String lec_title, String lec_order, String lec_text, String lec_time) {
+        this.lec_title = lec_title;
+        this.lec_order = lec_order;
+        this.lec_time = lec_time;
+        this.lec_text = lec_text;
     }
 }

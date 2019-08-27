@@ -54,6 +54,7 @@ public class LectureRoomFragment extends Fragment{
 
         courseList = new ArrayList<CourseVO>();
         /*  */
+        /*
         String courseName[] ={"Name1","Name2","Name3"};
         String courseLevel[] ={"1","2","3"};
         String tagName[]={"bigdata","blockchain","AI"};
@@ -89,6 +90,7 @@ public class LectureRoomFragment extends Fragment{
                 }
             });
         }
+        */
         return v;
     }
 

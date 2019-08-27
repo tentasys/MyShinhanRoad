@@ -24,6 +24,7 @@ import com.example.shinple.VO.LectureVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class CourseListFragment extends Fragment{
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2;
     private String result_course = "";
+    private String data;
     private ArrayList<String> all = new ArrayList<String>();
 
 
@@ -93,19 +95,26 @@ public class CourseListFragment extends Fragment{
 
         adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String courseName, String courseInfo) {
+            public void onItemClick(View view, String courseName, String courseInfo,String courseNum, String courseLevel,String tch) {
                 //new CourseListFragment.BackgroundTask().execute();
+                try{
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
+                    Log.d("sss",courseNum);
+                }
+                catch (Exception e){
+                }
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("lectureList.php");
+                BackgroundTask backgroundTask = new BackgroundTask("app/lectureList.php",data);
                 try{
                     result = backgroundTask.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+                Log.d("lecture",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo, result))
+                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo,  result, courseLevel, tch, courseNum))
                         .addToBackStack(null)
                         .commit();
             }
@@ -119,19 +128,21 @@ public class CourseListFragment extends Fragment{
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String courseName, courseLevel, tagName;
+            String courseName, courseLevel, tchName, courseText, courseNum;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
                 //count는 배열의 인덱스를 의미
                 JSONObject object = jsonArray.getJSONObject(count);
 
-                courseName = object.getString("courseName");//여기서 ID가 대문자임을 유의
-                courseLevel = object.getString("courseLevel");
-                tagName= object.getString("tagName");
+                courseName = object.getString("course_title");//여기서 ID가 대문자임을 유의
+                courseLevel = object.getString("course_level");
+                tchName = object.getString("course_tch");
+                courseText= object.getString("course_text");
+                courseNum = object.getString("course_num");
 
                 //값들을 User클래스에 묶어줍니다
-                CourseVO course = new CourseVO(courseName, courseLevel, tagName);
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum);
                 courseList.add(course);//리스트뷰에 값을 추가해줍니다
                 count++;
             }

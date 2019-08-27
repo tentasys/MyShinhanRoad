@@ -18,6 +18,10 @@ import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.FilterVO;
+import com.example.shinple.VO.LectureVO;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -41,14 +45,18 @@ public class FilterFragment extends Fragment {
     private ToggleButton tb7;
     private String data;
     private ArrayList<String> alll;
+    private String tag_data;
+
+    private static final String ARG_PARM = "tag";
 
     public FilterFragment() {
         // Required empty public constructor
     }
 
-    public static FilterFragment newInstance() {
+    public static FilterFragment newInstance(String param1) {
         FilterFragment fragment = new FilterFragment();
         Bundle args = new Bundle();
+        args.putString("tag", param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,6 +65,7 @@ public class FilterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            tag_data = getArguments().getString("tag");
         }
     }
 
@@ -87,7 +96,6 @@ public class FilterFragment extends Fragment {
                 }
             }
         });
-
         tb2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -99,8 +107,6 @@ public class FilterFragment extends Fragment {
                 }
             }
         });
-
-
         tb3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -112,7 +118,6 @@ public class FilterFragment extends Fragment {
                 }
             }
         });
-
         tb4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -124,8 +129,6 @@ public class FilterFragment extends Fragment {
                 }
             }
         });
-
-
         tb5.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -137,8 +140,6 @@ public class FilterFragment extends Fragment {
                 }
             }
         });
-
-
         tb6.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -150,7 +151,6 @@ public class FilterFragment extends Fragment {
                 }
             }
         });
-
         tb7.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -168,15 +168,43 @@ public class FilterFragment extends Fragment {
         filterList = new ArrayList<FilterVO>();
         adapter = new FilterAdapter(view.getContext(), filterList);
         gridView.setAdapter(adapter);
+        // tag 값 받기
+        try{
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(tag_data);
 
 
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            int count = 0;
+
+            String tagName;
+
+            //JSON 배열 길이만큼 반복문을 실행
+            while(count < jsonArray.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(count);
+
+                tagName = object.getString("tag_name");//여기서 ID가 대문자임을 유의
+
+                //값들을 User클래스에 묶어줍니다
+                FilterVO filter = new FilterVO(tagName);
+                filterList.add(filter);//리스트뷰에 값을 추가해줍니다
+                count++;
+            }
+            filter = new String[count];
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        /*
         try{
             String []tagIdList={"빅데이터","블록체인","AI"};
             int length = tagIdList.length;
             //JSON 배열 길이만큼 반복문을 실행
             filter = new String[length];
             for(int tagnum=0; tagnum<length;tagnum++){
-                /*TODO: json 데이터 가져와 서 쪼개서 변수 넣기 */
+                //TODO: json 데이터 가져와 서 쪼개서 변수 넣기
                 String tagId = tagIdList[tagnum];
 
                 //값들을 User클래스에 묶어줍니다
@@ -188,15 +216,16 @@ public class FilterFragment extends Fragment {
             e.printStackTrace();
         } //try_catch 끝
 
+        */
         gridView.setAdapter(adapter);
 
         adapter.setOnCheckListener(new FilterAdapter.OnCheckedChangeListener() {
             @Override
             public void onCheck(View view, int pos, String Filter) {
                 filter[pos] = Filter;
-
             }
         });
+
         try{
             data = URLEncoder.encode("start", "UTF-8") + "=" + URLEncoder.encode("ok", "UTF-8");
         } catch (Exception e){
@@ -233,12 +262,13 @@ public class FilterFragment extends Fragment {
                 }
 
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("courseList.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("app/courseList.php",data);
                 try{
                     result = backgroundTask.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+                Log.d("course",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
