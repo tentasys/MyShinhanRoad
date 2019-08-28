@@ -76,6 +76,8 @@ public class LectureRoomFragment extends Fragment{
         courseList = new ArrayList<CourseVO>();
         my_cop_list = new ArrayList<CopVO>();
 
+
+
         rv_course = v.findViewById(R.id.rv_courseList);
         my_rv = v.findViewById(R.id.rv_mycop);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());

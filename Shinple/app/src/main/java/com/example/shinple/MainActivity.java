@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private String result;
     private String res;
     private String data;
+    private MemberVO member;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         // clear FLAG_TRANSLUCENT_STATUS flag:
         Intent intent = getIntent();
-        MemberVO member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
+        member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
