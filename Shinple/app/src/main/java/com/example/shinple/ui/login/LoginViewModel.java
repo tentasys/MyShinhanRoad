@@ -20,8 +20,12 @@ public class LoginViewModel  {
         this.loginRepository = loginRepository;
     }
 
+<<<<<<< HEAD
 
     public LoginRepository login(String username, String password) {
+=======
+    public boolean login(String username, String password) {
+>>>>>>> 88e3421019acf32ff10f4189f50d3639ade0fd5e
             // can be launched in a separate asynchronous job
             Result<UserVO> result = loginRepository.login(username, password);
 

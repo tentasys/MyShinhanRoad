@@ -22,6 +22,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     private Context context;
     private OnItemClickListener mListener = null ;
 
+    private String server = "https://18e1d143.ngrok.io/img/cop/";
     //constructor
     public CopAdapter(Context context, List<CopVO> list) {
         this.context = context;
@@ -41,9 +42,9 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
         TextView copName = (TextView) holder.itemView.findViewById(R.id.tv_copname);
         TextView copRank = (TextView) holder.itemView.findViewById(R.id.tv_coprank);
         ImageView imageView = (ImageView) holder.itemView.findViewById(R.id.iv_cop);
-        String ss = "wampstack";
+        String num = my_cop_list.get(position).getCopNum();
         Glide.with(context)
-                .load("https://67db0c58.ngrok.io/img/" + ss + ".png")
+                .load(server +  num + "/logo.png")
                 .into(imageView);
 
         copName.setText(my_cop_list.get(position).getCopName());
@@ -57,7 +58,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, String copName, String copRank, String copIntro);
+        void onItemClick(View view, String copName, String copRank, String copIntro, String copNum);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -75,7 +76,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
                         if(mListener != null){
-                            mListener.onItemClick(view,my_cop_list.get(pos).getCopName(),my_cop_list.get(pos).getCopRank(), my_cop_list.get(pos).getCopInfo());
+                            mListener.onItemClick(view,my_cop_list.get(pos).getCopName(),my_cop_list.get(pos).getCopRank(), my_cop_list.get(pos).getCopInfo(), my_cop_list.get(pos).getCopNum());
                         }
                     }
 

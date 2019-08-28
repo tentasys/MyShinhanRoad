@@ -28,6 +28,7 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class LectureListFragment extends Fragment {
     private String courseLv;
     private String tch;
     private String courseNum;
+    private String data;
 
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
@@ -147,13 +149,28 @@ public class LectureListFragment extends Fragment {
             }//onItemClick 끝
         });//setOnItemClickListener끝
         */
+
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String result = "";
+                try{
+                    data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
+                    Log.d("sss",courseNum);
+                } catch (Exception e){
+
+                }
+                BackgroundTask backgroundTask = new BackgroundTask("app/test.php",data);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                Log.d("test",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,TestFragment.newInstance())
+                        .replace(R.id.frame,TestFragment.newInstance(result))
                         .commit();
             }
         });
@@ -161,8 +178,8 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
-                videourl = "https://98d72f78.ngrok.io/video/"+ courseNum + "/" + lec_order + ".mp4";
-                String url =  "https://98d72f78.ngrok.io/video/"+ courseNum + "/";
+                videourl = "https://18e1d143.ngrok.io/video/"+ courseNum + "/" + lec_order + ".mp4";
+                String url =  "https://18e1d143.ngrok.io/video/"+ courseNum + "/";
                 String video = lec_order + ".mp4";
                 Log.d("order",result);
                 isFileValid();  //파일이 유효한 지1 체크
