@@ -22,7 +22,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     private Context context;
     private OnItemClickListener mListener = null ;
 
-    private String server = "https://18e1d143.ngrok.io/img/cop/";
+    private String server = "https://a28b3847.ngrok.io/img/cop/";
     //constructor
     public CopAdapter(Context context, List<CopVO> list) {
         this.context = context;

@@ -51,12 +51,15 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import java.net.URLEncoder;
 import javax.sql.DataSource;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private String result;
+    private String res;
+    private String data;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -89,10 +92,25 @@ public class MainActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         actionBar.setDisplayShowTitleEnabled(false);
+
+
         toolbar.findViewById(R.id.toolbar_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fr = MainFragment.newInstance();
+                /*try{
+                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+            }
+            catch (Exception e){
+            }
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+                Log.d("result",result);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }*/
+                fr = MainFragment.newInstance(res);
                 switchFragment(fr);
             }
         });
@@ -111,11 +129,22 @@ public class MainActivity extends AppCompatActivity
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Fragment 전환을 위한 초기 설정
+        try{
+            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+        }
+        catch (Exception e){
+        }
+        res = "";
+        BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+        try{
+            res = backgroundTask.execute().get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame, MainFragment.newInstance()).commit();
+        fragmentTransaction.add(R.id.frame, MainFragment.newInstance(res)).commit();
 
-        fr = new MainFragment();
-//        fr = new ExoPlayerFragment();
+        fr = MainFragment.newInstance(res);
         switchFragment(fr);
 
     }
@@ -185,6 +214,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                     = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -203,7 +233,6 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            Log.d("tag",result);
                             switchFragment(FilterFragment.newInstance(result));
 
                              return true;
@@ -215,13 +244,13 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            Log.d("tag",result);
                             switchFragment(CopFragment.newInstance(result));
                              return true;
         }
         return false;
         }
     };
+
     public void switchFragment(Fragment frr) {
         Fragment fr = frr;
         FragmentManager fm = getSupportFragmentManager();
