@@ -43,6 +43,11 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
+    public UserVO getLoggedInUser() {
+       return this.user;
+        // If user credentials will be cached in local storage, it is recommended it be encrypted
+        // @see https://developer.android.com/training/articles/keystore
+    }
     public Result<UserVO> login(String username, String password) {
         // handle login
         Result<UserVO> result = dataSource.login(username, password);

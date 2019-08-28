@@ -1,9 +1,11 @@
 package com.example.shinple.VO;
 
+import java.io.Serializable;
+
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
-public class UserVO {
+public class UserVO implements Serializable {
 
     private String userId;
     private String userPassword;

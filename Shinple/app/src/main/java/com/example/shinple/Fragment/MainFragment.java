@@ -17,6 +17,8 @@ import com.example.shinple.Adapter.MainSliderAdapter;
 import com.example.shinple.AutoViewpager.AutoScrollViewpager;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.VO.UserVO;
+import com.example.shinple.data.LoginRepository;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,7 +73,7 @@ public class MainFragment extends Fragment {
         learning_status = v.findViewById(R.id.learning_status);
         recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
         recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
-
+//        UserVO user = LoginRepository.getInstance();
 //        scrollView = v.findViewById(R.id.ScrollView);
 //        scrollView.setFillViewport (true);
         // 학습 현황 누르면 나의 강의실로

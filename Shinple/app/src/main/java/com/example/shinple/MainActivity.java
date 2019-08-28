@@ -1,6 +1,7 @@
 package com.example.shinple;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 
 import android.graphics.Color;
@@ -13,6 +14,8 @@ import com.example.shinple.Fragment.ExoPlayerFragment;
 import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
+import com.example.shinple.VO.UserVO;
+import com.example.shinple.data.LoginRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +50,8 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import javax.sql.DataSource;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,20 +64,20 @@ public class MainActivity extends AppCompatActivity
     BackPressHandler backPressHandler = new BackPressHandler(this);
     BottomNavigationView navView;
     TextView toolbar_title;
+
     boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         // clear FLAG_TRANSLUCENT_STATUS flag:
+        Intent intent = getIntent();
+        UserVO user = (UserVO) intent.getSerializableExtra("uservo");// finally change the color
+
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-// finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.shinhan1));    // System toolbar 색상 설정
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.white));    // System toolbar 색상 설정
         setContentView(R.layout.activity_main);
 
         //toolbar 설정
