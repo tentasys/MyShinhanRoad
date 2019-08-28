@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +64,8 @@ public class LectureListFragment extends Fragment {
     public String videourl;
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
-
+    ImageView like_button;
+    public int button01pos;
     public LectureListFragment() {
         // Required empty public constructor
     }
@@ -108,7 +110,7 @@ public class LectureListFragment extends Fragment {
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
         bt_continue = view.findViewById(R.id.bt_continue);
-
+        like_button = view.findViewById(R.id.like_button);
         tv_courseInfo.setText(courseInfo);
         tv_courseName.setText(courseName);
         tv_tch.setText(tch);
@@ -203,6 +205,21 @@ public class LectureListFragment extends Fragment {
                 } //ifelse 끝
             }//onItemClick 끝
         });//setOnItemClickListener끝
+        /* DB에서 받아오기 */
+        button01pos = 0;
+        like_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+
+               public void onClick(View view) {
+                    if (button01pos == 0) {
+                        like_button.setImageResource(R.drawable.like);
+                        button01pos = 1;
+                    } else if (button01pos == 1) {
+                        like_button.setImageResource(R.drawable.unlike);
+                        button01pos = 0;
+                    }
+                }
+        });
 
 
         try{
