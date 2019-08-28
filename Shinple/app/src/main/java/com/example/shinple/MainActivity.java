@@ -14,7 +14,8 @@ import com.example.shinple.Fragment.ExoPlayerFragment;
 import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
-import com.example.shinple.VO.UserVO;
+import com.example.shinple.VO.MemberVO;
+import com.example.shinple.VO.MemberVO;
 import com.example.shinple.data.LoginRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         // clear FLAG_TRANSLUCENT_STATUS flag:
         Intent intent = getIntent();
-        UserVO user = (UserVO) intent.getSerializableExtra("uservo");// finally change the color
+        MemberVO member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
