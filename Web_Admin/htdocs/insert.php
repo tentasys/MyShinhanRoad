@@ -10,35 +10,41 @@ header("Content-Type: text/html; charset=UTF-8");   //UTF-8 설정
 
  
 
-    mysqli_connect("localhost", "root", "") or die (mysqli_error()); 
-
-    mysqli_select_db(""); 
+    $con = mysqli_connect('192.168.1.134', 'root', '', 'shinple'); 
+ 
 
  
 
-    $problem_num = 1;     // ComName(회사명)을 POST 방식으로 받습니다. 
-
-    $course_name = $_POST["course_name"];                   // Name(이름)
-
-    $problem_answer = $_POST["problem_answer"];                        // Mail(이메일)
-
-    $problem_no1 = $_POST["problem_no1"];             //  Telnum(전화번호)
-
-    $problem_no2 = $_POST["problem_no2"];                   //  Radio(라디오버튼의 값)
-
-    $problem_no3 = $_POST["problem_no3"];              //  Combo(콤보박스의 값)
-
-    $problem_no4 = $_POST["problem_no4"];                      //  Text(문의내용)
-
  
+
+
 
     //쿼리를 통해 넘어온 값을 DB에 INSERT 합니다.
+    for($i=0; $i<=4; $i++){
+        
+        $problem_num = [1,2,3,4,5][$i];     // ComName(회사명)을 POST 방식으로 받습니다. 
 
-    $sql = "insert into problem (problem_num, course_name, problem_answer, problem_no1, problem_no2, problem_no3, problem_no4) 
+        $course_name = $_POST["course_name"][0];                   // Name(이름)
 
-                values ('1', '$course_name', '$problem_answer', '$problem_no1', '$problem_no2', '$problem_no3', '$problem_no4')";
+        $problem_answer = $_POST["problem_answer"][$i];                        // Mail(이메일)
 
-    mysql_query($sql) or die (mysql_error());
+        $problem_txt = $_POST["problem_txt"][$i];  
+
+        $problem_no1 = $_POST["problem_no1"][$i];             //  Telnum(전화번호)ij
+
+        $problem_no2 = $_POST["problem_no2"][$i];                   //  Radio(라디오버튼의 값)
+
+        $problem_no3 = $_POST["problem_no3"][$i];              //  Combo(콤보박스의 값)
+
+        $problem_no4 = $_POST["problem_no4"][$i];                      //  Text(문의내용)
+        
+        
+		$sql = "INSERT INTO `problem` VALUES ('$problem_num', '$course_name', '$problem_answer','$problem_txt' ,'$problem_no1', '$problem_no2', '$problem_no3', '$problem_no4')";
+
+        mysqli_query($con, $sql);
+	}
+    
+
 
  
 
@@ -52,9 +58,9 @@ header("Content-Type: text/html; charset=UTF-8");   //UTF-8 설정
 
         <script name=javascript>
 
-            location.href='http://www.innergy.co.kr/EXER/input_form.php'; 
+            location.href='test_write.php'; 
 
-            self.window.alert('빠른 시간 안에 연락드리겠습니다!');
+            self.window.alert('등록이가 완료됬습니다.');
 
         </script>
 
@@ -65,3 +71,5 @@ header("Content-Type: text/html; charset=UTF-8");   //UTF-8 설정
  
 
 ");
+    mysqli_close($con);
+    ?>
