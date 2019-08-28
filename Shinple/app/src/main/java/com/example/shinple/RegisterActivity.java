@@ -78,15 +78,16 @@ public class RegisterActivity extends AppCompatActivity {
                     data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(unum, "UTF-8");
                     data+= "&"+URLEncoder.encode("mem_name","UTF-8")+"="+ URLEncoder.encode(uname,"UTF-8");
                     data+= "&"+URLEncoder.encode("mem_password","UTF-8")+"="+ URLEncoder.encode(upassword,"UTF-8");
-                    data+= "&"+URLEncoder.encode("mem_code","UTF-8")+"="+ URLEncoder.encode("2","UTF-8");
-                    Log.d("WoWWEWEW",data);
+                    data+= "&"+URLEncoder.encode("mem_code","UTF-8")+"="+ URLEncoder.encode(ucode,"UTF-8");
+                    Log.d("ddd",ucode);
                 } catch (Exception e){
                 }
                 String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("https://192.168.1.134/UserRegister.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("app/UserRegister.php",data);
                 try{
                     result = backgroundTask.execute().get();
                     onResponse(result);
+                    Log.d("ssss",result);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -94,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
     public void onResponse(String response){
-        if(response.equals("success")){
+        if(response == "success"){
             Toast.makeText(this, "회원가입 성공했습니다.",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);

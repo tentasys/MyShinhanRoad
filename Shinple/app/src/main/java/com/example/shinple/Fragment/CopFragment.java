@@ -32,11 +32,13 @@ import java.util.List;
 public class CopFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "cop";
+
+
     private CopAdapter my_cop_adapter;
-    private CopAdapter total_cop_adapter;
     private List<CopVO> my_cop_list;
-    private List<CopVO> total_cop_list;
     private RecyclerView my_rv;
+    private CopAdapter total_cop_adapter;
+    private List<CopVO> total_cop_list;
     private RecyclerView total_rv;
     private String result;
 

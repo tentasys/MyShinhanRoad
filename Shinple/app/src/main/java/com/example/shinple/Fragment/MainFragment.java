@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.shinple.Adapter.FilterAdapter;
 import com.example.shinple.Adapter.MainSliderAdapter;
 import com.example.shinple.Adapter.RecentGridAdapter;
 import com.example.shinple.AutoViewpager.AutoScrollViewpager;
+import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 
@@ -30,6 +32,7 @@ import com.example.shinple.VO.LectureVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -42,6 +45,7 @@ public class MainFragment extends Fragment {
     private GridView GV;
     private List<LectureVO> lectureList = new ArrayList<LectureVO>();
     private String MainResult;
+    private String data;
 
     /* 이미지 슬라이더 관련 부분 */
     MainSliderAdapter adapter;
@@ -102,10 +106,27 @@ public class MainFragment extends Fragment {
         learning_status.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                String result1 = "";
+                String result2 = "";
+                try{
+                    data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+                } catch (Exception e){
+
+                }
+                BackgroundTask backgroundTask = new BackgroundTask("app/mycoplist.php",data);
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/mycourselist.php",data);
+                try{
+                    result1 = backgroundTask.execute().get();
+                    Log.d("result1",result1);
+                    result2 = backgroundTask2.execute().get();
+                    Log.d("result2",result2);
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureRoomFragment.newInstance())
+                        .replace(R.id.frame,LectureRoomFragment.newInstance(result1,result2))
                         .addToBackStack("lectureroom")
                         .commit();
             }
