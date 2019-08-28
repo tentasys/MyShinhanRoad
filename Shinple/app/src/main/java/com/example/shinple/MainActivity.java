@@ -142,9 +142,6 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame, MainFragment.newInstance(res)).commit();
-
         fr = MainFragment.newInstance(res);
         switchFragment(fr);
 
@@ -223,8 +220,24 @@ public class MainActivity extends AppCompatActivity
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            fr = new LectureRoomFragment();  //내 강의실
-                            switchFragment(fr);
+                            String result1 = "";
+                            String result2 = "";
+                            try{
+                                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+                            } catch (Exception e){
+
+                            }
+                            BackgroundTask backgroundTask3 = new BackgroundTask("app/mycoplist.php",data);
+                            BackgroundTask backgroundTask4 = new BackgroundTask("app/mycourselist.php",data);
+                            try{
+                                result1 = backgroundTask3.execute().get();
+                                Log.d("result1",result1);
+                                result2 = backgroundTask4.execute().get();
+                                Log.d("result2",result2);
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            switchFragment(LectureRoomFragment.newInstance(result1,result2));
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
                             result = "";
