@@ -20,13 +20,12 @@ import com.example.shinple.Adapter.RecentGridAdapter;
 import com.example.shinple.AutoViewpager.AutoScrollViewpager;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
-<<<<<<< HEAD
+
 import com.example.shinple.VO.UserVO;
 import com.example.shinple.data.LoginRepository;
-=======
+
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
->>>>>>> 88e3421019acf32ff10f4189f50d3639ade0fd5e
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -89,15 +88,14 @@ public class MainFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         learning_status = v.findViewById(R.id.learning_status);
-<<<<<<< HEAD
-        recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
-        recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
+
+        //recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
+        //recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
 //        UserVO user = LoginRepository.getInstance();
-=======
+
         //recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
         //recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
 
->>>>>>> 88e3421019acf32ff10f4189f50d3639ade0fd5e
 //        scrollView = v.findViewById(R.id.ScrollView);
 //        scrollView.setFillViewport (true);
         // 학습 현황 누르면 나의 강의실로
