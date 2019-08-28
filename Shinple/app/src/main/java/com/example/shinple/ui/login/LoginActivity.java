@@ -26,7 +26,11 @@ import android.widget.Toast;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.RegisterActivity;
+<<<<<<< HEAD
+import com.example.shinple.VO.MemberVO;
+=======
 import com.example.shinple.VO.UserVO;
+>>>>>>> 5cee65893da87c656dd20b470b46cf0ebb65fdee
 import com.example.shinple.data.LoginDataSource;
 import com.example.shinple.data.LoginRepository;
 
@@ -37,7 +41,11 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton ;
     Button regButton;
     ProgressBar loadingProgressBar;
+<<<<<<< HEAD
+    MemberVO loginResult;
+=======
     UserVO loginResult;
+>>>>>>> 5cee65893da87c656dd20b470b46cf0ebb65fdee
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +106,12 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser() {
         // TODO : initiate successful logged in experience
         Intent intent = new Intent(this, MainActivity.class);
+<<<<<<< HEAD
+        intent.putExtra("member",loginResult);
+=======
         intent.putExtra("uservo",loginResult);
 
+>>>>>>> 5cee65893da87c656dd20b470b46cf0ebb65fdee
         startActivity(intent);
     }
 
