@@ -208,8 +208,7 @@ public class LectureListFragment extends Fragment {
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(result);
-
-
+            
             //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;

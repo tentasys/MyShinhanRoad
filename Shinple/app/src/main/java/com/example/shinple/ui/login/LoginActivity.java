@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton ;
     Button regButton;
     ProgressBar loadingProgressBar;
+    LoginRepository loginResult;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,11 +71,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                boolean loginResult = loginViewModel.login(userIdEditText.getText().toString(),
+                loginResult = loginViewModel.login(userIdEditText.getText().toString(),
                         passwordEditText.getText().toString());
 
-                if(loginResult)         //성공하면 이동할 뷰
+                if(loginResult!=null) { //성공하면 이동할 뷰
                     updateUiWithUser();
+                }
                 else     //실패하면 띄울 다이얼로그
                     showLoginFailed();
 
@@ -95,6 +97,8 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser() {
         // TODO : initiate successful logged in experience
         Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("uservo",loginResult.getLoggedInUser());
+
         startActivity(intent);
     }
 
@@ -102,4 +106,5 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed() {
         Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
     }
+
 }

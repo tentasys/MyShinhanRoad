@@ -1,6 +1,7 @@
 package com.example.shinple;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 
 import android.graphics.Color;
@@ -13,6 +14,8 @@ import com.example.shinple.Fragment.ExoPlayerFragment;
 import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
+import com.example.shinple.VO.UserVO;
+import com.example.shinple.data.LoginRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -47,7 +50,11 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+<<<<<<< HEAD
 import java.net.URLEncoder;
+=======
+import javax.sql.DataSource;
+>>>>>>> ebda3bb6f92a790c93f7d68e73d17432b43763fd
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
