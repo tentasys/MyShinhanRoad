@@ -23,6 +23,9 @@ import com.example.shinple.R;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -31,12 +34,10 @@ import java.util.TimerTask;
 
 public class MainFragment extends Fragment {
     ConstraintLayout learning_status;
-    ConstraintLayout recent_course_layout1;
-    ConstraintLayout recent_course_layout2;
-
     private RecentGridAdapter GA;
     private GridView GV;
-    private List<LectureVO> lectureList;
+    private List<LectureVO> lectureList = new ArrayList<LectureVO>();
+    private String MainResult;
 
     /* 이미지 슬라이더 관련 부분 */
     MainSliderAdapter adapter;
@@ -59,17 +60,20 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         // Required empty public constructor
     }
-    public static MainFragment newInstance() {
-        return new MainFragment();
+    public static MainFragment newInstance(String result) {
+        MainFragment fragment = new MainFragment();
+        Bundle args = new Bundle();
+        args.putString("result", result);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            MainResult = getArguments().getString("result");
         }
-
-
     }
 
     @Override
@@ -98,16 +102,44 @@ public class MainFragment extends Fragment {
             }
         });
 
+        try{
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(MainResult);
+
+
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            int count = 0;
+
+            String lec_title, lec_order, lec_text, lec_time;
+
+            //JSON 배열 길이만큼 반복문을 실행
+            while(count < jsonArray.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(count);
+
+                lec_title = object.getString("lec_title");//여기서 ID가 대문자임을 유의
+                lec_order = object.getString("lec_order");
+                lec_text = object.getString("lec_text");
+                lec_time = object.getString("lec_time");
+
+                //값들을 User클래스에 묶어줍니다
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time);
+                lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
+                count++;
+            }
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
 
         // 차후 변수값을 DB를 읽는걸로 바꿈
-        int i = 1;
-        if (i == 1){
+
             GV = v.findViewById(R.id.gv_recent);
-            lectureList = new ArrayList<LectureVO>();
             GA = new RecentGridAdapter(v.getContext(), lectureList);
             GV.setAdapter(GA);
 
-            try{
+            /*try{
                 String [] lecName={"빅데이터","블록체인"};
                 String [] lecInfo={"빅데이터강의 설명입니다","블록체인강의설명입니다."};
                 String [] lecNum={"1","1"};
@@ -130,12 +162,7 @@ public class MainFragment extends Fragment {
             }catch(Exception e){
                 e.printStackTrace();
             } //try_catch 끝
-        }
-        else {
-            GV = v.findViewById(R.id.gv_recent);
-            GV.setBackgroundResource(R.drawable.no_image);
-        }
-
+        */
 
 
 
@@ -231,5 +258,4 @@ public class MainFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
-
 }

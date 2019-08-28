@@ -178,8 +178,8 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
-                videourl = "https://18e1d143.ngrok.io/video/"+ courseNum + "/" + lec_order + ".mp4";
-                String url =  "https://18e1d143.ngrok.io/video/"+ courseNum + "/";
+                videourl = "https://a28b3847.ngrok.io//video/"+ courseNum + "/" + lec_order + ".mp4";
+                String url =  "https://a28b3847.ngrok.io//video/"+ courseNum + "/";
                 String video = lec_order + ".mp4";
                 Log.d("order",result);
                 isFileValid();  //파일이 유효한 지1 체크
