@@ -13,7 +13,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.shinple.data.Result;
 import com.example.shinple.ui.login.LoginActivity;
+
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
 
@@ -79,11 +82,11 @@ public class RegisterActivity extends AppCompatActivity {
                     data+= "&"+URLEncoder.encode("mem_name","UTF-8")+"="+ URLEncoder.encode(uname,"UTF-8");
                     data+= "&"+URLEncoder.encode("mem_password","UTF-8")+"="+ URLEncoder.encode(upassword,"UTF-8");
                     data+= "&"+URLEncoder.encode("mem_code","UTF-8")+"="+ URLEncoder.encode(ucode,"UTF-8");
-                    Log.d("ddd",ucode);
                 } catch (Exception e){
                 }
                 String result = "";
                 BackgroundTask backgroundTask = new BackgroundTask("app/UserRegister.php",data);
+                Log.d("Tttt",data);
                 try{
                     result = backgroundTask.execute().get();
                     onResponse(result);
@@ -94,14 +97,21 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
     public void onResponse(String response){
-        if(response == "success"){
+        Log.d("sssssssss",response);
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+        if(jsonObject.getString("response") != null){
             Toast.makeText(this, "회원가입 성공했습니다.",Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "회원가입 실패했습니다.",Toast.LENGTH_SHORT).show();
+        }
+        } catch (Exception e){
+
         }
     }
 }

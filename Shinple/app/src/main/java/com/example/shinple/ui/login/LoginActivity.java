@@ -52,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -107,6 +106,7 @@ public class LoginActivity extends AppCompatActivity {
     //Toast.LENGTH_SHORT로 에러메세지 저장
     private void showLoginFailed() {
         Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
+        loadingProgressBar.setVisibility(View.GONE);
     }
 
 }

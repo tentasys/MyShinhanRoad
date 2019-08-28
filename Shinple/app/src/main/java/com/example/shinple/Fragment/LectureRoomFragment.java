@@ -91,7 +91,7 @@ public class LectureRoomFragment extends Fragment{
         my_rv.setAdapter(my_cop_adapter);
 
 
-
+        ((MainActivity)getActivity().onCreateView().
 
 
 
