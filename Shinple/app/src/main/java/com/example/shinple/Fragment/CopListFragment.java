@@ -19,17 +19,21 @@ public class CopListFragment extends Fragment{
 
     private String cop_name;
     private String cop_rank;
+    private String cop_num;
     private String cop_intro;
+
+    private String server = "https://18e1d143.ngrok.io/img/cop/";
 
     public CopListFragment() {
     }
 
-    public static CopListFragment newInstance(String param1, String param2, String param3) {
+    public static CopListFragment newInstance(String param1, String param2, String param3, String param4) {
         CopListFragment fragment = new CopListFragment();
         Bundle args = new Bundle();
         args.putString("cop_name", param1);
         args.putString("cop_rank", param2);
         args.putString("cop_intro",param3);
+        args.putString("cop_num",param4);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,6 +50,7 @@ public class CopListFragment extends Fragment{
             cop_name = getArguments().getString("cop_name");
             cop_rank = getArguments().getString("cop_rank");
             cop_intro = getArguments().getString("cop_intro");
+            cop_num = getArguments().getString("cop_num");
         }
     }
 
@@ -59,8 +64,10 @@ public class CopListFragment extends Fragment{
         TextView copRank = (TextView) view.findViewById(R.id.cop_rank);
         TextView copText = (TextView) view.findViewById(R.id.cop_description);
 
+
         Glide.with(getContext())
-                .load("https://67db0c58.ngrok.io/img/sample.jpg")
+                .load(server + cop_num + "/background.png")
+                .override(205, 90)
                 .centerCrop()
                 .into(imageView);
 

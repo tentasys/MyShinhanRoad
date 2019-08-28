@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#dbdbdb"
+            android:background="#eeeeee"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -208,6 +208,7 @@
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="5dp"
                     android:text="블록체인이 어쩌구 저쩌구 하는 강의입니다. 열심히 들으세여"
+                    android:textColor="@color/shinhan3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

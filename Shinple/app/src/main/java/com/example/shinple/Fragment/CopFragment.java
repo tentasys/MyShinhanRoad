@@ -67,7 +67,7 @@ public class CopFragment extends Fragment {
         ////////////////////////////////////
         //내 CoP 리스트
         //리스트 생성
-        my_cop_list = new ArrayList<CopVO>();
+        total_cop_list = new ArrayList<CopVO>();
 
         /*String my_cop_name[] = {"블록체인 모임", "클라우드 모임", "핀테크 모임", "핀테크 모임2"};
         String my_cop_rank[] = {"1", "3", "17", "22"};
@@ -82,21 +82,28 @@ public class CopFragment extends Fragment {
         }*/
 
         //레이아웃, 아답터 설정
-        my_rv = view.findViewById(R.id.my_cop_list);
+
+        total_rv = view.findViewById(R.id.total_cop_list);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
+        total_rv.setLayoutManager(layoutManager);
+        total_cop_adapter = new CopAdapter(view.getContext(), total_cop_list);
+        total_rv.setAdapter(total_cop_adapter);
+
+        /*my_rv = view.findViewById(R.id.my_cop_list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext(), RecyclerView.VERTICAL, false);
         my_rv.setLayoutManager(layoutManager);
         my_cop_adapter = new CopAdapter(view.getContext(), my_cop_list);
-        my_rv.setAdapter(my_cop_adapter);
+        my_rv.setAdapter(my_cop_adapter);*/
 
         //Cop를 눌렀을때 해당 CoP 정보 란으로 이동
-        my_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
+        total_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, String copName, String copRank, String copIntro) {
+            public void onItemClick(View v, String copName, String copRank, String copIntro, String copNum) {
 
                 ((MainActivity) v.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame, CopListFragment.newInstance(copName, copRank, copIntro))
+                        .replace(R.id.frame, CopListFragment.newInstance(copName, copRank, copIntro, copNum))
                         .addToBackStack(null)
                         .commit();
             }
@@ -111,7 +118,7 @@ public class CopFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String copName, copRank, copIntro;
+            String copName, copRank, copIntro, copNum;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -121,10 +128,11 @@ public class CopFragment extends Fragment {
                 copName = object.getString("cop_name");//여기서 ID가 대문자임을 유의
                 copRank = object.getString("cop_rank");
                 copIntro = object.getString("cop_intro");
+                copNum = object.getString("cop_num");
 
                 //값들을 User클래스에 묶어줍니다
-                CopVO cop = new CopVO(copName, copRank, copIntro);
-                my_cop_list.add(cop);//리스트뷰에 값을 추가해줍니다
+                CopVO cop = new CopVO(copName, copRank, copIntro, copNum);
+                total_cop_list.add(cop);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
 

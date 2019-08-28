@@ -21,7 +21,11 @@ import com.example.shinple.Adapter.TestAdapter;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.QuizVO;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.*;
 import java.util.ArrayList;
@@ -35,21 +39,28 @@ public class TestFragment extends Fragment {
     private String result = "";
     private Button submit;
 // 정답 받는 부분
-    private int answer_check[] = {1,2,4};
-    private int answer_list[] = new int[3];
+    private int answer_check[];
+    private int answer_list[];
     private int count = 0;
     private float score = 0;
 
     public TestFragment() {
     }
 
-    public static TestFragment newInstance() { return new TestFragment();}
+    public static TestFragment newInstance(String param1) {
+        TestFragment fragment = new TestFragment();
+        Bundle args = new Bundle();
+        args.putString("test", param1);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            result = getArguments().getString("test");
         }
     }
 
@@ -60,28 +71,47 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
 
         testList = new ArrayList<QuizVO>();
-        String question[] ={"aaaaa","bbbbb","ccccc"};
-        String example[] ={"ㅁㄴㄴㄴㄴㄴㅇ","ㅁㄴㅇㅁㄴㅇ","sdsdsf","aabasbasdb"};
-
-        int length =question.length;
-        for(int each_test=0;each_test<length;each_test++) {
-            String each_question = question[each_test];
-            String each_example = example[each_test];
-
-            QuizVO course = new QuizVO(each_question, each_example);
-            testList.add(course);
-        }
-
 
         rv_quiz = v.findViewById(R.id.rv_quiz);
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
-
         rv_quiz.setLayoutManager(layoutManager);
-
         adapter = new TestAdapter(v.getContext(),testList);
-
         rv_quiz.setAdapter(adapter);
+
+        try{
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(result);
+
+
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            int count = 0;
+            answer_check = new int[jsonArray.length()];
+            answer_list = new int[jsonArray.length()];
+            String quizNum, question, quiz1, quiz2, quiz3, quiz4, answer;
+
+            //JSON 배열 길이만큼 반복문을 실행
+            while(count < jsonArray.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(count);
+
+                quizNum = object.getString("quiz_num");//여기서 ID가 대문자임을 유의
+                question = object.getString("question");
+                quiz1 = object.getString("quiz1");
+                quiz2 = object.getString("quiz2");
+                quiz3 = object.getString("quiz3");
+                quiz4 = object.getString("quiz4");
+                answer = object.getString("answer");
+                answer_check[count] = Integer.parseInt(answer);
+                //값들을 User클래스에 묶어줍니다
+                QuizVO quiz = new QuizVO(quizNum, question, quiz1, quiz2, quiz3, quiz4, answer);
+                testList.add(quiz);//리스트뷰에 값을 추가해줍니다
+                count++;
+            }
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+
 
         adapter.setOnItemClickListener(new TestAdapter.OnItemClickListener() {
             @Override

@@ -1,5 +1,7 @@
 package com.example.shinple.VO;
 
+import java.util.logging.Level;
+
 public class LectureVO {
     String lec_title;
     String lec_order;

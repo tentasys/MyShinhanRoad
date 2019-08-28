@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,12 +48,19 @@ public class TestAdapter extends RecyclerView.Adapter<TestAdapter.ViewHolder> {
     ///////////////////////////////////////
     @Override
     public void onBindViewHolder(TestAdapter.ViewHolder holder, int position) {
+        TextView question = (TextView) holder.itemView.findViewById(R.id.tv_quiz);
+        TextView quesNum = (TextView) holder.itemView.findViewById(R.id.tv_quiz_num);
         RadioButton rb1 = (RadioButton)holder.itemView.findViewById(R.id.rb_1);
-        RadioButton rb2 = (RadioButton)holder.itemView.findViewById(R.id.rb_3);
+        RadioButton rb2 = (RadioButton)holder.itemView.findViewById(R.id.rb_2);
+        RadioButton rb3 = (RadioButton)holder.itemView.findViewById(R.id.rb_3);
+        RadioButton rb4 = (RadioButton)holder.itemView.findViewById(R.id.rb_4);
 
-
-        rb1.setText(testList.get(position).getquestion());
-        rb2.setText(testList.get(position).getexample());
+        quesNum.setText(testList.get(position).getQuizNum());
+        question.setText(testList.get(position).getquestion());
+        rb1.setText(testList.get(position).getQuiz1());
+        rb2.setText(testList.get(position).getQuiz2());
+        rb3.setText(testList.get(position).getQuiz3());
+        rb4.setText(testList.get(position).getQuiz4());
     }
 
 

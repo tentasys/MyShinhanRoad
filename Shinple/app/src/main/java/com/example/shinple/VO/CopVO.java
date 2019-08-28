@@ -4,6 +4,7 @@ public class CopVO {
     String copName;
     String copRank;
     String copInfo;
+    String copNum;
 
     public String getCopName() {
         return copName;
@@ -29,9 +30,18 @@ public class CopVO {
         this.copInfo = copInfo;
     }
 
-    public CopVO(String copName, String copRank, String copInfo) {
+    public String getCopNum() {
+        return copNum;
+    }
+
+    public void setCopNum(String copNum) {
+        this.copNum = copNum;
+    }
+
+    public CopVO(String copName, String copRank, String copInfo, String copNum) {
         this.copName = copName;
         this.copRank = copRank;
         this.copInfo = copInfo;
+        this.copNum = copNum;
     }
 }
