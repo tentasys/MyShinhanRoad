@@ -1,6 +1,7 @@
 package com.example.shinple;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 
 import android.graphics.Color;
@@ -13,6 +14,9 @@ import com.example.shinple.Fragment.ExoPlayerFragment;
 import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
+import com.example.shinple.VO.MemberVO;
+import com.example.shinple.VO.MemberVO;
+import com.example.shinple.data.LoginRepository;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -47,10 +51,16 @@ import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import java.net.URLEncoder;
+import javax.sql.DataSource;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private String result;
+    private String res;
+    private String data;
+    private MemberVO member;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -59,20 +69,20 @@ public class MainActivity extends AppCompatActivity
     BackPressHandler backPressHandler = new BackPressHandler(this);
     BottomNavigationView navView;
     TextView toolbar_title;
+
     boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         // clear FLAG_TRANSLUCENT_STATUS flag:
+        Intent intent = getIntent();
+        member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
+
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-// add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-
-// finally change the color
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.shinhan1));    // System toolbar 색상 설정
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.white));    // System toolbar 색상 설정
         setContentView(R.layout.activity_main);
 
         //toolbar 설정
@@ -83,10 +93,25 @@ public class MainActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         actionBar.setDisplayShowTitleEnabled(false);
+
+
         toolbar.findViewById(R.id.toolbar_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fr = MainFragment.newInstance();
+                /*try{
+                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+            }
+            catch (Exception e){
+            }
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+                Log.d("result",result);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }*/
+                fr = MainFragment.newInstance(res);
                 switchFragment(fr);
             }
         });
@@ -105,11 +130,19 @@ public class MainActivity extends AppCompatActivity
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         //Fragment 전환을 위한 초기 설정
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frame, MainFragment.newInstance()).commit();
-
-        fr = new MainFragment();
-//        fr = new ExoPlayerFragment();
+        try{
+            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+        }
+        catch (Exception e){
+        }
+        res = "";
+        BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+        try{
+            res = backgroundTask.execute().get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        fr = MainFragment.newInstance(res);
         switchFragment(fr);
 
     }
@@ -179,6 +212,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
                     = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -186,8 +220,24 @@ public class MainActivity extends AppCompatActivity
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     switch (item.getItemId()) {
                         case R.id.navigation_home:
-                            fr = new LectureRoomFragment();  //내 강의실
-                            switchFragment(fr);
+                            String result1 = "";
+                            String result2 = "";
+                            try{
+                                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+                            } catch (Exception e){
+
+                            }
+                            BackgroundTask backgroundTask3 = new BackgroundTask("app/mycoplist.php",data);
+                            BackgroundTask backgroundTask4 = new BackgroundTask("app/mycourselist.php",data);
+                            try{
+                                result1 = backgroundTask3.execute().get();
+                                Log.d("result1",result1);
+                                result2 = backgroundTask4.execute().get();
+                                Log.d("result2",result2);
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            switchFragment(LectureRoomFragment.newInstance(result1,result2));
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
                             result = "";
@@ -197,7 +247,6 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            Log.d("tag",result);
                             switchFragment(FilterFragment.newInstance(result));
 
                              return true;
@@ -209,13 +258,13 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            Log.d("tag",result);
                             switchFragment(CopFragment.newInstance(result));
                              return true;
         }
         return false;
         }
     };
+
     public void switchFragment(Fragment frr) {
         Fragment fr = frr;
         FragmentManager fm = getSupportFragmentManager();

@@ -1,6 +1,6 @@
 package com.example.shinple.data;
 
-import com.example.shinple.VO.UserVO;
+import com.example.shinple.VO.MemberVO;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -14,7 +14,7 @@ public class LoginRepository {
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
-    private UserVO user = null;
+    private MemberVO user = null;
 
     // private constructor : singleton access
     private LoginRepository(LoginDataSource dataSource) {
@@ -37,17 +37,22 @@ public class LoginRepository {
         dataSource.logout();
     }
 
-    private void setLoggedInUser(UserVO user) {
+    private void setLoggedInUser(MemberVO user) {
         this.user = user;
         // If user credentials will be cached in local storage, it is recommended it be encrypted
         // @see https://developer.android.com/training/articles/keystore
     }
 
-    public Result<UserVO> login(String username, String password) {
+    public MemberVO getLoggedInUser() {
+       return this.user;
+        // If user credentials will be cached in local storage, it is recommended it be encrypted
+        // @see https://developer.android.com/training/articles/keystore
+    }
+    public Result<MemberVO> login(String mem_num, String mem_password) {
         // handle login
-        Result<UserVO> result = dataSource.login(username, password);
+        Result<MemberVO> result = dataSource.login(mem_num, mem_password);
         if (result instanceof Result.Success) {
-            setLoggedInUser(((Result.Success<UserVO>) result).getData());
+            setLoggedInUser(((Result.Success<MemberVO>) result).getData());
         }
         return result;
     }

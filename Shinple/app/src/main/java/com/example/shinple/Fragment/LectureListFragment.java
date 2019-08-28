@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,9 +62,12 @@ public class LectureListFragment extends Fragment {
     private Button bt_test;
     private LinearLayout bt_continue;
     public String videourl;
+    int like_number;
+    TextView like_num;
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
-
+    ImageView like_button;
+    public int button01pos;
     public LectureListFragment() {
         // Required empty public constructor
     }
@@ -108,7 +112,8 @@ public class LectureListFragment extends Fragment {
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
         bt_continue = view.findViewById(R.id.bt_continue);
-
+        like_button = view.findViewById(R.id.like_button);
+        like_num = view.findViewById(R.id.like_num);
         tv_courseInfo.setText(courseInfo);
         tv_courseName.setText(courseName);
         tv_tch.setText(tch);
@@ -178,8 +183,8 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
-                videourl = "https://18e1d143.ngrok.io/video/"+ courseNum + "/" + lec_order + ".mp4";
-                String url =  "https://18e1d143.ngrok.io/video/"+ courseNum + "/";
+                videourl = "https://a28b3847.ngrok.io//video/"+ courseNum + "/" + lec_order + ".mp4";
+                String url =  "https://a28b3847.ngrok.io//video/"+ courseNum + "/";
                 String video = lec_order + ".mp4";
                 Log.d("order",result);
                 isFileValid();  //파일이 유효한 지1 체크
@@ -203,13 +208,33 @@ public class LectureListFragment extends Fragment {
                 } //ifelse 끝
             }//onItemClick 끝
         });//setOnItemClickListener끝
+        /* DB에서 받아오기 */
+        button01pos = 0;
+        like_number = 0;
+        like_num.setText(0);
+        like_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+
+               public void onClick(View view) {
+                    if (button01pos == 0) {
+                        like_button.setImageResource(R.drawable.like);
+                        button01pos = 1;
+                        like_number++;
+                        like_num.setText(like_number);
+                    } else if (button01pos == 1) {
+                        like_button.setImageResource(R.drawable.unlike);
+                        button01pos = 0;
+                        like_number--;
+                        like_num.setText(like_number);
+                    }
+                }
+        });
 
 
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(result);
-
-
+            
             //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;

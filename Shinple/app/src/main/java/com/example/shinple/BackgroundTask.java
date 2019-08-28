@@ -1,5 +1,6 @@
 package com.example.shinple;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,7 +15,7 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
 
     String target;
     String param1;
-    String server = "https://18e1d143.ngrok.io/";
+    String server = "https://a28b3847.ngrok.io/";
     // 서버 주소 저장
     public BackgroundTask(String target) {
         super();

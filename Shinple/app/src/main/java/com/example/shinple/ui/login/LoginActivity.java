@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.RegisterActivity;
+import com.example.shinple.VO.MemberVO;
 import com.example.shinple.data.LoginDataSource;
 import com.example.shinple.data.LoginRepository;
 
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton ;
     Button regButton;
     ProgressBar loadingProgressBar;
+    MemberVO loginResult;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
 
             @Override
@@ -70,11 +72,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                boolean loginResult = loginViewModel.login(userIdEditText.getText().toString(),
+                loginResult = loginViewModel.login(userIdEditText.getText().toString(),
                         passwordEditText.getText().toString());
 
-                if(loginResult)         //성공하면 이동할 뷰
+                if(loginResult!=null) { //성공하면 이동할 뷰
                     updateUiWithUser();
+                }
                 else     //실패하면 띄울 다이얼로그
                     showLoginFailed();
 
@@ -95,11 +98,15 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser() {
         // TODO : initiate successful logged in experience
         Intent intent = new Intent(this, MainActivity.class);
+
+        intent.putExtra("member",loginResult);
         startActivity(intent);
     }
 
     //Toast.LENGTH_SHORT로 에러메세지 저장
     private void showLoginFailed() {
         Toast.makeText(getApplicationContext(), "로그인에 실패했습니다.", Toast.LENGTH_SHORT).show();
+        loadingProgressBar.setVisibility(View.GONE);
     }
+
 }

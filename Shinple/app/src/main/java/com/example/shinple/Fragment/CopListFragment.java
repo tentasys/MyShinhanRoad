@@ -22,7 +22,7 @@ public class CopListFragment extends Fragment{
     private String cop_num;
     private String cop_intro;
 
-    private String server = "https://18e1d143.ngrok.io/img/cop/";
+    private String server = "https://a28b3847.ngrok.io/img/cop/";
 
     public CopListFragment() {
     }
@@ -67,7 +67,6 @@ public class CopListFragment extends Fragment{
 
         Glide.with(getContext())
                 .load(server + cop_num + "/background.png")
-                .override(205, 90)
                 .centerCrop()
                 .into(imageView);
 

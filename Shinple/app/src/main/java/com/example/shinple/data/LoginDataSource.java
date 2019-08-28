@@ -1,24 +1,56 @@
 package com.example.shinple.data;
 
-import com.example.shinple.VO.UserVO;
+import android.util.Log;
+
+import com.example.shinple.BackgroundTask;
+import com.example.shinple.VO.CourseVO;
+import com.example.shinple.VO.MemberVO;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
 public class LoginDataSource {
 
-    public Result<UserVO> login(String username, String password) {
+
+    public Result<MemberVO> login(String mem_num, String mem_password) {
+
+            // TODO: handle loggedInUser authentication
+        String data = "";
+        String result = "";
 
         try {
-            // TODO: handle loggedInUser authentication
+            data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(mem_num, "UTF-8");
+            data += "&" + URLEncoder.encode("mem_password", "UTF-8") + "=" + URLEncoder.encode(mem_password, "UTF-8");
+            BackgroundTask backgroundTask1 = new BackgroundTask("app/MemberLogin.php", data);
+            result = backgroundTask1.execute().get();
+            Log.d("sdlmsdlms",result);
+            JSONObject jsonObject = new JSONObject(result);
+            if(jsonObject == null){
+                return new Result.Error(new Exception("DB에러 "));
+            }
+            else if(jsonObject.getString("success") != null){
+                JSONArray loginresult = jsonObject.getJSONArray("success");
+                JSONObject obj = loginresult.getJSONObject(0);
+                String mem_name = obj.getString("mem_name");
+                String mem_point = obj.getString("mem_point");
+                String company_num= obj.getString("company_num");
+                //값들을 User클래스에 묶어줍니다
+                MemberVO MemberVO = new MemberVO(mem_num, mem_name, mem_point, company_num);
+                return new Result.Success<>(MemberVO);
+            }
+            else {
+                return new Result.Error(new Exception("로그인 정보가 맞지 않습니다."));
+            }
 
-            /*TODO : DB에 정보 넘겨주고 받아오기 */
-            UserVO fakeUser = new UserVO("id","password","name","company_code");
-            return new Result.Success<>(fakeUser);
-        } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+        }catch (Exception e){
+            e.printStackTrace();
+            return new Result.Error(new Exception("Error logging in", e));
         }
     }
 
