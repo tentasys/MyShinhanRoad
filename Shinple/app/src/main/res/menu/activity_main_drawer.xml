@@ -6,32 +6,36 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="메인 화면" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_gallery" />
+            android:icon="@drawable/ic_star_black"
+            android:title="내 강의실" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_slideshow" />
+            android:title="강좌" />
         <item
             android:id="@+id/nav_tools"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/menu_tools" />
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="CoP" />
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="앱 설정">
         <menu>
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
+                android:icon="@drawable/ic_logout_black"
+                android:title="로그아웃" />
+            <item
+                android:id="@+id/nav_config"
+                android:icon="@drawable/ic_setting_black"
+                android:title="설정" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="@string/menu_send" />
+                android:icon="@drawable/ic_power_black"
+                android:title="어플리케이션 종료" />
         </menu>
     </item>
 
