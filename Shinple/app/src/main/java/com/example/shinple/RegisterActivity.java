@@ -114,4 +114,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    public void onBackPressed() {   //뒤로가기 키 동작
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("member","done");
+        startActivity(intent);
+        finish();
+    }
 }
