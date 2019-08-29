@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
@@ -97,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.toolbar_color));    // System toolbar 색상 설정
+//        window.setStatusBarColor(ContextCompat.getColor(this,R.color.toolbar_color));    // System toolbar 색상 설정
         window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS ,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.activity_main);
 
@@ -160,10 +161,12 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
+
         fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -330,21 +333,24 @@ public class MainActivity extends AppCompatActivity
     public void playerLandscapeToggle(boolean EnableFullscreen){
 //        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
         if(EnableFullscreen) {  //가로일 때
+
             toolbar.setVisibility(View.GONE);
             navView.setVisibility(View.GONE);
             navigationView.setVisibility(View.GONE);
             windowMode= false;
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
-/*            *//* TODO: navigationbar 지우기 *//*
-                  getWindow().findViewById(R.id.frame).setSystemUiVisibility(
-                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);*/
+        /* TODO: navigationbar 지우기 */
+/*      getWindow().findViewById(R.id.frame).setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);*/
 
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//            getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION ,R.color.toolbar_color);
 
-        }else {  //세로로 바뀔 때,
+        }else {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             toolbar.setVisibility(View.VISIBLE);
             navView.setVisibility(View.VISIBLE);
             navigationView.setVisibility(View.VISIBLE);
