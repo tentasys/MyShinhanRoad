@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
 import com.example.shinple.VO.CopVO;
 
@@ -22,7 +23,7 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     private Context context;
     private OnItemClickListener mListener = null ;
 
-    private String server = "https://5004bd02.ngrok.io/img/cop/";
+    private String server = BackgroundTask.server+"img/cop/";
     //constructor
     public CopAdapter(Context context, List<CopVO> list) {
         this.context = context;

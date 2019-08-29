@@ -27,6 +27,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="Server">https://a28b3847.ngrok.io</string>
+    <string name="server_url">https://5004bd02.ngrok.io</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
