@@ -99,10 +99,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:background="#ea4c88"
+            android:background="@color/shinhan2"
             android:text="회원가입"
             android:textColor="#ffffff"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
 
         <!-- Link to Login Screen -->
 
