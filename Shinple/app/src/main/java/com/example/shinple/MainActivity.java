@@ -160,13 +160,7 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-<<<<<<< HEAD
-        fr = new ExoPlayerFragment();
-//        fr = MainFragment.newInstance(res,member);
-=======
-
         fr = MainFragment.newInstance(res,member,res2);
->>>>>>> cfc2f9d2541d17f08ddfbaa4ed2a97ae503dede1
         switchFragment(fr);
 
     }
