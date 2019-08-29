@@ -32,7 +32,9 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -47,6 +49,15 @@ public class LectureListFragment extends Fragment {
     private String data;
     private CourseVO course;
     private MemberVO member;
+    private int recent_num;
+
+    private String[][] S;
+
+    long mNow;
+    Date mDate;
+    String pattern ="yyyy-MM-dd hh:mm:ss";
+    SimpleDateFormat mFormat = new SimpleDateFormat(pattern);
+    SimpleDateFormat recent = new SimpleDateFormat(pattern);
 
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
@@ -54,6 +65,7 @@ public class LectureListFragment extends Fragment {
     private  TextView tv_courseName;
     private  TextView tv_courseInfo;
     private  TextView tv_tch;
+    private  TextView last;
     private TextView tv_level;
     private Button bt_test;
     private LinearLayout bt_continue;
@@ -95,12 +107,15 @@ public class LectureListFragment extends Fragment {
         progressDialog = new ProgressDialog(view.getContext());
 
         lectureList = new ArrayList<LectureVO>();
-
+        last = view.findViewById(R.id.tv_lastVideo);
         tv_courseName = view.findViewById(R.id.tv_lec_courseN);
         tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
         tv_tch = view.findViewById(R.id.tv_lec_tchName);
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
+        if(course.getLearnState().equals("2")){
+            bt_test.setVisibility(view.GONE);
+        }
         bt_continue = view.findViewById(R.id.bt_continue);
         like_button = view.findViewById(R.id.like_button);
         like_num = view.findViewById(R.id.like_num);
@@ -115,35 +130,6 @@ public class LectureListFragment extends Fragment {
         adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
 
-
-        /*  이어보기 버튼 추후 개발 예정
-        bt_continue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                isFileValid();  //파일이 유효한 지 체크
-                if(FileValideCheckResult){
-                    try {   // exo해보고
-                        ((MainActivity) view.getContext())
-                                .getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
-                                .commit();
-                    }catch (Exception e){  //exo안되면 media로 가자!
-                        ((MainActivity) view.getContext())
-                                .getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
-                                .commit();
-                    }
-                }else{
-                    progressDialog.setMessage("파일 경로를 확인해주세요.");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
-                } //ifelse 끝
-            }//onItemClick 끝
-        });//setOnItemClickListener끝
-        */
 
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +151,7 @@ public class LectureListFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,TestFragment.newInstance(result,member,course.getCourseNum()))
+                        .replace(R.id.frame,TestFragment.newInstance(result,member,course.getCourseNum(),course.getcourseLevel()))
                         .addToBackStack("null")
                         .commit();
             }
@@ -178,29 +164,46 @@ public class LectureListFragment extends Fragment {
                 String url =  BackgroundTask.server+"video/"+ course.getCourseNum() + "/";
                 String video = lec_order + ".mp4";
 
+                String result = "";
+                String result2 = "";
+                try{
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    data += "&" + URLEncoder.encode("lecNum", "UTF-8") + "=" + URLEncoder.encode(lec_order, "UTF-8");
+                    data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
+                    Log.d("time",data);
+                } catch (Exception e){
+                }
+                BackgroundTask backgroundTask = new BackgroundTask("app/test.php",data);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                Log.d("test",result);
 
 
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data);
+                try{
+                    result2 = backgroundTask2.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
 
-
-
-
-
-
-
-                Log.d("order",result);
+                Log.d("order",result2);
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result,lec_title,lec_text,video))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lec_title,lec_text,video))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result,lec_title,lec_text))
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result2,lec_title,lec_text))
                                 .commit();
                     }
                 }else{
@@ -240,8 +243,8 @@ public class LectureListFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time;
-
+            String lec_title, lec_order, lec_text, lec_time, recent_time;
+            String[][] S = new String[jsonArray.length()][2];
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
                 //count는 배열의 인덱스를 의미
@@ -251,16 +254,58 @@ public class LectureListFragment extends Fragment {
                 lec_order = object.getString("lec_order");
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
+                recent_time = object.getString("recent_time");
+                S[count][0] = lec_order;
+                S[count][1] = recent_time;
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
-
+            Date date1 = recent.parse(S[0][1]);
+            recent_num = 0;
+            for (int i = 1; i < jsonArray.length(); i++){
+                Date date2 = recent.parse(S[i][1]);
+                if(date1.before(date2)){
+                    date1 = date2;
+                    recent_num = i;
+                }
+            }
+            Log.d("time",recent.format(date1));
+            Log.d("sdmlsmfl",lectureList.get(recent_num).getLec_title());
         }catch(Exception e) {
             e.printStackTrace();
         }
+// 이어보기 버튼 추후 개발 예정
+        last.setText(lectureList.get(recent_num).getLec_title());
+        bt_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                /*isFileValid();  //파일이 유효한 지 체크
+                if(FileValideCheckResult){
+                    try {   // exo해보고
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
+                                .commit();
+                    }catch (Exception e){  //exo안되면 media로 가자!
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
+                                .commit();
+                    }
+                }else{
+                    progressDialog.setMessage("파일 경로를 확인해주세요.");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                } //ifelse 끝*/
+            }//onItemClick 끝
+        });//setOnItemClickListener끝
+
         return view;
     }
 
@@ -296,4 +341,11 @@ public class LectureListFragment extends Fragment {
             Log.e("Error", "ThreadError");
         }
     }
+
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+        return mFormat.format(mDate);
+    }
+
 }
