@@ -12,5 +12,6 @@
         android:id="@+id/app_bar_logout"
         android:title="Switch"
         android:icon="@drawable/log"
+        android:iconTint="@color/shinhan1"
         app:showAsAction="always" />
 </menu>
