@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.preference.PreferenceManager;
 import android.renderscript.ScriptGroup;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -51,6 +53,7 @@ public class LoginActivity extends AppCompatActivity{
     ProgressBar loadingProgressBar;
     MemberVO loginResult;
     InputMethodManager imm;
+    private SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,11 @@ public class LoginActivity extends AppCompatActivity{
         loadingProgressBar = findViewById(R.id.loading);
         loginViewModel = new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
         imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String userID = sharedPreferences.getString("userID", "");
+        userIdEditText.setText(userID);
+
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -129,5 +137,13 @@ public class LoginActivity extends AppCompatActivity{
     public void LoginOnClick(View v){
         imm.hideSoftInputFromWindow(userIdEditText.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(passwordEditText.getWindowToken(), 0);
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("userID", userIdEditText.getText().toString());
+        editor.apply();
     }
 }
