@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,11 +19,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.renderscript.ScriptGroup;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -46,6 +50,7 @@ public class LoginActivity extends AppCompatActivity{
     Button regButton;
     ProgressBar loadingProgressBar;
     MemberVO loginResult;
+    InputMethodManager imm;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +64,8 @@ public class LoginActivity extends AppCompatActivity{
         regButton = findViewById(R.id.bt_register);
         loadingProgressBar = findViewById(R.id.loading);
         loginViewModel = new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -119,4 +126,8 @@ public class LoginActivity extends AppCompatActivity{
         loadingProgressBar.setVisibility(View.GONE);
     }
 
+    public void LoginOnClick(View v){
+        imm.hideSoftInputFromWindow(userIdEditText.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(passwordEditText.getWindowToken(), 0);
+    }
 }
