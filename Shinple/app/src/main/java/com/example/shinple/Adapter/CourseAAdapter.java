@@ -21,7 +21,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
     private Context context;
 
     public interface OnItemClickListener {
-        void onItemClick(View view, String courseName, String courseInfo, String courseNum, String courseLevel, String tch);
+        void onItemClick(View view,CourseVO course);
     }
 
     private OnItemClickListener mListener = null ;
@@ -54,6 +54,15 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         tchName.setText(courseList.get(position).getTchName());
         courseName.setText(courseList.get(position).getcourseName());
         courseLevel.setText(courseList.get(position).getcourseLevel());
+        Button LS = (Button) holder.itemView.findViewById(R.id.bt_subCC3);
+        if(courseList.get(position).getLearnState().equals("1")){
+            LS.setBackgroundResource(R.drawable.nowlearning);
+            LS.setText("수강중");
+        }
+        else if (courseList.get(position).getLearnState().equals("2")){
+            LS.setBackgroundResource(R.drawable.afterlearning);
+            LS.setText("수강완료");
+        }
     }
 
 
@@ -73,7 +82,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION){
                         if(mListener != null){
-                            mListener.onItemClick(view,courseList.get(pos).getcourseName(),courseList.get(pos).getCousrseText(),courseList.get(pos).getCourseNum(),courseList.get(pos).getcourseLevel(), courseList.get(pos).getTchName());
+                            mListener.onItemClick(view,courseList.get(pos));
                         }
                     }
                 }

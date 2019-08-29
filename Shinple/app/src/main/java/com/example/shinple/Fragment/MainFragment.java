@@ -121,7 +121,7 @@ public class MainFragment extends Fragment {
                 String result1 = "";
                 String result2 = "";
                 try{
-                    data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+                    data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 } catch (Exception e){
 
                 }

@@ -1,7 +1,13 @@
 package com.example.shinple;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import android.graphics.Color;
@@ -22,6 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -81,6 +88,8 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
 
+
+
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -133,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         //Fragment 전환을 위한 초기 설정
         try{
-            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
         }
         catch (Exception e){
         }
@@ -148,7 +157,6 @@ public class MainActivity extends AppCompatActivity
         switchFragment(fr);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -230,7 +238,7 @@ public class MainActivity extends AppCompatActivity
                             String result1 = "";
                             String result2 = "";
                             try{
-                                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+                                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                             } catch (Exception e){
 
                             }
@@ -248,13 +256,13 @@ public class MainActivity extends AppCompatActivity
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
                             result = "";
-                            BackgroundTask backgroundTask = new BackgroundTask("app/tag.php");
+                            BackgroundTask backgroundTask = new BackgroundTask("app/tag.php",data);
                             try{
                                 result = backgroundTask.execute().get();
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            switchFragment(FilterFragment.newInstance(result));
+                            switchFragment(FilterFragment.newInstance(result,member));
 
                              return true;
                         case R.id.navigation_notifications:

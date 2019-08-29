@@ -21,6 +21,7 @@ import com.example.shinple.BackgroundTask;
 import com.example.shinple.Adapter.LectureListAdapter;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.LectureVO;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 
@@ -36,21 +37,13 @@ import java.util.List;
 
 public class LectureListFragment extends Fragment {
 
-    private static final String ARG_PARAM1 = "courseName";
-    private static final String ARG_PARAM2 = "courseInfo";
-    private static final String ARG_PARAM3 = "lectureList";
-    private static final String ARG_PARAM4 = "courseLv";
-    private static final String ARG_PARAM5 = "tch";
-    private static final String ARG_PARAM6 = "courseNum";
+    private static final String ARG_PARAM1 = "result";
+    private static final String ARG_PARAM2 = "course";
 
     // TODO: Rename and change types of parameters
-    private String courseName;
-    private String courseInfo;
     private String result = "";
-    private String courseLv;
-    private String tch;
-    private String courseNum;
     private String data;
+    private CourseVO course;
 
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
@@ -72,15 +65,11 @@ public class LectureListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LectureListFragment newInstance(String param1, String param2, String param3,String param4, String param5, String param6) {
+    public static LectureListFragment newInstance(String param1, CourseVO course) {
         LectureListFragment fragment = new LectureListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        args.putString(ARG_PARAM3, param3);
-        args.putString(ARG_PARAM4,param4);
-        args.putString(ARG_PARAM5,param5);
-        args.putString(ARG_PARAM6,param6);
+        args.putSerializable(ARG_PARAM2, course);
         fragment.setArguments(args);
         return fragment;
     }
@@ -89,12 +78,8 @@ public class LectureListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            courseName = getArguments().getString(ARG_PARAM1);
-            courseInfo = getArguments().getString(ARG_PARAM2);
-            result = getArguments().getString(ARG_PARAM3);
-            courseLv = getArguments().getString(ARG_PARAM4);
-            tch = getArguments().getString(ARG_PARAM5);
-            courseNum = getArguments().getString(ARG_PARAM6);
+            result = getArguments().getString(ARG_PARAM1);
+            course = (CourseVO)getArguments().getSerializable(ARG_PARAM2);
         }
     }
 
@@ -114,10 +99,10 @@ public class LectureListFragment extends Fragment {
         bt_continue = view.findViewById(R.id.bt_continue);
         like_button = view.findViewById(R.id.like_button);
         like_num = view.findViewById(R.id.like_num);
-        tv_courseInfo.setText(courseInfo);
-        tv_courseName.setText(courseName);
-        tv_tch.setText(tch);
-        tv_level.setText(courseLv);
+        tv_courseInfo.setText(course.getCousrseText());
+        tv_courseName.setText(course.getcourseName());
+        tv_tch.setText(course.getTchName());
+        tv_level.setText(course.getcourseLevel());
 
         recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -160,8 +145,7 @@ public class LectureListFragment extends Fragment {
             public void onClick(View view) {
                 String result = "";
                 try{
-                    data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
-                    Log.d("sss",courseNum);
+                    data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                 } catch (Exception e){
 
                 }
@@ -183,8 +167,8 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
-                videourl = "https://5004bd02.ngrok.io/video/"+ courseNum + "/" + lec_order + ".mp4";
-                String url =  "https://5004bd02.ngrok.io/video/"+ courseNum + "/";
+                videourl = "https://5004bd02.ngrok.io/video/"+ course.getCourseNum() + "/" + lec_order + ".mp4";
+                String url =  "https://5004bd02.ngrok.io/video/"+ course.getCourseNum() + "/";
                 String video = lec_order + ".mp4";
                 Log.d("order",result);
                 isFileValid();  //파일이 유효한 지1 체크

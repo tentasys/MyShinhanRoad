@@ -19,6 +19,7 @@ import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class FilterFragment extends Fragment {
     private List<FilterVO> filterList;
     private String[] filter;
     private String[] level;
+    private MemberVO member;
     private ToggleButton tb1;
     private ToggleButton tb2;
     private ToggleButton tb3;
@@ -53,10 +55,11 @@ public class FilterFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static FilterFragment newInstance(String param1) {
+    public static FilterFragment newInstance(String param1, MemberVO member) {
         FilterFragment fragment = new FilterFragment();
         Bundle args = new Bundle();
         args.putString("tag", param1);
+        args.putSerializable("member",member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,6 +69,7 @@ public class FilterFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             tag_data = getArguments().getString("tag");
+            member = (MemberVO) getArguments().getSerializable("member");
         }
     }
 
@@ -227,7 +231,7 @@ public class FilterFragment extends Fragment {
         });
 
         try{
-            data = URLEncoder.encode("start", "UTF-8") + "=" + URLEncoder.encode("ok", "UTF-8");
+            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
         } catch (Exception e){
 
         }
@@ -272,7 +276,7 @@ public class FilterFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,CourseListFragment.newInstance(result,alll))
+                        .replace(R.id.frame,CourseListFragment.newInstance(result,alll,member))
                         .addToBackStack("course")
                         .commit();
             }

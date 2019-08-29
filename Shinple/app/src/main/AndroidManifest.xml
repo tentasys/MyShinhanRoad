@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.shinple">
 
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 동영상 플레이 중 화면이 꺼지거나 잠금되지 않도록 강제 -->
+    <uses-permission android:name="android.permission.INTERNET" /><!-- 동영상 플레이 중 화면이 꺼지거나 잠금되지 않도록 강제 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application

@@ -159,7 +159,7 @@ public class LectureRoomFragment extends Fragment{
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String courseName, courseLevel, tchName, courseText, courseNum;
+            String courseName, courseLevel, tchName, courseText, courseNum, learnState;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -171,9 +171,11 @@ public class LectureRoomFragment extends Fragment{
                 tchName = object.getString("course_tch");
                 courseText= object.getString("course_text");
                 courseNum = object.getString("course_num");
+                learnState = object.getString("learn_state");
+
 
                 //값들을 User클래스에 묶어줍니다
-                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum);
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, learnState);
                 courseList.add(course);//리스트뷰에 값을 추가해줍니다
                 count++;
             }

@@ -20,6 +20,7 @@ import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,20 +44,23 @@ public class CourseListFragment extends Fragment{
     private RecyclerView recyclerView2;
     private String result_course = "";
     private String data;
+    private MemberVO member;
     private ArrayList<String> all = new ArrayList<String>();
 
 
     private static final String ARG_PARM = "course";
     private static final String ARG_PARM2 = "lv";
+    private static final String ARG_PARM3 = "member";
 
     public CourseListFragment() {
         // Required empty public constructor
     }
-    public static CourseListFragment newInstance(String result,ArrayList<String> all) {
+    public static CourseListFragment newInstance(String result,ArrayList<String> all,MemberVO member) {
         CourseListFragment fragment = new CourseListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARM, result);
         args.putStringArrayList(ARG_PARM2,all);
+        args.putSerializable(ARG_PARM3,member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +71,7 @@ public class CourseListFragment extends Fragment{
         if (getArguments() != null) {
             result_course = getArguments().getString(ARG_PARM);
             all.addAll(getArguments().getStringArrayList(ARG_PARM2));
+            member = (MemberVO)getArguments().getSerializable(ARG_PARM3);
         }
     }
 
@@ -94,11 +99,10 @@ public class CourseListFragment extends Fragment{
 
         adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String courseName, String courseInfo,String courseNum, String courseLevel,String tch) {
+            public void onItemClick(View view, CourseVO course) {
                 //new CourseListFragment.BackgroundTask().execute();
                 try{
-                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
-                    Log.d("sss",courseNum);
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                 }
                 catch (Exception e){
                 }
@@ -113,7 +117,7 @@ public class CourseListFragment extends Fragment{
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(courseName, courseInfo,  result, courseLevel, tch, courseNum))
+                        .replace(R.id.frame,LectureListFragment.newInstance(result, course))
                         .addToBackStack("lecture_list")
                         .commit();
             }
@@ -127,7 +131,7 @@ public class CourseListFragment extends Fragment{
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String courseName, courseLevel, tchName, courseText, courseNum;
+            String courseName, courseLevel, tchName, courseText, courseNum, LearnState;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -139,9 +143,10 @@ public class CourseListFragment extends Fragment{
                 tchName = object.getString("course_tch");
                 courseText= object.getString("course_text");
                 courseNum = object.getString("course_num");
+                LearnState = object.getString("learn_state");
 
                 //값들을 User클래스에 묶어줍니다
-                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum);
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState);
                 courseList.add(course);//리스트뷰에 값을 추가해줍니다
                 count++;
             }

@@ -49,17 +49,19 @@ public class MainSliderAdapter extends PagerAdapter {
             ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
             imageView.setImageResource(images[position]);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+            /*
             imageView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
                     ((MainActivity) view.getContext())
                             .getSupportFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
+                            .replace(R.id.frame,LectureListFragment.newInstance())
                             .addToBackStack(null)
                             .commit();
                 }
             });
+            */
             container.addView(v);
 
         }
@@ -70,6 +72,7 @@ public class MainSliderAdapter extends PagerAdapter {
             ImageView imageView2 = (ImageView) v.findViewById(R.id.imageView);
             imageView2.setImageResource(images2[position]);
             imageView2.setScaleType(ImageView.ScaleType.FIT_XY);
+            /*
             imageView2.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
@@ -81,6 +84,7 @@ public class MainSliderAdapter extends PagerAdapter {
                             .commit();
                 }
             });
+            */
             container.addView(v);
         }
 

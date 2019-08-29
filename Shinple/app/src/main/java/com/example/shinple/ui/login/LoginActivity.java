@@ -1,11 +1,17 @@
 package com.example.shinple.ui.login;
 
+import android.Manifest;
 import android.app.Activity;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -30,7 +36,9 @@ import com.example.shinple.VO.MemberVO;
 import com.example.shinple.data.LoginDataSource;
 import com.example.shinple.data.LoginRepository;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity{
+
+
     LoginViewModel loginViewModel;
     EditText userIdEditText;
     EditText passwordEditText;
@@ -43,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         userIdEditText = findViewById(R.id.user_id);
         passwordEditText = findViewById(R.id.user_pw);
         loginButton = findViewById(R.id.login);
