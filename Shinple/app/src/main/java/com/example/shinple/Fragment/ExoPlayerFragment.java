@@ -199,6 +199,7 @@ public class ExoPlayerFragment extends Fragment {
         releasePlayer();
     }
 
+
     private void initializePlayer() {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(view.getContext());
