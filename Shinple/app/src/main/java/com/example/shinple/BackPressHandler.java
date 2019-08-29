@@ -17,9 +17,11 @@ public class BackPressHandler {
             showGuide();
             return;
         }
-        if (System.currentTimeMillis() <= backKeyPressedTime + 1000){
+        if(System.currentTimeMillis() <= backKeyPressedTime + 1000) {
             activity.finish();
             toast.cancel();
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(0);
         }
     }
 

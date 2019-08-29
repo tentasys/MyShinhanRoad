@@ -2,11 +2,13 @@ package com.example.shinple;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String upassword = "";
     private String ucode = "";
     private String data;
-
+    InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
         Upassword = findViewById(R.id.et_Upassword);
         reg = findViewById(R.id.bt_reg);
         spinner = findViewById(R.id.spinner_com);
+        imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         //회사 선택
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,5 +116,20 @@ public class RegisterActivity extends AppCompatActivity {
         } catch (Exception e){
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {   //뒤로가기 키 동작
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("member","done");
+        startActivity(intent);
+        finish();
+    }
+
+    public void RegisterOnClick(View v){
+        imm.hideSoftInputFromWindow(Unum.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(Uname.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(Upassword.getWindowToken(), 0);
     }
 }

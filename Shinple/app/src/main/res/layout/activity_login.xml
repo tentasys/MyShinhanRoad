@@ -9,6 +9,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:onClick="LoginOnClick"
     tools:context=".ui.login.LoginActivity">
 
     <!-- Shinple 로고 -->
@@ -16,9 +17,11 @@
     <!--아이디 입력부-->
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginTop="148dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
@@ -28,6 +31,7 @@
         android:textSize="50dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -40,6 +44,8 @@
         android:hint="사번"
         android:inputType="number"
         android:selectAllOnFocus="true"
+        android:textColorHighlight="@color/shinhan4"
+        android:textColorLink="@color/shinhan1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/loading" />
@@ -58,6 +64,8 @@
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        android:textColorHighlight="@color/shinhan4"
+        android:textColorLink="@color/shinhan1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_id" />
@@ -69,7 +77,9 @@
         android:layout_height="47dp"
         android:layout_gravity="start"
         android:layout_marginTop="20dp"
+        android:background="#FFD6D7D7"
         android:enabled="false"
+        android:shadowColor="#D6D7D7"
         android:text="로그인"
         app:layout_constraintEnd_toEndOf="@+id/bt_register"
         app:layout_constraintStart_toStartOf="@+id/bt_register"
@@ -78,8 +88,8 @@
     <!--저작권 표시부-->
     <Button
         android:id="@+id/bt_register"
-        android:layout_width="107dp"
-        android:layout_height="20dp"
+        android:layout_width="97dp"
+        android:layout_height="47dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -138,13 +148,11 @@
         android:id="@+id/imageView2"
         android:layout_width="23dp"
         android:layout_height="23dp"
-        android:layout_marginEnd="64dp"
-        android:layout_marginRight="64dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.87"
         app:srcCompat="@drawable/shinhan_logo" />
 
 
