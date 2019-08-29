@@ -188,8 +188,9 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.app_bar_logout) {
             member = null;
-            Intent intent1 = new Intent(this, LoginActivity.class);
-            startActivity(intent1);
+//            Intent intent1 = new Intent(this, LoginActivity.class);
+//            startActivity(intent1);
+            System.exit(0);
             return true;
         }
 
@@ -306,7 +307,7 @@ public class MainActivity extends AppCompatActivity
         } else {
             int count = fm.getBackStackEntryCount();
 
-            if (count == 0) {
+            if (count == 1) {
                 backPressHandler.onBackPressed();
             } else {
                 fm.popBackStack();
