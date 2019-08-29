@@ -9,6 +9,7 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:fontFamily">@font/oneshinhanmedium</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="colorControlHighlight">@color/shinhan3</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

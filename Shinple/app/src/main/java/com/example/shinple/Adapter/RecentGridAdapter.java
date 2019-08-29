@@ -65,12 +65,10 @@ public class RecentGridAdapter extends BaseAdapter {
 
         TextView lectureName = (TextView)v.findViewById(R.id.tv_recent_name);
         TextView lectureInfo = (TextView)v.findViewById(R.id.tv_recent_info);
-        TextView lectureNum = (TextView)v.findViewById(R.id.tv_recent_num);
         TextView lectureTime = (TextView)v.findViewById(R.id.tv_recent_time);
 
         lectureName.setText(lectureList.get(i).getLec_title());
         lectureInfo.setText(lectureList.get(i).getLec_text());
-        lectureNum.setText(lectureList.get(i).getLec_order());
         lectureTime.setText(lectureList.get(i).getLec_time());
 
 

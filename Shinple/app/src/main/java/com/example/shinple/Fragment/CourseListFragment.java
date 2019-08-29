@@ -103,6 +103,14 @@ public class CourseListFragment extends Fragment{
                 //new CourseListFragment.BackgroundTask().execute();
                 try{
                     data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data += "&" +  URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    if(course.getLearnState().equals("0")){
+                        data += "&" +  URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                    }
+                    else {
+                        data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    }
+                    Log.d("cccc",data);
                 }
                 catch (Exception e){
                 }

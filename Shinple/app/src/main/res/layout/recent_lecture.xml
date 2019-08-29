@@ -14,7 +14,7 @@
         android:layout_marginStart="3dp"
         android:layout_marginLeft="3dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/courselist"
+        android:background="@drawable/solid_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,20 +24,18 @@
             android:id="@+id/tv_recent_name"
             android:layout_width="132dp"
             android:layout_height="27dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="3dp"
             android:gravity="center"
             android:text="블록체인 제 1 강"
             android:textColor="@color/shinhan1"
             android:textSize="16dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_recent_info"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/tv_recent_num"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_recent_info"
@@ -45,16 +43,18 @@
             android:layout_height="73dp"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="44dp"
+            android:layout_marginBottom="32dp"
             android:text="강의 설명입니다."
-            android:textColor="@color/shinhan3"
 
+            android:textColor="@color/shinhan3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.65"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.681"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_recent_name" />
 
         <TextView
             android:id="@+id/tv_recent_time"
@@ -72,14 +72,14 @@
             app:layout_constraintHorizontal_bias="0.363"
             app:layout_constraintStart_toEndOf="@+id/textView18"
             app:layout_constraintTop_toBottomOf="@+id/tv_recent_info"
-            app:layout_constraintVertical_bias="0.111" />
+            app:layout_constraintVertical_bias="0.166" />
 
         <TextView
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="84dp"
-            android:layout_marginLeft="84dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginLeft="88dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
             android:text="재생시간"
@@ -87,23 +87,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_recent_info"
-            app:layout_constraintVertical_bias="0.058" />
+            app:layout_constraintVertical_bias="0.038" />
 
-        <TextView
-            android:id="@+id/tv_recent_num"
-            android:layout_width="32dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="1"
-            android:textColor="@color/colorAccent"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/tv_recent_info"
+        <View
+            android:id="@+id/view5"
+            android:layout_width="0dp"
+            android:layout_height="3dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/shinhan1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.838" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_recent_name" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

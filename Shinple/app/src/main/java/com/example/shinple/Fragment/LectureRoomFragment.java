@@ -29,6 +29,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 
 public class LectureRoomFragment extends Fragment{
@@ -84,9 +85,28 @@ public class LectureRoomFragment extends Fragment{
         my_cop_list = new ArrayList<CopVO>();
 
         TextView tv_point = (TextView)v.findViewById(R.id.tv_person_point);
+        TextView tv_com = (TextView)v.findViewById(R.id.tv_company);
         TextView tv_name = (TextView)v.findViewById(R.id.tv_name);
         tv_point.setText(member.getMem_point());
         tv_name.setText(member.getMem_name());
+
+        switch (member.getCompany_num()){
+            case "0":
+                tv_com.setText("신한DS");
+                break;
+            case "1":
+                tv_com.setText("신한은행");
+                break;
+            case "2":
+                tv_com.setText("신한카드");
+                break;
+            case "3":
+                tv_com.setText("신한금융투자");
+                break;
+            case "4":
+                tv_com.setText("신한생명");
+                break;
+       }
 
         rv_course = v.findViewById(R.id.rv_courseList);
         my_rv = v.findViewById(R.id.rv_mycop);
@@ -99,15 +119,6 @@ public class LectureRoomFragment extends Fragment{
         my_cop_adapter = new CopAdapter(v.getContext(),my_cop_list);
         rv_course.setAdapter(adapter_course);
         my_rv.setAdapter(my_cop_adapter);
-
-
-
-
-
-
-
-
-
 
 
 

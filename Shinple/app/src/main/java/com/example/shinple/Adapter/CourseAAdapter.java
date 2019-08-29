@@ -59,11 +59,11 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         if(courseList.get(position).getLearnState().equals("0")){
             LS.setBackgroundResource(R.drawable.beforelearning);
             LS.setText("수강신청");
-            LS.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.white));
         }
         else if(courseList.get(position).getLearnState().equals("1")){
             LS.setBackgroundResource(R.drawable.nowlearning);
             LS.setText("수강중");
+            LS.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.white));
         }
         else if (courseList.get(position).getLearnState().equals("2")){
             LS.setBackgroundResource(R.drawable.afterlearning);
