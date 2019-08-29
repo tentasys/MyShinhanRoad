@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.shinple.Adapter.CopAdapter;
 import com.example.shinple.Adapter.CourseAAdapter;
@@ -21,6 +22,7 @@ import com.example.shinple.VO.CopVO;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -39,6 +41,9 @@ public class LectureRoomFragment extends Fragment{
     private List<CopVO> my_cop_list;
     private RecyclerView my_rv;
 
+
+
+    private MemberVO member;
     private String result1;
     private String result2;
 
@@ -47,11 +52,12 @@ public class LectureRoomFragment extends Fragment{
     }
 
     /* Fragment 간의 이동을 위한 메소드 */
-    public static LectureRoomFragment newInstance(String result1,String result2) {
+    public static LectureRoomFragment newInstance(String result1,String result2, MemberVO member) {
         LectureRoomFragment fragment = new LectureRoomFragment();
         Bundle args = new Bundle();
         args.putString("result1", result1);
         args.putString("result2", result2);
+        args.putSerializable("result3",member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,6 +69,7 @@ public class LectureRoomFragment extends Fragment{
         if (getArguments() != null) {
             result1 = getArguments().getString("result1");
             result2 = getArguments().getString("result2");
+            member = (MemberVO)getArguments().getSerializable("result3");
         }
     }
 
@@ -76,7 +83,10 @@ public class LectureRoomFragment extends Fragment{
         courseList = new ArrayList<CourseVO>();
         my_cop_list = new ArrayList<CopVO>();
 
-
+        TextView tv_point = (TextView)v.findViewById(R.id.tv_person_point);
+        TextView tv_name = (TextView)v.findViewById(R.id.tv_name);
+        tv_point.setText(member.getMem_point());
+        tv_name.setText(member.getMem_name());
 
         rv_course = v.findViewById(R.id.rv_courseList);
         my_rv = v.findViewById(R.id.rv_mycop);
@@ -89,13 +99,6 @@ public class LectureRoomFragment extends Fragment{
         my_cop_adapter = new CopAdapter(v.getContext(),my_cop_list);
         rv_course.setAdapter(adapter_course);
         my_rv.setAdapter(my_cop_adapter);
-
-
-
-
-
-
-
 
 
 

@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.example.shinple.Adapter.FilterAdapter;
 import com.example.shinple.Adapter.MainSliderAdapter;
@@ -28,6 +29,7 @@ import com.example.shinple.VO.LectureVO;
 
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +46,7 @@ public class MainFragment extends Fragment {
     private RecentGridAdapter GA;
     private GridView GV;
     private List<LectureVO> lectureList = new ArrayList<LectureVO>();
+    private MemberVO member;
     private String MainResult;
     private String data;
 
@@ -68,10 +71,11 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         // Required empty public constructor
     }
-    public static MainFragment newInstance(String result) {
+    public static MainFragment newInstance(String result,MemberVO member) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString("result", result);
+        args.putSerializable("member",member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -81,6 +85,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             MainResult = getArguments().getString("result");
+            member = (MemberVO)getArguments().getSerializable("member");
         }
     }
 
@@ -92,6 +97,13 @@ public class MainFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_main, container, false);
         learning_status = v.findViewById(R.id.learning_status);
+
+        TextView name = (TextView)v.findViewById(R.id.my_learning_status2);
+        TextView point = (TextView)v.findViewById(R.id.tv_PersonalRank);
+        if(member != null) {
+            name.setText(member.getMem_name());
+            point.setText(member.getMem_point());
+        }
 
         //recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
         //recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
@@ -126,7 +138,7 @@ public class MainFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureRoomFragment.newInstance(result1,result2))
+                        .replace(R.id.frame,LectureRoomFragment.newInstance(result1,result2,member))
                         .addToBackStack("lectureroom")
                         .commit();
             }

@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e){
                     e.printStackTrace();
                 }*/
-                fr = MainFragment.newInstance(res);
+                fr = MainFragment.newInstance(res,member);
                 switchFragment(fr);
             }
         });
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-        fr = MainFragment.newInstance(res);
+        fr = MainFragment.newInstance(res,member);
         switchFragment(fr);
 
     }
@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            switchFragment(LectureRoomFragment.newInstance(result1,result2));
+                            switchFragment(LectureRoomFragment.newInstance(result1,result2,member));
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
                             result = "";
