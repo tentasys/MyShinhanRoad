@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -16,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.ui.PlaybackControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
@@ -74,7 +78,6 @@ public class ExoPlayerFragment extends Fragment {
     RecyclerView recyclerView;
     ScrollView scrollView;
     FrameLayout frameLayout;
-
     public boolean FileValideCheckResult = false;
 
     public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5) {
@@ -122,9 +125,6 @@ public class ExoPlayerFragment extends Fragment {
         exoPlayerView = view.findViewById(R.id.exoPlayerView);
         scrollView = view.findViewById(R.id.fragment_scrollview);
         frameLayout = view.findViewById(R.id.fragment_exoplayer_framelayout);
-
-
-
 
         lectureList = new ArrayList<LectureVO>();
 
@@ -186,7 +186,6 @@ public class ExoPlayerFragment extends Fragment {
         }
         return view;
     }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -199,14 +198,57 @@ public class ExoPlayerFragment extends Fragment {
         releasePlayer();
     }
 
-
+    private boolean enableFullScreen = false;
     private void initializePlayer() {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(view.getContext());
 
             //플레이어 연결
             exoPlayerView.setPlayer(player);
+            FrameLayout playerBt = (FrameLayout) exoPlayerView.findViewById(R.id.exo_fullscreen_button);
+            ImageView playerImg = (ImageView) exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
+            playerBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((MainActivity)getActivity()).playerLandscapeToggle(enableFullScreen);
 
+                    if (enableFullScreen) {   //fullscreen start
+                        Toast.makeText(getContext(),"test",Toast.LENGTH_SHORT);
+
+                        textView.setVisibility(View.INVISIBLE);
+                        recyclerView.setVisibility(View.INVISIBLE);
+                        scrollView.setFillViewport(true);
+                        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                        param.bottomMargin=0;
+                        frameLayout.setLayoutParams(param);
+                        LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+                        exoPlayerView.setLayoutParams(layoutsize);
+                        playerImg.setImageResource(R.drawable.ic_fullscreen_skrink);
+                        enableFullScreen = false;
+
+                    } else      //fullscreen stop
+                    {
+                        LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,240);
+                        layoutsize.rightMargin= 0;
+                        exoPlayerView.setLayoutParams(layoutsize);
+                        textView.setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        scrollView.setFillViewport(false);
+                        Resources resources = getContext().getResources();
+                        DisplayMetrics metrics = resources.getDisplayMetrics();
+                        int px = (int) (240 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+                        LinearLayout.LayoutParams explayersize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,px);
+                        exoPlayerView.setLayoutParams(explayersize);
+                        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                        px = (int) (55 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+                        param.bottomMargin= 0;
+                        frameLayout.setLayoutParams(param);
+                        playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
+                        enableFullScreen = true;
+
+                    }
+                }
+            });
             //컨트롤러 없애기
             exoPlayerView.setUseController(true);
             exoPlayerView.setControllerAutoShow(false);
@@ -266,25 +308,10 @@ public class ExoPlayerFragment extends Fragment {
         }
     }
 
-/*    public void showControls(){
-        runOnUiThread(() -> {
-            int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
-            if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270) { //Landscape
-
-            } else {
-
-            }
-        });*/
-//    public void showControls(){
-//            ((MainActivity) view.getContext()).getWindow().getDecorView().setSystemUiVisibility(
-//                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-//
-//    }
 @Override
 public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    ((MainActivity)getActivity()).playerLandscapeToggle();
+    /*((MainActivity)getActivity()).playerLandscapeToggle();
 
     if (((MainActivity) getActivity()).getWindowMode()) {    //세로일 때
 
@@ -314,7 +341,7 @@ public void onConfigurationChanged(Configuration newConfig) {
         exoPlayerView.setLayoutParams(layoutsize);
 
 
-    }
+    }*/
 }
     public  void isFileValid() {
         Thread th = new Thread() {

@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this,R.color.white));    // System toolbar 색상 설정
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.toolbar_color));    // System toolbar 색상 설정
+        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS ,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.activity_main);
 
         //toolbar 설정
@@ -153,8 +154,8 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-
-        fr = MainFragment.newInstance(res,member);
+        fr = new ExoPlayerFragment();
+//        fr = MainFragment.newInstance(res,member);
         switchFragment(fr);
 
     }
@@ -320,9 +321,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void playerLandscapeToggle(){
-        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
-        if(rotation== Surface.ROTATION_90 || rotation ==Surface.ROTATION_270 ) {  //가로일 때
+    public void playerLandscapeToggle(boolean EnableFullscreen){
+//        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
+        if(EnableFullscreen) {  //가로일 때
             toolbar.setVisibility(View.GONE);
             navView.setVisibility(View.GONE);
             navigationView.setVisibility(View.GONE);
@@ -342,12 +343,7 @@ public class MainActivity extends AppCompatActivity
             navView.setVisibility(View.VISIBLE);
             navigationView.setVisibility(View.VISIBLE);
             windowMode = true;
-            int flag = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                flag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-            }
-            getWindow().getDecorView().setSystemUiVisibility(flag);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
 }

@@ -53,12 +53,12 @@
 
                 <TextView
                     android:id="@+id/tv_video_info"
-                    android:layout_width="400dp"
+                    android:layout_width="match_parent"
                     android:layout_height="81dp"
+                    android:background="#eeeeee"
                     android:text="TextView"
                     android:textColor="@color/shinhan2"
                     android:textSize="13dp"
-                    android:background="#eeeeee"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.454"
                     app:layout_constraintStart_toStartOf="parent"

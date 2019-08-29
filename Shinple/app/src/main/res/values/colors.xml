@@ -12,4 +12,5 @@
     <color name="toggles">#1193cb</color>
     <color name="togglee">#106ca9</color>
     <color name="white">#ffffff</color>
+    <color name="toolbar_color" >#20000000 </color>
 </resources>
