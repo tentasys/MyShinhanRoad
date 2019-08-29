@@ -164,35 +164,35 @@
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 1 </label> 
                         <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
-                          <input type="text" name="problem_txt"class="form-control" rows="3" placeholder="문제를 입력하세요." style="resize: none;"></textarea>
+                          <input type="text" name="problem_txt[]"class="form-control"  placeholder="문제를 입력하세요." >
                         </div>
                       </div>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                          <input type="text" name="problem_no1" class="form-control" placeholder="보기 1번을 입력하세요.">
+                          <input type="text" name="problem_no1[]" class="form-control" placeholder="보기 1번을 입력하세요.">
                         </div>
                       </div>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
                         <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" name="problem_no2" class="form-control" placeholder="보기 2번을 입력하세요.">
+                            <input type="text" name="problem_no2[]" class="form-control" placeholder="보기 2번을 입력하세요.">
                         </div>
                       </div>
   
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" name="problem_no3" class="form-control" placeholder="보기 3번을 입력하세요.">
+                            <input type="text" name="problem_no3[]" class="form-control" placeholder="보기 3번을 입력하세요.">
                           </div>
                       </div>
   
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
                           <div class="col-md-9 col-sm-9 col-xs-12">
-                            <input type="text" name="problem_no4" class="form-control" placeholder="보기 4번을 입력하세요.">
+                            <input type="text" name="problem_no4[]" class="form-control" placeholder="보기 4번을 입력하세요.">
                           </div>
                       </div>
 
@@ -201,10 +201,10 @@
                         <div class="col-md-9 col-sm-9 col-xs-12">
                           <div class="radio">
                             <label>
-                              <input type="radio" class="flat1" name="problem_answer" value="1">1번
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="problem_answer" value="2">2번
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="problem_answer" value="3">3번
-                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="problem_answer" value="4">4번
+                              <input type="radio" class="flat1" checked name="problem_answer[0]" value="1">1번
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat1" name="problem_answer[0]" value="2">2번
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat1" name="problem_answer[0]" value="3">3번
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat1" name="problem_answer[0]" value="4">4번
                             </label>
                           </div>
                         </div>
@@ -213,211 +213,211 @@
                 <div class="ln_solid"></div>
 
 
-                <!-- 문제2 -->
+              <!-- 문제2 -->
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 2 </label> 
+                  <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
+                    <input type="text" name="problem_txt[]" class="form-control"  placeholder="문제를 입력하세요.">
+                  </div>
+                </div>
+
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 2 </label> 
-                    <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
-                    <textarea class="form-control" rows="3" placeholder="문제를 입력하세요." style="resize: none;"></textarea>
-                    </div>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="problem_no1[]" class="form-control" placeholder="보기 1번을 입력하세요.">
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" class="form-control" placeholder="보기 1번을 입력하세요.">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 2번을 입력하세요.">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 3번을 입력하세요.">
-                      </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 4번을 입력하세요.">
-                      </div>
-                  </div>
-                  
-                  <div class="form-group2">
-                    <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" class="flat2" checked name="iCheck2">1번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck2">2번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck2">3번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck2">4번
-                        </label>
-                      </div>
-                    </div>
-                  </div>          
-                  <div class="tags_clear"></div>    
-                  <div class="ln_solid"></div>
-
-                <!-- 문제 3번 -->
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 3 </label> 
-                    <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
-                    <textarea class="form-control" rows="3" placeholder="문제를 입력하세요." style="resize: none;"></textarea>
-                    </div>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no2[]" class="form-control" placeholder="보기 2번을 입력하세요.">
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" class="form-control" placeholder="보기 1번을 입력하세요.">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 2번을 입력하세요.">
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 3번을 입력하세요.">
-                      </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 4번을 입력하세요.">
-                      </div>
-                  </div>
-
-                  <div class="form-group3">
-                    <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" class="flat3" checked name="iCheck3">1번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck3">2번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck3">3번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck3">4번
-                        </label>
-                      </div>
-                    </div>
-                  </div>          
-                <div class="tags_clear"></div>
-                <div class="ln_solid"></div>        
-                <!-- 문제 4번 -->
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 4 </label> 
-                    <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
-                    <textarea class="form-control" rows="3" placeholder="문제를 입력하세요." style="resize: none;"></textarea>
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" class="form-control" placeholder="보기 1번을 입력하세요.">
+                      <input type="text" name="problem_no3[]" class="form-control" placeholder="보기 3번을 입력하세요.">
                     </div>
-                  </div>
+                </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 2번을 입력하세요.">
+                      <input type="text" name="problem_no4[]" class="form-control" placeholder="보기 4번을 입력하세요.">
+                    </div>
+                </div>
+                
+                <div class="form-group2">
+                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="radio">
+                      <label>
+                        <input type="radio" class="flat2" checked name="problem_answer[1]" value="1">1번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat2" name="problem_answer[1]" value="2">2번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat2" name="problem_answer[1]" value="3">3번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat2" name="problem_answer[1]" value="4">4번
+                      </label>
                     </div>
                   </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 3번을 입력하세요.">
-                      </div>
-                  </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 4번을 입력하세요.">
-                      </div>
-                  </div>
-                  
-                  <div class="form-group">
-                    <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
-                    <div class="col-md-9 col-sm-9 col-xs-12">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" class="flat4" checked name="iCheck4">1번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck4">2번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck4">3번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck4">4번
-                        </label>
-                      </div>
-                    </div>
-                  </div>          
-                <div class="tags_clear"></div>
+                </div>          
+                <div class="tags_clear"></div>    
                 <div class="ln_solid"></div>
-                <!-- 문제 5번 -->
+
+              <!-- 문제3 -->
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 3 </label> 
+                  <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
+                    <input type="text" name="problem_txt[]" class="form-control"  placeholder="문제를 입력하세요.">
+                  </div>
+                </div>
+
                 <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 5 </label> 
-                    <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
-                    <textarea class="form-control" rows="3" placeholder="문제를 입력하세요." style="resize: none;"></textarea>
-                    </div>
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="problem_no1[]" class="form-control" placeholder="보기 1번을 입력하세요.">
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no2[]" class="form-control" placeholder="보기 2번을 입력하세요.">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                      <input type="text" class="form-control" placeholder="보기 1번을 입력하세요.">
+                      <input type="text" name="problem_no3[]" class="form-control" placeholder="보기 3번을 입력하세요.">
                     </div>
-                  </div>
+                </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 2번을 입력하세요.">
+                      <input type="text" name="problem_no4[]" class="form-control" placeholder="보기 4번을 입력하세요.">
+                    </div>
+                </div>
+                
+                <div class="form-group2">
+                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="radio">
+                      <label>
+                        <input type="radio" class="flat3" checked name="problem_answer[2]" value="1">1번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat3" name="problem_answer[2]" value="2">2번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat3" name="problem_answer[2]" value="3">3번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat3" name="problem_answer[2]" value="4">4번
+                      </label>
                     </div>
                   </div>
-
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 3번을 입력하세요.">
-                      </div>
+                </div>          
+              <div class="tags_clear"></div>    
+              <div class="ln_solid"></div>        
+              <!-- 문제4 -->
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 4 </label> 
+                  <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
+                    <input type="text" name="problem_txt[]" class="form-control"  placeholder="문제를 입력하세요.">
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
-                      <div class="col-md-9 col-sm-9 col-xs-12">
-                        <input type="text" class="form-control" placeholder="보기 4번을 입력하세요.">
-                      </div>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="problem_no1[]" class="form-control" placeholder="보기 1번을 입력하세요.">
                   </div>
+                </div>
 
-                  <div class="form-group4">
-                    <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no2[]" class="form-control" placeholder="보기 2번을 입력하세요.">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
                     <div class="col-md-9 col-sm-9 col-xs-12">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" class="flat5" checked name="iCheck5">1번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck5">2번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck5">3번
-                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat" name="iCheck5">4번
-                        </label>
-                      </div>
+                      <input type="text" name="problem_no3[]" class="form-control" placeholder="보기 3번을 입력하세요.">
                     </div>
-                  </div>          
-                <div class="tags_clear"></div>
-                <div class="ln_solid"></div>       
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no4[]" class="form-control" placeholder="보기 4번을 입력하세요.">
+                    </div>
+                </div>
+                
+                <div class="form-group2">
+                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="radio">
+                      <label>
+                        <input type="radio" class="flat4" checked name="problem_answer[3]" value="1">1번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat4" name="problem_answer[3]" value="2">2번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat4" name="problem_answer[3]" value="3">3번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat4" name="problem_answer[3]" value="4">4번
+                      </label>
+                    </div>
+                  </div>
+                </div>          
+              <div class="tags_clear"></div>    
+              <div class="ln_solid"></div>
+              <!-- 문제5 -->
+              <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">문제 5 </label> 
+                  <div class="col-md-9 col-sm-9 col-xs-12" style="padding-top: 8px;">
+                    <input type="text" name="problem_txt[]" class="form-control"  placeholder="문제를 입력하세요.">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 1번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <input type="text" name="problem_no1[]" class="form-control" placeholder="보기 1번을 입력하세요.">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 2번</label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no2[]" class="form-control" placeholder="보기 2번을 입력하세요.">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 3번</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no3[]" class="form-control" placeholder="보기 3번을 입력하세요.">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="control-label col-md-3 col-sm-3 col-xs-12">보기 4번</label>
+                    <div class="col-md-9 col-sm-9 col-xs-12">
+                      <input type="text" name="problem_no4[]" class="form-control" placeholder="보기 4번을 입력하세요.">
+                    </div>
+                </div>
+                
+                <div class="form-group2">
+                  <label class="col-md-3 col-sm-3 col-xs-12 control-label">정답</small></label>
+                  <div class="col-md-9 col-sm-9 col-xs-12">
+                    <div class="radio">
+                      <label>
+                        <input type="radio" class="flat5" checked name="problem_answer[4]" value="1">1번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat5" name="problem_answer[4]" value="2">2번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat5" name="problem_answer[4]" value="3">3번
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="radio" class="flat5" name="problem_answer[4]" value="4">4번
+                      </label>
+                    </div>
+                  </div>
+                </div>          
+              <div class="tags_clear"></div>    
+              <div class="ln_solid"></div>       
             
                       <div class="form-group">
                         <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
