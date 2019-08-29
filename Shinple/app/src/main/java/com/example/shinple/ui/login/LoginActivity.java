@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shinple.BackPressHandler;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.RegisterActivity;
@@ -126,6 +127,7 @@ public class LoginActivity extends AppCompatActivity{
 
         intent.putExtra("member",loginResult);
         startActivity(intent);
+        finish();
     }
 
     //Toast.LENGTH_SHORT로 에러메세지 저장
@@ -145,5 +147,11 @@ public class LoginActivity extends AppCompatActivity{
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("userID", userIdEditText.getText().toString());
         editor.apply();
+    }
+    @Override
+    public void onBackPressed() {   //뒤로가기 키 동작
+
+        BackPressHandler backPressHandler = new BackPressHandler(this);
+        backPressHandler.onBackPressed();
     }
 }
