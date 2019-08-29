@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.gifbitmap.GifBitmapWrapper;
+import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
 
 
@@ -22,7 +23,7 @@ public class CopListFragment extends Fragment{
     private String cop_num;
     private String cop_intro;
 
-    private String server = "https://5004bd02.ngrok.io/img/cop/";
+    private String server = BackgroundTask.server+"img/cop/";
 
     public CopListFragment() {
     }
