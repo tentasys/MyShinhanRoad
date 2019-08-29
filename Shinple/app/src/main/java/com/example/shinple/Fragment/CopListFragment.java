@@ -22,7 +22,7 @@ public class CopListFragment extends Fragment{
     private String cop_num;
     private String cop_intro;
 
-    private String server = "https://a28b3847.ngrok.io/img/cop/";
+    private String server = "https://5004bd02.ngrok.io/img/cop/";
 
     public CopListFragment() {
     }

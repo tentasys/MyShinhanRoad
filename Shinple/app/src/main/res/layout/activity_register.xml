@@ -31,10 +31,10 @@
             android:id="@+id/Register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="40dp"
             android:gravity="center"
-            android:text="Shinple"
+            android:text="회원가입"
             android:textSize="50dp"
             android:textStyle="bold" />
 

@@ -1,7 +1,13 @@
 package com.example.shinple;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 
 import android.graphics.Color;
@@ -17,10 +23,12 @@ import com.example.shinple.Fragment.MainFragment;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.data.LoginRepository;
+import com.example.shinple.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -47,6 +55,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -78,6 +87,8 @@ public class MainActivity extends AppCompatActivity
         // clear FLAG_TRANSLUCENT_STATUS flag:
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
+
+
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -111,7 +122,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e){
                     e.printStackTrace();
                 }*/
-                fr = MainFragment.newInstance(res);
+                fr = MainFragment.newInstance(res,member);
                 switchFragment(fr);
             }
         });
@@ -131,7 +142,7 @@ public class MainActivity extends AppCompatActivity
 
         //Fragment 전환을 위한 초기 설정
         try{
-            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+            data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
         }
         catch (Exception e){
         }
@@ -142,12 +153,15 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
+<<<<<<< HEAD
         fr = new ExoPlayerFragment();
 //        fr = MainFragment.newInstance(res);
+=======
+        fr = MainFragment.newInstance(res,member);
+>>>>>>> 774a26f4831c0b46e3e7fa3761099337f2d17409
         switchFragment(fr);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -157,6 +171,8 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
+
+
         return true;
     }
 
@@ -168,7 +184,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.app_bar_logout) {
+            member = null;
+            Intent intent1 = new Intent(this, LoginActivity.class);
+            startActivity(intent1);
             return true;
         }
 
@@ -224,7 +243,7 @@ public class MainActivity extends AppCompatActivity
                             String result1 = "";
                             String result2 = "";
                             try{
-                                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
+                                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                             } catch (Exception e){
 
                             }
@@ -238,17 +257,17 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            switchFragment(LectureRoomFragment.newInstance(result1,result2));
+                            switchFragment(LectureRoomFragment.newInstance(result1,result2,member));
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
                             result = "";
-                            BackgroundTask backgroundTask = new BackgroundTask("app/tag.php");
+                            BackgroundTask backgroundTask = new BackgroundTask("app/tag.php",data);
                             try{
                                 result = backgroundTask.execute().get();
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            switchFragment(FilterFragment.newInstance(result));
+                            switchFragment(FilterFragment.newInstance(result,member));
 
                              return true;
                         case R.id.navigation_notifications:
@@ -271,6 +290,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fr);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

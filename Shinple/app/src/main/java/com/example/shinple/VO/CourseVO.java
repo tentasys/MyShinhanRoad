@@ -1,12 +1,15 @@
 package com.example.shinple.VO;
 
-public class CourseVO {
+import java.io.Serializable;
+
+public class CourseVO implements Serializable {
 
     String courseName;
     String courseLevel;
     String tchName;
     String cousrseText;
     String courseNum;
+    String LearnState;
 
     public String getcourseName() {
         return courseName;
@@ -49,11 +52,14 @@ public class CourseVO {
         this.courseNum = courseNum;
     }
 
-    public CourseVO(String courseName, String courseLevel,String tchName, String courseText, String courseNum) {
+    public String getLearnState() { return  LearnState; }
+
+    public CourseVO(String courseName, String courseLevel,String tchName, String courseText, String courseNum, String LearnState) {
         this.courseName = courseName;
         this.courseLevel = courseLevel;
         this.tchName = tchName;
         this.cousrseText = courseText;
         this.courseNum = courseNum;
+        this.LearnState = LearnState;
     }
 }
