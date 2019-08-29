@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" /><!-- 동영상 플레이 중 화면이 꺼지거나 잠금되지 않도록 강제 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id"/>
+
         <activity android:name=".RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -49,5 +55,16 @@
                 <data android:mimeType="video/*" />
             </intent-filter>
         </activity>
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
     </application>
 </manifest>
