@@ -20,10 +20,12 @@ import android.widget.TextView;
 import com.example.shinple.Adapter.FilterAdapter;
 import com.example.shinple.Adapter.MainSliderAdapter;
 import com.example.shinple.Adapter.RecentGridAdapter;
+import com.example.shinple.Adapter.ViewAdapter;
 import com.example.shinple.AutoViewpager.AutoScrollViewpager;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.LectureVO;
 
@@ -47,12 +49,16 @@ public class MainFragment extends Fragment {
     private GridView GV;
     private List<LectureVO> lectureList = new ArrayList<LectureVO>();
     private MemberVO member;
+    private String result1;
+    private CourseVO course;
     private String MainResult;
     private String data;
 
     /* 이미지 슬라이더 관련 부분 */
     MainSliderAdapter adapter;
     ViewPager viewPager;
+    ViewAdapter Vadapter;
+    ViewAdapter Vadapter2;
     MainSliderAdapter adapter2;
     ViewPager viewPager2;
 
@@ -71,11 +77,12 @@ public class MainFragment extends Fragment {
     public MainFragment() {
         // Required empty public constructor
     }
-    public static MainFragment newInstance(String result,MemberVO member) {
+    public static MainFragment newInstance(String result,MemberVO member, String result2) {
         MainFragment fragment = new MainFragment();
         Bundle args = new Bundle();
         args.putString("result", result);
         args.putSerializable("member",member);
+        args.putString("course",result2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -86,6 +93,7 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             MainResult = getArguments().getString("result");
             member = (MemberVO)getArguments().getSerializable("member");
+            result1 = getArguments().getString("course");
         }
     }
 
@@ -237,12 +245,17 @@ public class MainFragment extends Fragment {
 
         /* 이미지 슬라이더 실행 구현부 */
         viewPager =  v.findViewById(R.id.new_course_slider);
-        adapter = new MainSliderAdapter(v.getContext(), "newCourse");
-        viewPager.setAdapter(adapter);
+        Vadapter = new ViewAdapter(getChildFragmentManager());
+        setupViewPager(viewPager);
+        //adapter = new MainSliderAdapter(v.getContext(), "newCourse");
+        //viewPager.setAdapter(adapter);
+        course = new CourseVO("hi","2","ttt","asasasfasfas","11","1");
 
         viewPager2 =  v.findViewById(R.id.hot_course_slider);
-        adapter2 = new MainSliderAdapter(v.getContext(), "hotCourse");
-        viewPager2.setAdapter(adapter2);
+        Vadapter2 = new ViewAdapter(getChildFragmentManager());
+        //adapter2 = new MainSliderAdapter(v.getContext(), "hotCourse");
+        setupViewPager2(viewPager2);
+        //viewPager2.setAdapter(Vadapter2);
 
 
         // 신규 강의   start auto scroll of viewpager
@@ -299,5 +312,18 @@ public class MainFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+    }
+    public void setupViewPager(ViewPager viewPager) {
+        Vadapter.addFragment(ViewPagerFragment.newInstance(course));
+        Vadapter.addFragment(ViewPagerFragment.newInstance(course));
+        Vadapter.addFragment(ViewPagerFragment.newInstance(course));
+        viewPager.setAdapter(Vadapter);
+    }
+
+    public void setupViewPager2(ViewPager viewPager) {
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(course));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(course));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(course));
+        viewPager.setAdapter(Vadapter2);
     }
 }

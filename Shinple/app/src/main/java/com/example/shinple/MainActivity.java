@@ -20,6 +20,7 @@ import com.example.shinple.Fragment.ExoPlayerFragment;
 import com.example.shinple.Fragment.FilterFragment;
 import com.example.shinple.Fragment.LectureRoomFragment;
 import com.example.shinple.Fragment.MainFragment;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.data.LoginRepository;
@@ -68,8 +69,10 @@ public class MainActivity extends AppCompatActivity
 
     private String result;
     private String res;
+    private String res2;
     private String data;
     private MemberVO member;
+    private CourseVO course;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity
         // clear FLAG_TRANSLUCENT_STATUS flag:
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
+
 
 
 
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e){
                     e.printStackTrace();
                 }*/
-                fr = MainFragment.newInstance(res,member);
+                fr = MainFragment.newInstance(res,member,res2);
                 switchFragment(fr);
             }
         });
@@ -148,13 +152,15 @@ public class MainActivity extends AppCompatActivity
         }
         res = "";
         BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+        BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
         try{
             res = backgroundTask.execute().get();
+            res2 = backgroundTask1.execute().get();
         } catch (Exception e){
             e.printStackTrace();
         }
 
-        fr = MainFragment.newInstance(res,member);
+        fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 
     }

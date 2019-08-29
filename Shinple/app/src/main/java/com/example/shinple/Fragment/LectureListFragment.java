@@ -55,7 +55,7 @@ public class LectureListFragment extends Fragment {
     private Button bt_test;
     private LinearLayout bt_continue;
     public String videourl;
-    int like_number;
+    private int like_number;
     TextView like_num;
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
@@ -195,7 +195,7 @@ public class LectureListFragment extends Fragment {
         /* DB에서 받아오기 */
         button01pos = 0;
         like_number = 0;
-        like_num.setText(0);
+        like_num.setText(String.valueOf(like_number));
         like_button.setOnClickListener(new View.OnClickListener(){
             @Override
 
@@ -204,12 +204,12 @@ public class LectureListFragment extends Fragment {
                         like_button.setImageResource(R.drawable.like);
                         button01pos = 1;
                         like_number++;
-                        like_num.setText(like_number);
+                        like_num.setText(String.valueOf(like_number));
                     } else if (button01pos == 1) {
                         like_button.setImageResource(R.drawable.unlike);
                         button01pos = 0;
                         like_number--;
-                        like_num.setText(like_number);
+                        like_num.setText(String.valueOf(like_number));
                     }
                 }
         });

@@ -139,9 +139,11 @@
                     android:id="@+id/new_course_slider"
                     class="androidx.viewpager.widget.ViewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="240dp"
                     android:layout_marginEnd="3dp"
                     android:layout_marginRight="3dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/hot_course_text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/new_course_text" />
@@ -162,7 +164,8 @@
                     android:id="@+id/hot_course_slider"
                     class="androidx.viewpager.widget.ViewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="245dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/hot_course_text"
                     tools:layout_editor_absoluteX="16dp" />
 
