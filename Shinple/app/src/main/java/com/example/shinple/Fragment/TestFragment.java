@@ -1,11 +1,14 @@
 package com.example.shinple.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,11 +25,13 @@ import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.FilterVO;
+import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.QuizVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.*;
 import java.util.ArrayList;
 import java.lang.Math;
@@ -37,7 +42,10 @@ public class TestFragment extends Fragment {
     private List<QuizVO> testList;
     private RecyclerView rv_quiz;
     private String result = "";
+    private MemberVO member;
     private Button submit;
+    private String data;
+    private String courseNum;
 // 정답 받는 부분
     private int answer_check[];
     private int answer_list[];
@@ -47,10 +55,12 @@ public class TestFragment extends Fragment {
     public TestFragment() {
     }
 
-    public static TestFragment newInstance(String param1) {
+    public static TestFragment newInstance(String param1, MemberVO member, String courseNum) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
         args.putString("test", param1);
+        args.putSerializable("member",member);
+        args.putString("course",courseNum);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,6 +71,8 @@ public class TestFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             result = getArguments().getString("test");
+            member = (MemberVO)getArguments().getSerializable("member");
+            courseNum = getArguments().getString("course");
         }
     }
 
@@ -135,11 +147,57 @@ public class TestFragment extends Fragment {
                 }
                 score = Math.round((Double.valueOf(count)/Double.valueOf(answer_list.length))*100);
                 Log.d("action", String.valueOf(score));
-                count = 0;
-                score = 0;
+                String AN = "";
+                if(score > 60)
+                    AN = "합격";
+                else
+                    AN = "불합격";
+
+                AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
+                ab.setTitle("시험결과");
+                ab.setMessage(score + "점으로 " + AN + "하셨습니다.");
+                ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if(score > 60){
+                            String result = "";
+                            try{
+                                data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
+                                data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                                data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(score), "UTF-8");
+                                data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                                data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("2", "UTF-8");
+                            } catch (Exception e){
+
+                            }
+                            BackgroundTask backgroundTask = new BackgroundTask("app/problem.php",data);
+                            try{
+                                result = backgroundTask.execute().get();
+                                Log.d("sdsd",result);
+                            } catch (Exception e){
+                                e.printStackTrace();
+                            }
+                            FragmentManager fm = ((MainActivity) view.getContext())
+                                    .getSupportFragmentManager();
+                            fm.beginTransaction()
+                                    .remove(TestFragment.this).commit();
+                            fm.popBackStack();
+                        }
+                        else{
+                            FragmentManager fm = ((MainActivity) view.getContext())
+                                    .getSupportFragmentManager();
+                            fm.beginTransaction()
+                                    .remove(TestFragment.this).commit();
+                            fm.popBackStack();
+                        }
+                    }
+                });
+                ab.show();
             }
         });
 
+        count = 0;
+        score = 0;
         return v;
     }
 }

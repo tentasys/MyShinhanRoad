@@ -23,6 +23,7 @@ import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 
 import org.json.JSONArray;
@@ -39,11 +40,13 @@ public class LectureListFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "result";
     private static final String ARG_PARAM2 = "course";
+    private static final String ARG_PARAM3 = "member";
 
     // TODO: Rename and change types of parameters
     private String result = "";
     private String data;
     private CourseVO course;
+    private MemberVO member;
 
     private RecyclerView recyclerView;
     private LectureListAdapter adapter;
@@ -65,11 +68,12 @@ public class LectureListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LectureListFragment newInstance(String param1, CourseVO course) {
+    public static LectureListFragment newInstance(String param1, CourseVO course, MemberVO member) {
         LectureListFragment fragment = new LectureListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putSerializable(ARG_PARAM2, course);
+        args.putSerializable(ARG_PARAM3, member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -80,6 +84,7 @@ public class LectureListFragment extends Fragment {
         if (getArguments() != null) {
             result = getArguments().getString(ARG_PARAM1);
             course = (CourseVO)getArguments().getSerializable(ARG_PARAM2);
+            member = (MemberVO)getArguments().getSerializable(ARG_PARAM3);
         }
     }
 
@@ -146,6 +151,7 @@ public class LectureListFragment extends Fragment {
                 String result = "";
                 try{
                     data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 } catch (Exception e){
 
                 }
@@ -159,7 +165,8 @@ public class LectureListFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,TestFragment.newInstance(result))
+                        .replace(R.id.frame,TestFragment.newInstance(result,member,course.getCourseNum()))
+                        .addToBackStack("null")
                         .commit();
             }
         });

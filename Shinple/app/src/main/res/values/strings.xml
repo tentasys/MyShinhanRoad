@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Shinple</string>
+    <string name="app_name">ShinPle</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title"> 홍길동 </string>

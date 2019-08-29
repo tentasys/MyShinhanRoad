@@ -125,7 +125,7 @@ public class CourseListFragment extends Fragment{
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(result, course))
+                        .replace(R.id.frame,LectureListFragment.newInstance(result, course,member))
                         .addToBackStack("lecture_list")
                         .commit();
             }
