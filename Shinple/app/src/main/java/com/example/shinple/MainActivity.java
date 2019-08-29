@@ -17,6 +17,7 @@ import com.example.shinple.Fragment.MainFragment;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.data.LoginRepository;
+import com.example.shinple.ui.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -156,6 +158,8 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
+
+
         return true;
     }
 
@@ -167,7 +171,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.app_bar_logout) {
+            member = null;
+            Intent intent1 = new Intent(this, LoginActivity.class);
+            startActivity(intent1);
             return true;
         }
 
@@ -270,6 +277,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fr);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 
