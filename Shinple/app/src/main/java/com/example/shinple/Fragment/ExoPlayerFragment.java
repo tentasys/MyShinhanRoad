@@ -119,6 +119,7 @@ public class ExoPlayerFragment extends Fragment {
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
         exo_position = view.findViewById(R.id.exo_position);
+        exo_position.setText("1:20");
         textView.setText(video_name);
         tv_info.setText(video_info);
 
@@ -214,7 +215,6 @@ public class ExoPlayerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     ((MainActivity)getActivity()).playerLandscapeToggle(enableFullScreen);
-
                     if (enableFullScreen) {   //fullscreen start
                         Toast.makeText(getContext(),"test",Toast.LENGTH_SHORT);
 
@@ -248,7 +248,6 @@ public class ExoPlayerFragment extends Fragment {
                         frameLayout.setLayoutParams(param);
                         playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
                         enableFullScreen = true;
-
                     }
                 }
             });
@@ -263,7 +262,6 @@ public class ExoPlayerFragment extends Fragment {
             //음량조절
             player.setVolume(10);
             //프레임 포지션 설정
-
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));

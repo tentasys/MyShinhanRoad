@@ -43,6 +43,7 @@ public class LectureListFragment extends Fragment {
     private static final String ARG_PARAM1 = "result";
     private static final String ARG_PARAM2 = "course";
     private static final String ARG_PARAM3 = "member";
+    private static final String ARG_PARAM4 = "mem_like";
 
     // TODO: Rename and change types of parameters
     private String result = "";
@@ -70,12 +71,13 @@ public class LectureListFragment extends Fragment {
     private Button bt_test;
     private LinearLayout bt_continue;
     public String videourl;
+    private String mem_like;
     private int like_number;
-    TextView like_num;
+    private String lec_like;
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
     ImageView like_button;
-    public int button01pos;
+    private int button01pos;
     public LectureListFragment() {
         // Required empty public constructor
     }
@@ -118,11 +120,69 @@ public class LectureListFragment extends Fragment {
         }
         bt_continue = view.findViewById(R.id.bt_continue);
         like_button = view.findViewById(R.id.like_button);
-        like_num = view.findViewById(R.id.like_num);
         tv_courseInfo.setText(course.getCousrseText());
         tv_courseName.setText(course.getcourseName());
         tv_tch.setText(course.getTchName());
         tv_level.setText(course.getcourseLevel());
+
+        if(course.getMem_like().equals("0")){
+            like_button.setImageResource(R.drawable.unlike);
+            button01pos = 0;
+        }
+        else if (course.getMem_like().equals("1")){
+            like_button.setImageResource(R.drawable.like);
+            button01pos = 1;
+        }
+
+        like_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if (button01pos == 0) {
+                    like_button.setImageResource(R.drawable.like);
+                    button01pos = 1;
+                    String result = "";
+                    try{
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                    } catch (Exception e){
+                    }
+                    BackgroundTask backgroundTask = new BackgroundTask("app/userLike.php",data);
+                    try{
+                        result = backgroundTask.execute().get();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                } else if (button01pos == 1) {
+                    like_button.setImageResource(R.drawable.unlike);
+                    button01pos = 0;
+                    String result = "";
+                    try{
+                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
+                    } catch (Exception e){
+
+                    }
+                    BackgroundTask backgroundTask2 = new BackgroundTask("app/userLike.php",data);
+                    try{
+                        result = backgroundTask2.execute().get();
+                        Log.d("hihihi",result);
+
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+
+
+
+
+
+
+
+
 
         recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -213,27 +273,6 @@ public class LectureListFragment extends Fragment {
             }//onItemClick 끝
         });//setOnItemClickListener끝
         /* DB에서 받아오기 */
-        button01pos = 0;
-        like_number = 0;
-        like_num.setText(String.valueOf(like_number));
-        like_button.setOnClickListener(new View.OnClickListener(){
-            @Override
-
-               public void onClick(View view) {
-                    if (button01pos == 0) {
-                        like_button.setImageResource(R.drawable.like);
-                        button01pos = 1;
-                        like_number++;
-                        like_num.setText(String.valueOf(like_number));
-                    } else if (button01pos == 1) {
-                        like_button.setImageResource(R.drawable.unlike);
-                        button01pos = 0;
-                        like_number--;
-                        like_num.setText(String.valueOf(like_number));
-                    }
-                }
-        });
-
 
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
@@ -243,7 +282,7 @@ public class LectureListFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time, recent_time;
+            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_like;
             String[][] S = new String[jsonArray.length()][2];
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -278,18 +317,24 @@ public class LectureListFragment extends Fragment {
             e.printStackTrace();
         }
 // 이어보기 버튼 추후 개발 예정
-        last.setText(lectureList.get(recent_num).getLec_title());
+
+        //last.setText(lectureList.get(recent_num).getLec_title());
+
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /*isFileValid();  //파일이 유효한 지 체크
+                videourl = BackgroundTask.server+"video/"+ course.getCourseNum() + "/" + lectureList.get(recent_num).getLec_order() + ".mp4";
+                String url =  BackgroundTask.server+"video/"+ course.getCourseNum() + "/";
+                String video = lectureList.get(recent_num).getLec_order() + ".mp4";
+                String lec_title = lectureList.get(recent_num).getLec_title();
+                String lec_text = lectureList.get(recent_num).getLec_text();
+                isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())

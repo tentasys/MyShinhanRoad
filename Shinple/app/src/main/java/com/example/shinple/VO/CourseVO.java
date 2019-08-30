@@ -10,6 +10,8 @@ public class CourseVO implements Serializable {
     String cousrseText;
     String courseNum;
     String LearnState;
+    String Like;
+    String mem_like;
 
     public String getcourseName() {
         return courseName;
@@ -53,13 +55,17 @@ public class CourseVO implements Serializable {
     }
 
     public String getLearnState() { return  LearnState; }
+    public String getLike() { return  Like; }
+    public String getMem_like() { return  mem_like; }
 
-    public CourseVO(String courseName, String courseLevel,String tchName, String courseText, String courseNum, String LearnState) {
+    public CourseVO(String courseName, String courseLevel,String tchName, String courseText, String courseNum, String LearnState, String Like, String mem_like) {
         this.courseName = courseName;
         this.courseLevel = courseLevel;
         this.tchName = tchName;
         this.cousrseText = courseText;
         this.courseNum = courseNum;
         this.LearnState = LearnState;
+        this.Like = Like;
+        this.mem_like = mem_like;
     }
 }
