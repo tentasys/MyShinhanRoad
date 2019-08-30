@@ -36,6 +36,7 @@ import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
@@ -53,12 +54,14 @@ import android.view.Menu;
 
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -83,7 +86,6 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView navView;
     TextView toolbar_title;
 
-    boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -161,12 +163,13 @@ public class MainActivity extends AppCompatActivity
         BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
         try{
             res = backgroundTask.execute().get();
+            Log.d("slamflasflas",res);
             res2 = backgroundTask1.execute().get();
             Log.d("mainCourse",res2);
         } catch (Exception e){
             e.printStackTrace();
         }
-//        fr = new LectureRoomFragment();
+//        fr = new ExoPlayerFragment();
         fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 
@@ -181,7 +184,6 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
-
 
         return true;
     }
@@ -233,11 +235,16 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_tools) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.log_out) {
+            showCustomDialog();
+            return  true;
+        } else if (id == R.id.exit) {
+            showCustomDialog2();
+            return true;
+        } else if (id == R.id.nav_config) {
 
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -324,11 +331,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public boolean getWindowMode() {
-        return windowMode;
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -342,7 +344,6 @@ public class MainActivity extends AppCompatActivity
             toolbar.setVisibility(View.GONE);
             navView.setVisibility(View.GONE);
             navigationView.setVisibility(View.GONE);
-            windowMode= false;
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -359,8 +360,80 @@ public class MainActivity extends AppCompatActivity
             toolbar.setVisibility(View.VISIBLE);
             navView.setVisibility(View.VISIBLE);
             navigationView.setVisibility(View.VISIBLE);
-            windowMode = true;
+
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+    }
+
+    private void showCustomDialog() {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.yes_no_dialog, viewGroup, false);
+
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView context = dialogView.findViewById(R.id.dialog_context);
+        TextView bt_yes = dialogView.findViewById(R.id.buttonYES);
+        TextView bt_no = dialogView.findViewById(R.id.buttonNO);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        context.setText("로그아웃하시겠습니까?");
+        AlertDialog alertDialog = builder.create();
+        bt_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(dialogView.getContext(), LoginActivity.class);
+                member = null;
+                startActivity(intent);
+            }
+        });
+        bt_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        //finally creating the alert dialog and displaying it
+        alertDialog.show();
+    }
+
+    private void showCustomDialog2() {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.yes_no_dialog, viewGroup, false);
+
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView context = dialogView.findViewById(R.id.dialog_context);
+        TextView bt_yes = dialogView.findViewById(R.id.buttonYES);
+        TextView bt_no = dialogView.findViewById(R.id.buttonNO);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        context.setText("ShinPle을 종료하시겠습니까?");
+        AlertDialog alertDialog = builder.create();
+        bt_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.exit(0);
+            }
+        });
+        bt_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        //finally creating the alert dialog and displaying it
+        alertDialog.show();
     }
 }

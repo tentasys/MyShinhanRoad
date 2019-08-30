@@ -102,11 +102,18 @@ public class CourseListFragment extends Fragment{
             @Override
             public void onItemClick(View view, CourseVO course) {
                 //new CourseListFragment.BackgroundTask().execute();
+                String temp = "";
+                if (course.getLearnState() == null){
+                    temp = "0";
+                }
+                else{
+                    temp = course.getLearnState();
+                }
                 try{
                     data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                     data += "&" +  URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                     if(course.getLearnState().equals("0")){
-                        data += "&" +  URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                        data += "&" +  URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(temp, "UTF-8");
                     }
                     else {
                         data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");

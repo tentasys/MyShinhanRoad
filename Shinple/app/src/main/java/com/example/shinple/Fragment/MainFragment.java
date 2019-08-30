@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shinple.Adapter.FilterAdapter;
 import com.example.shinple.Adapter.MainSliderAdapter;
@@ -36,11 +37,17 @@ import com.example.shinple.VO.MemberVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static java.util.Objects.isNull;
 
 
 public class MainFragment extends Fragment {
@@ -54,6 +61,14 @@ public class MainFragment extends Fragment {
     private List<CourseVO> hot_course;
     private String MainResult;
     private String data;
+    public String videourl;
+    public boolean FileValideCheckResult = false;
+
+    long mNow;
+    private String data1;
+    Date mDate;
+    String pattern ="yyyy-MM-dd hh:mm:ss";
+    SimpleDateFormat mFormat = new SimpleDateFormat(pattern);
 
     /* 이미지 슬라이더 관련 부분 */
     MainSliderAdapter adapter;
@@ -165,7 +180,7 @@ public class MainFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time, recent_time;
+            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_num, course_num;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -177,9 +192,11 @@ public class MainFragment extends Fragment {
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
                 recent_time = object.getString("recent_time");
+                lec_num = object.getString("lec_num");
+                course_num = object.getString("course_num");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time, lec_num, course_num);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
@@ -248,63 +265,60 @@ public class MainFragment extends Fragment {
 
         // 차후 변수값을 DB를 읽는걸로 바꿈
 
-            GV = v.findViewById(R.id.gv_recent);
-            GA = new RecentGridAdapter(v.getContext(), lectureList);
-            GV.setAdapter(GA);
-
-            /*try{
-                String [] lecName={"빅데이터","블록체인"};
-                String [] lecInfo={"빅데이터강의 설명입니다","블록체인강의설명입니다."};
-                String [] lecNum={"1","1"};
-                String [] lecTime={"23:33","50:22"};
-                int length = lecName.length;
-                //JSON 배열 길이만큼 반복문을 실행
-
-                for(int tagnum=0; tagnum<length;tagnum++){
-                    //TODO: json 데이터 가져와 서 쪼개서 변수 넣기
-                    String lecN = lecName[tagnum];
-                    String lecI = lecInfo[tagnum];
-                    String lecNu = lecNum[tagnum];
-                    String lecT = lecTime[tagnum];
-
-
-                    //값들을 User클래스에 묶어줍니다
-                    LectureVO lecture = new LectureVO(lecN,lecNu,lecI,lecT);
-                    lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
-                }
-            }catch(Exception e){
-                e.printStackTrace();
-            } //try_catch 끝
-        */
-
-
-
-
-        //최근 강의1 누르면 해당 강의 상세 페이지로
-        /*recent_course_layout1.setOnClickListener(new View.OnClickListener(){
+        GV = v.findViewById(R.id.gv_recent);
+        GA = new RecentGridAdapter(v.getContext(), lectureList);
+        GV.setAdapter(GA);
+        GA.setOnCheckListener(new RecentGridAdapter.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                ((MainActivity) view.getContext())
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
-                        .addToBackStack("lecturelist")
-                        .commit();
+            public void onItemClick(View view, LectureVO lecture) {
+                videourl = BackgroundTask.server+"video/course/" + lecture.getLec_num() + ".mp4";
+                String url =  BackgroundTask.server+"video/course/";
+                String video = lecture.getLec_num() + ".mp4";
+
+                String result2 = "";
+
+
+                recent_video(lecture);
+
+
+                try{
+                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                    data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
+                    Log.d("time",data1);
+                } catch (Exception e){
+                }
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
+                try{
+                    result2 = backgroundTask2.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                Log.d("order",result2);
+                isFileValid();  //파일이 유효한 지1 체크
+                if(FileValideCheckResult){
+                    try {   // exo해보고
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text(),video, member))
+                                .commit();
+                    }catch (Exception e){  //exo안되면 media로 가자!
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text()))
+                                .commit();
+                    }
+                }else{
+                    Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
+
+                } //ifelse 끝
             }
         });
 
-        //최근 강의2 누르면 해당 강의 상세 페이지로
-        recent_course_layout2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                ((MainActivity) view.getContext())
-                        .getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance("상세","상세", "상세","상세","상세","상세"))
-                        .addToBackStack("lecturelist")
-                        .commit();
-            }
-        });*/
 
         /* 이미지 슬라이더 실행 구현부 */
         viewPager =  v.findViewById(R.id.new_course_slider);
@@ -375,16 +389,80 @@ public class MainFragment extends Fragment {
 
     }
     public void setupViewPager(ViewPager viewPager) {
-        Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(0)));
-        Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1)));
-        Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2)));
-        viewPager.setAdapter(Vadapter);
+        if (new_course.get(0) != null) {
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(0)));
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1)));
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2)));
+            viewPager.setAdapter(Vadapter);
+        }
     }
 
     public void setupViewPager2(ViewPager viewPager) {
+        if(hot_course.get(0) != null){
         Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(0)));
         Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(1)));
         Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(2)));
         viewPager.setAdapter(Vadapter2);
+        }
     }
+
+    private void recent_video(LectureVO lecture){
+
+        String result = "";
+        try{
+            data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+            data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
+            data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
+            Log.d("time1",data);
+        } catch (Exception e){
+        }
+        BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
+        try{
+            result = backgroundTask.execute().get();
+            Log.d("test123",result);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /* 파일이 유효한 지 체크해서 전역변수 FileValideCheckResult에 저장하는 함수 */
+    public  void isFileValid() {
+        Thread th = new Thread() {
+            @Override
+            public void run() {
+                if(videourl == null){
+                    FileValideCheckResult = false;
+                    this.stop();
+                }
+                try {
+                    URL url = new URL(videourl);
+                    HttpURLConnection http = (HttpURLConnection) url.openConnection();
+                    if (http.getResponseCode() == 200) {
+                        Log.i("PlayUrlCheck", "valid");
+                        FileValideCheckResult = true;
+                    } else {
+                        Log.i("PlayUrlCheck", "invalid");
+                        FileValideCheckResult =false;
+                    }
+                } catch ( Exception e) {
+                    Log.i("PlayUrlCheck", "error");
+                    FileValideCheckResult = false;
+                }
+            }
+        };
+        th.start();
+        try {
+            th.join();
+        }catch (Exception e){
+            Log.e("Error", "ThreadError");
+        }
+    }
+
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+        return mFormat.format(mDate);
+    }
+
 }

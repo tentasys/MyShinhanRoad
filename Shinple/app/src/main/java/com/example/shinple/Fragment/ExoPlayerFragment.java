@@ -25,8 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shinple.Adapter.LectureListAdapter;
+import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -45,7 +48,10 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,6 +61,8 @@ public class ExoPlayerFragment extends Fragment {
     private static final String ARG_PARAM3 = "video_name";
     private static final String ARG_PARAM4 = "video_info";
     private static final String ARG_PARAM5 = "video_num";
+    private static final String ARG_PARAM7 = "member";
+    private static final String ARG_PARAM6 = "course";
 
     private PlayerView exoPlayerView;
     private SimpleExoPlayer player;
@@ -65,6 +73,14 @@ public class ExoPlayerFragment extends Fragment {
 
     private LectureListAdapter adapter;
     private List<LectureVO> lectureList;
+    private CourseVO course;
+    private MemberVO member;
+
+    long mNow;
+    Date mDate;
+    String pattern ="yyyy-MM-dd hh:mm:ss";
+    SimpleDateFormat mFormat1 = new SimpleDateFormat(pattern);
+    SimpleDateFormat mFormat = new SimpleDateFormat("hh:mm:ss");
 
     private String mParam1;
     private String mParam2;
@@ -74,14 +90,18 @@ public class ExoPlayerFragment extends Fragment {
     private String video_info;
     private TextView tv_name;
     private TextView tv_info;
+    private String data;
     TextView textView;
     TextView exo_position;
     RecyclerView recyclerView;
     ScrollView scrollView;
     FrameLayout frameLayout;
     public boolean FileValideCheckResult = false;
+    private boolean enableFullScreen = true;
 
-    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5) {
+
+
+    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5, MemberVO member) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -89,6 +109,7 @@ public class ExoPlayerFragment extends Fragment {
         args.putString(ARG_PARAM3, param3);
         args.putString(ARG_PARAM4, param4);
         args.putString(ARG_PARAM5, param5);
+        args.putSerializable(ARG_PARAM7, member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,11 +124,13 @@ public class ExoPlayerFragment extends Fragment {
             result = getArguments().getString(ARG_PARAM2);
             video_name = getArguments().getString(ARG_PARAM3);
             video_info = getArguments().getString(ARG_PARAM4);
+            member = (MemberVO)getArguments().getSerializable(ARG_PARAM7);
         }
         else
         {
 //                videourl =  "https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4";
-                  videourl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+//                  videourl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+                    videourl = "https://dbcf91c1.ngrok.io/video/course/10.mp4";
         }
 
     }
@@ -116,9 +139,11 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exoplayer, container, false);
+
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
         exo_position = view.findViewById(R.id.exo_position);
+
         exo_position.setText("1:20");
         textView.setText(video_name);
         tv_info.setText(video_info);
@@ -137,8 +162,8 @@ public class ExoPlayerFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
-                videourl = mParam1 + lec_order + ".mp4";
+            public void onItemClick(View view, LectureVO lecture) {
+                videourl = mParam1 + lecture.getLec_num() + ".mp4";
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
@@ -147,8 +172,29 @@ public class ExoPlayerFragment extends Fragment {
                     //start,stop
                     player.setPlayWhenReady(playWhenReady);
 
-                    textView.setText(lec_title);
-                    tv_info.setText(lec_text);
+
+                    textView.setText(lecture.getLec_title());
+                    tv_info.setText(lecture.getLec_text());
+
+
+
+                    String result = "";
+                    try{
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
+
+                    } catch (Exception e){
+                    }
+                    BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
+                    try{
+                        result = backgroundTask.execute().get();
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
                 }else{
                     Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
                 } //ifelse 끝
@@ -157,33 +203,32 @@ public class ExoPlayerFragment extends Fragment {
 
 
         try{
-            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(result);
-
-
-            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time,recent_time;
+
+            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num, course_num;
 
             //JSON 배열 길이만큼 반복문을 실행
+
             while(count < jsonArray.length()){
-                //count는 배열의 인덱스를 의미
                 JSONObject object = jsonArray.getJSONObject(count);
 
-                lec_title = object.getString("lec_title");//여기서 ID가 대문자임을 유의
+                lec_title = object.getString("lec_title");
                 lec_order = object.getString("lec_order");
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
                 recent_time = object.getString("recent_time");
+                lec_num = object.getString("lec_num");
+                course_num = object.getString("course_num");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num, course_num);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
-
+            exo_position.setText("05:30");
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -193,6 +238,7 @@ public class ExoPlayerFragment extends Fragment {
     public void onStart() {
         super.onStart();
         initializePlayer();
+
     }
 
     @Override
@@ -202,7 +248,7 @@ public class ExoPlayerFragment extends Fragment {
         releasePlayer();
     }
 
-    private boolean enableFullScreen = false;
+
     private void initializePlayer() {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(view.getContext());
@@ -216,8 +262,6 @@ public class ExoPlayerFragment extends Fragment {
                 public void onClick(View view) {
                     ((MainActivity)getActivity()).playerLandscapeToggle(enableFullScreen);
                     if (enableFullScreen) {   //fullscreen start
-                        Toast.makeText(getContext(),"test",Toast.LENGTH_SHORT);
-
                         textView.setVisibility(View.INVISIBLE);
                         recyclerView.setVisibility(View.INVISIBLE);
                         scrollView.setFillViewport(true);
@@ -265,10 +309,9 @@ public class ExoPlayerFragment extends Fragment {
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
-
+        player.seekTo(360000);
         //prepare
-        player.prepare(mediaSource, true, false);
-
+        player.prepare(mediaSource, false, false);
         //start,stop
         player.setPlayWhenReady(playWhenReady);
     }
@@ -315,37 +358,6 @@ public class ExoPlayerFragment extends Fragment {
 @Override
 public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    /*((MainActivity)getActivity()).playerLandscapeToggle();
-
-    if (((MainActivity) getActivity()).getWindowMode()) {    //세로일 때
-
-        LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,240);
-        layoutsize.rightMargin= 0;
-        exoPlayerView.setLayoutParams(layoutsize);
-        textView.setVisibility(View.VISIBLE);
-        recyclerView.setVisibility(View.VISIBLE);
-        Resources resources = getContext().getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        int px = (int) (240 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-        LinearLayout.LayoutParams explayersize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,px);
-        exoPlayerView.setLayoutParams(explayersize);
-        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        px = (int) (55 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-        param.bottomMargin=px;
-        frameLayout.setLayoutParams(param);
-    } else      //가로일때
-    {
-        textView.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
-        scrollView.setFillViewport(true);
-        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-        param.bottomMargin=0;
-        frameLayout.setLayoutParams(param);
-        LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-        exoPlayerView.setLayoutParams(layoutsize);
-
-
-    }*/
 }
     public  void isFileValid() {
         Thread th = new Thread() {
@@ -378,4 +390,11 @@ public void onConfigurationChanged(Configuration newConfig) {
             Log.e("Error", "ThreadError");
         }
     }
+
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+        return mFormat1.format(mDate);
+    }
+
 }

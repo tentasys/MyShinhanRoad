@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shinple.Adapter.CourseAAdapter;
@@ -24,9 +26,11 @@ import com.example.shinple.Adapter.TestAdapter;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.QuizVO;
+import com.example.shinple.ui.login.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,11 +47,10 @@ public class TestFragment extends Fragment {
     private RecyclerView rv_quiz;
     private String result = "";
     private MemberVO member;
+    private CourseVO course;
     private Button submit;
     private int Point = 0;
     private String data;
-    private String courseNum;
-    private String courseL;
 // 정답 받는 부분
     private int answer_check[];
     private int answer_list[];
@@ -57,13 +60,12 @@ public class TestFragment extends Fragment {
     public TestFragment() {
     }
 
-    public static TestFragment newInstance(String param1, MemberVO member, String courseNum, String courseLevel) {
+    public static TestFragment newInstance(String param1, MemberVO member, CourseVO course) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
         args.putString("test", param1);
         args.putSerializable("member",member);
-        args.putString("course",courseNum);
-        args.putString("courseL",courseLevel);
+        args.putSerializable("course",course);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,8 +77,7 @@ public class TestFragment extends Fragment {
         if (getArguments() != null) {
             result = getArguments().getString("test");
             member = (MemberVO)getArguments().getSerializable("member");
-            courseNum = getArguments().getString("course");
-            courseL = getArguments().getString("courseL");
+            course = (CourseVO)getArguments().getSerializable("course");
         }
     }
 
@@ -150,38 +151,69 @@ public class TestFragment extends Fragment {
                     }
                 }
 
-                if (courseL.equals("1")){
+                if (course.getcourseLevel().equals("1")){
                     Point = 10;
                 }
-                else if (courseL.equals("2")){
+                else if (course.getcourseLevel().equals("2")){
                     Point = 12;
                 }
-                else if (courseL.equals("3")){
+                else if (course.getcourseLevel().equals("3")){
                     Point = 14;
                 }
-                else if (courseL.equals("4")){
+                else if (course.getcourseLevel().equals("4")){
                     Point = 16;
                 }
-                else if (courseL.equals("5")){
+                else if (course.getcourseLevel().equals("5")){
                     Point = 18;
                 }
-                else if (courseL.equals("6")){
+                else if (course.getcourseLevel().equals("6")){
                     Point = 20;
                 }
-                else if (courseL.equals("7")){
+                else if (course.getcourseLevel().equals("7")){
                     Point = 22;
                 }
 
 
                 score = Math.round((Double.valueOf(count)/Double.valueOf(answer_list.length))*100);
                 Log.d("action", String.valueOf(score));
-                String AN = "";
-                if(score > 60)
-                    AN = "합격";
-                else
-                    AN = "불합격";
 
-                AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
+                showCustomDialog(view,score);
+
+                String temp = "";
+                if (course.getLearnState() == null){
+                    temp = "0";
+                }
+                else{
+                    temp = course.getLearnState();
+                }
+                try{
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data += "&" +  URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    if(course.getLearnState().equals("0")){
+                        data += "&" +  URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(temp, "UTF-8");
+                    }
+                    else {
+                        data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    }
+                    Log.d("cccc",data);
+                }
+                catch (Exception e){
+                }
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("app/lectureList.php",data);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                Log.d("lecture",result);
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
+                        .commit();
+            }
+                /*AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
                 ab.setTitle("시험결과");
                 ab.setMessage(score + "점으로 " + AN + "하셨습니다.");
                 ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -220,12 +252,78 @@ public class TestFragment extends Fragment {
                         }
                     }
                 });
-                ab.show();
-            }
+                ab.show();*/
         });
 
         count = 0;
         score = 0;
         return v;
+    }
+
+
+    private void showCustomDialog(View view, float score) {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = view.findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.my_dialog, viewGroup, false);
+
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView context = dialogView.findViewById(R.id.dialog_context);
+        TextView bt_yes = dialogView.findViewById(R.id.buttonOk);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+        title.setText("시험결과");
+        String AN = "";
+        if(score > 60)
+            AN = "합격";
+        else
+            AN = "불합격";
+        context.setText(Math.round(score) + "점으로 " + AN + "하셨습니다.");
+        AlertDialog alertDialog = builder.create();
+        bt_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(score > 60){
+                    String result = "";
+                    try{
+                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(Point), "UTF-8");
+                        data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode( "1", "UTF-8");
+                        data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("2", "UTF-8");
+                    } catch (Exception e){
+
+                    }
+                    BackgroundTask backgroundTask = new BackgroundTask("app/problem.php",data);
+                    try{
+                        result = backgroundTask.execute().get();
+                        Log.d("sdsd",result);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    alertDialog.dismiss();
+                    FragmentManager fm = ((MainActivity) view.getContext())
+                            .getSupportFragmentManager();
+                    fm.beginTransaction()
+                            .remove(TestFragment.this).commit();
+                    fm.popBackStack();
+                }
+                else{
+                    alertDialog.dismiss();
+                    FragmentManager fm = ((MainActivity) view.getContext())
+                            .getSupportFragmentManager();
+                    fm.beginTransaction()
+                            .remove(TestFragment.this).commit();
+                    fm.popBackStack();
+                }
+            }
+        });
+
+        alertDialog.show();
+
     }
 }
