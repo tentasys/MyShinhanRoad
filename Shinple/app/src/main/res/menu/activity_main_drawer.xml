@@ -25,7 +25,7 @@
     <item android:title="앱 설정">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/log_out"
                 android:icon="@drawable/ic_logout_black"
                 android:title="로그아웃" />
             <item
@@ -33,7 +33,7 @@
                 android:icon="@drawable/ic_setting_black"
                 android:title="설정" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/exit"
                 android:icon="@drawable/ic_power_black"
                 android:title="어플리케이션 종료" />
         </menu>

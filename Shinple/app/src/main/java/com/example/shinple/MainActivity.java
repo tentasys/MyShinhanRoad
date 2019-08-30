@@ -36,6 +36,7 @@ import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
@@ -53,12 +54,14 @@ import android.view.Menu;
 
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
 
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -233,11 +236,15 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_tools) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.log_out) {
+            showCustomDialog();
+        } else if (id == R.id.exit) {
+            System.exit(0);
+            return true;
+        } else if (id == R.id.nav_config) {
 
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -362,5 +369,44 @@ public class MainActivity extends AppCompatActivity
             windowMode = true;
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
+    }
+
+    private void showCustomDialog() {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.yes_no_dialog, viewGroup, false);
+
+        ImageView icon = dialogView.findViewById(R.id.iv_dial);
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView context = dialogView.findViewById(R.id.dialog_context);
+        TextView bt_yes = dialogView.findViewById(R.id.buttonYES);
+        TextView bt_no = dialogView.findViewById(R.id.buttonNO);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        title.setText("로그아웃하시겠습니까?");
+        AlertDialog alertDialog = builder.create();
+        bt_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(dialogView.getContext(), LoginActivity.class);
+                member = null;
+                startActivity(intent);
+            }
+        });
+        bt_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        //finally creating the alert dialog and displaying it
+        alertDialog.show();
+
     }
 }

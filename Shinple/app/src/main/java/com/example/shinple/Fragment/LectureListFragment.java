@@ -352,7 +352,7 @@ public class LectureListFragment extends Fragment {
                     }
                 }else{
                     progressDialog.setMessage("파일 경로를 확인해주세요.");
-                    progressDialog.setCancelable(false);
+                    progressDialog.setCancelable(true);
                     progressDialog.show();
                 } //ifelse 끝*/
             }//onItemClick 끝

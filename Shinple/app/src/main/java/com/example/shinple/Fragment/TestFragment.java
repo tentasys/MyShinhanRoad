@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shinple.Adapter.CourseAAdapter;
@@ -27,6 +29,7 @@ import com.example.shinple.R;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.QuizVO;
+import com.example.shinple.ui.login.LoginActivity;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -175,13 +178,10 @@ public class TestFragment extends Fragment {
 
                 score = Math.round((Double.valueOf(count)/Double.valueOf(answer_list.length))*100);
                 Log.d("action", String.valueOf(score));
-                String AN = "";
-                if(score > 60)
-                    AN = "합격";
-                else
-                    AN = "불합격";
 
-                AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
+                showCustomDialog(view,score);
+
+                /*AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
                 ab.setTitle("시험결과");
                 ab.setMessage(score + "점으로 " + AN + "하셨습니다.");
                 ab.setPositiveButton("확인", new DialogInterface.OnClickListener() {
@@ -220,12 +220,79 @@ public class TestFragment extends Fragment {
                         }
                     }
                 });
-                ab.show();
+                ab.show();*/
             }
         });
 
         count = 0;
         score = 0;
         return v;
+    }
+
+
+    private void showCustomDialog(View view, float score) {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = view.findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.my_dialog, viewGroup, false);
+
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView context = dialogView.findViewById(R.id.dialog_context);
+        TextView bt_yes = dialogView.findViewById(R.id.buttonOk);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+        title.setText("시험결과");
+        String AN = "";
+        if(score > 60)
+            AN = "합격";
+        else
+            AN = "불합격";
+        context.setText(Math.round(score) + "점으로 " + AN + "하셨습니다.");
+        AlertDialog alertDialog = builder.create();
+        bt_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(score > 60){
+                    String result = "";
+                    try{
+                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
+                        data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(Point), "UTF-8");
+                        data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode( "1", "UTF-8");
+                        data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("2", "UTF-8");
+                    } catch (Exception e){
+
+                    }
+                    BackgroundTask backgroundTask = new BackgroundTask("app/problem.php",data);
+                    try{
+                        result = backgroundTask.execute().get();
+                        Log.d("sdsd",result);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    alertDialog.dismiss();
+                    FragmentManager fm = ((MainActivity) view.getContext())
+                            .getSupportFragmentManager();
+                    fm.beginTransaction()
+                            .remove(TestFragment.this).commit();
+                    fm.popBackStack();
+                }
+                else{
+                    alertDialog.dismiss();
+                    FragmentManager fm = ((MainActivity) view.getContext())
+                            .getSupportFragmentManager();
+                    fm.beginTransaction()
+                            .remove(TestFragment.this).commit();
+                    fm.popBackStack();
+                }
+            }
+        });
+
+        alertDialog.show();
+
     }
 }
