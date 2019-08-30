@@ -30,10 +30,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        // ...
 
-        // TODO(developer): Handle FCM messages here.
-        // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: " + remoteMessage.getFrom());
 
         // Check if message contains a data payload.
@@ -75,23 +72,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * the previous token had been compromised. Note that this is called when the InstanceID token
      * is initially generated so this is where you would retrieve the token.
      */
+
+    //앱이 맨 처음에 설치되었을 때 자동으로 호출됨
     @Override
     public void onNewToken(String token) {
         Log.d(TAG, "Refreshed token: " + token);
-
-        // If you want to send messages to this application instance or
-        // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
         sendRegistrationToServer(token);
     }
     private void handleNow(){
         Log.d("TEST", "Short lived task is done.");
     }
 
+    //token을 서버에 등록하는 함수
     public void sendRegistrationToServer(String token){
         Log.d("TEST", "Short");
     }
 
+    //PHP에서 보내는 알림을 처리하는 모듈
     private void sendNotification(String body) {
 
         Intent intent = new Intent(this, LoginActivity.class);      //알람을 터치하면 로그인
