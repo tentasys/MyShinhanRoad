@@ -97,7 +97,7 @@ public class ExoPlayerFragment extends Fragment {
     FrameLayout frameLayout;
     public boolean FileValideCheckResult = false;
 
-    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5,CourseVO course, MemberVO member) {
+    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5, MemberVO member) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -105,7 +105,6 @@ public class ExoPlayerFragment extends Fragment {
         args.putString(ARG_PARAM3, param3);
         args.putString(ARG_PARAM4, param4);
         args.putString(ARG_PARAM5, param5);
-        args.putSerializable(ARG_PARAM6, course);
         args.putSerializable(ARG_PARAM7, member);
         fragment.setArguments(args);
         return fragment;
@@ -121,7 +120,6 @@ public class ExoPlayerFragment extends Fragment {
             result = getArguments().getString(ARG_PARAM2);
             video_name = getArguments().getString(ARG_PARAM3);
             video_info = getArguments().getString(ARG_PARAM4);
-            course = (CourseVO)getArguments().getSerializable(ARG_PARAM6);
             member = (MemberVO)getArguments().getSerializable(ARG_PARAM7);
         }
         else
@@ -157,8 +155,8 @@ public class ExoPlayerFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lec_order, String lec_title, String lec_text, String lec_num) {
-                videourl = mParam1 + lec_order + ".mp4";
+            public void onItemClick(View view, LectureVO lecture) {
+                videourl = mParam1 + lecture.getLec_num() + ".mp4";
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
@@ -167,15 +165,15 @@ public class ExoPlayerFragment extends Fragment {
                     //start,stop
                     player.setPlayWhenReady(playWhenReady);
 
-                    textView.setText(lec_title);
-                    tv_info.setText(lec_text);
+                    textView.setText(lecture.getLec_title());
+                    tv_info.setText(lecture.getLec_text());
 
 
                     String result = "";
                     try{
-                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                        data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
+                        data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
                         Log.d("asflmaslfmaslfmasf",data);
                     } catch (Exception e){
@@ -205,7 +203,7 @@ public class ExoPlayerFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num;
+            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num, course_num;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -218,9 +216,10 @@ public class ExoPlayerFragment extends Fragment {
                 lec_time = object.getString("lec_time");
                 recent_time = object.getString("recent_time");
                 lec_num = object.getString("lec_num");
+                course_num = object.getString("course_num");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num, course_num);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }

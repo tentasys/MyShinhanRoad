@@ -186,7 +186,6 @@ public class MainActivity extends AppCompatActivity
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
 
-
         return true;
     }
 
@@ -239,8 +238,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.log_out) {
             showCustomDialog();
+            return  true;
         } else if (id == R.id.exit) {
-            System.exit(0);
+            showCustomDialog2();
             return true;
         } else if (id == R.id.nav_config) {
 
@@ -379,7 +379,6 @@ public class MainActivity extends AppCompatActivity
         //then we will inflate the custom alert dialog xml that we created
         View dialogView = LayoutInflater.from(this).inflate(R.layout.yes_no_dialog, viewGroup, false);
 
-        ImageView icon = dialogView.findViewById(R.id.iv_dial);
         TextView title = dialogView.findViewById(R.id.dialog_title);
         TextView context = dialogView.findViewById(R.id.dialog_context);
         TextView bt_yes = dialogView.findViewById(R.id.buttonYES);
@@ -390,7 +389,7 @@ public class MainActivity extends AppCompatActivity
         //setting the view of the builder to our custom view that we already inflated
         builder.setView(dialogView);
 
-        title.setText("로그아웃하시겠습니까?");
+        context.setText("로그아웃하시겠습니까?");
         AlertDialog alertDialog = builder.create();
         bt_yes.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -408,6 +407,40 @@ public class MainActivity extends AppCompatActivity
         });
         //finally creating the alert dialog and displaying it
         alertDialog.show();
+    }
 
+    private void showCustomDialog2() {
+        //before inflating the custom alert dialog layout, we will get the current activity viewgroup
+        ViewGroup viewGroup = findViewById(android.R.id.content);
+
+        //then we will inflate the custom alert dialog xml that we created
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.yes_no_dialog, viewGroup, false);
+
+        TextView title = dialogView.findViewById(R.id.dialog_title);
+        TextView context = dialogView.findViewById(R.id.dialog_context);
+        TextView bt_yes = dialogView.findViewById(R.id.buttonYES);
+        TextView bt_no = dialogView.findViewById(R.id.buttonNO);
+        //Now we need an AlertDialog.Builder object
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //setting the view of the builder to our custom view that we already inflated
+        builder.setView(dialogView);
+
+        context.setText("ShinPle을 종료하시겠습니까?");
+        AlertDialog alertDialog = builder.create();
+        bt_yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.exit(0);
+            }
+        });
+        bt_no.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
+            }
+        });
+        //finally creating the alert dialog and displaying it
+        alertDialog.show();
     }
 }
