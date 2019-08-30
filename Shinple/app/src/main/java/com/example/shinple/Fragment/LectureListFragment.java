@@ -48,6 +48,7 @@ public class LectureListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String result = "";
     private String data;
+    private String data1;
     private CourseVO course;
     private MemberVO member;
     private int recent_num;
@@ -158,7 +159,7 @@ public class LectureListFragment extends Fragment {
                     button01pos = 0;
                     String result = "";
                     try{
-                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
                     } catch (Exception e){
@@ -196,7 +197,7 @@ public class LectureListFragment extends Fragment {
             public void onClick(View view) {
                 String result = "";
                 try{
-                    data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                     data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 } catch (Exception e){
 
@@ -231,19 +232,25 @@ public class LectureListFragment extends Fragment {
                     data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                     data += "&" + URLEncoder.encode("lecNum", "UTF-8") + "=" + URLEncoder.encode(lec_order, "UTF-8");
                     data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
-                    Log.d("time",data);
+                    Log.d("time1",data);
                 } catch (Exception e){
                 }
-                BackgroundTask backgroundTask = new BackgroundTask("app/test.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
                 try{
                     result = backgroundTask.execute().get();
+                    Log.d("test",result);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                Log.d("test",result);
 
-
-                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data);
+                try{
+                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    Log.d("time",data1);
+                } catch (Exception e){
+                }
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
                 try{
                     result2 = backgroundTask2.execute().get();
                 } catch (Exception e){
@@ -257,7 +264,7 @@ public class LectureListFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lec_title,lec_text,video))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lec_title,lec_text,video, course, member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
@@ -318,7 +325,7 @@ public class LectureListFragment extends Fragment {
         }
 // 이어보기 버튼 추후 개발 예정
 
-        //last.setText(lectureList.get(recent_num).getLec_title());
+        last.setText(lectureList.get(recent_num).getLec_title());
 
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,7 +341,7 @@ public class LectureListFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video,course,member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())

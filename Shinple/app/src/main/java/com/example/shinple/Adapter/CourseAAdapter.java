@@ -70,7 +70,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         else if (courseList.get(position).getLearnState().equals("2")){
             LS.setBackgroundResource(R.drawable.testcomplete);
             LS.setText("테스트 완료");
-            LS.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.white));
+            LS.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.black));
         }
         else if (courseList.get(position).getLearnState().equals("2")){
             LS.setBackgroundResource(R.drawable.afterlearning);
