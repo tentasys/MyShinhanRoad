@@ -104,8 +104,7 @@ public class LectureListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
         progressDialog = new ProgressDialog(view.getContext());
 
@@ -176,14 +175,6 @@ public class LectureListFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
-
-
-
 
         recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
