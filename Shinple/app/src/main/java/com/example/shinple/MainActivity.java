@@ -115,19 +115,21 @@ public class MainActivity extends AppCompatActivity
         toolbar.findViewById(R.id.toolbar_title).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*try{
-                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode("1001", "UTF-8");
-            }
-            catch (Exception e){
-            }
-                String result = "";
-                BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
-                Log.d("result",result);
                 try{
-                    result = backgroundTask.execute().get();
+                    data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                }
+                catch (Exception e){
+                }
+                res = "";
+                BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+                BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
+                try{
+                    res = backgroundTask.execute().get();
+                    Log.d("hihihi",res);
+                    res2 = backgroundTask1.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
-                }*/
+                }
                 fr = MainFragment.newInstance(res,member,res2);
                 switchFragment(fr);
             }
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity
         BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
         try{
             res = backgroundTask.execute().get();
+            Log.d("hihihi",res);
             res2 = backgroundTask1.execute().get();
         } catch (Exception e){
             e.printStackTrace();
