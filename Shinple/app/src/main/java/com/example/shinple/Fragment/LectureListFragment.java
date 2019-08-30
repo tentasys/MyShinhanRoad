@@ -48,6 +48,7 @@ public class LectureListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String result = "";
     private String data;
+    private String data1;
     private CourseVO course;
     private MemberVO member;
     private int recent_num;
@@ -158,7 +159,7 @@ public class LectureListFragment extends Fragment {
                     button01pos = 0;
                     String result = "";
                     try{
-                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
                     } catch (Exception e){
@@ -196,7 +197,7 @@ public class LectureListFragment extends Fragment {
             public void onClick(View view) {
                 String result = "";
                 try{
-                    data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                     data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 } catch (Exception e){
 
@@ -211,7 +212,7 @@ public class LectureListFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,TestFragment.newInstance(result,member,course.getCourseNum(),course.getcourseLevel()))
+                        .replace(R.id.frame,TestFragment.newInstance(result,member,course))
                         .addToBackStack("null")
                         .commit();
             }
@@ -219,31 +220,26 @@ public class LectureListFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
+            public void onItemClick(View view, String lec_order, String lec_title, String lec_text, String lec_num) {
                 videourl = BackgroundTask.server+"video/"+ course.getCourseNum() + "/" + lec_order + ".mp4";
                 String url =  BackgroundTask.server+"video/"+ course.getCourseNum() + "/";
                 String video = lec_order + ".mp4";
 
-                String result = "";
                 String result2 = "";
-                try{
-                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
-                    data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                    data += "&" + URLEncoder.encode("lecNum", "UTF-8") + "=" + URLEncoder.encode(lec_order, "UTF-8");
-                    data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
-                    Log.d("time",data);
-                } catch (Exception e){
-                }
-                BackgroundTask backgroundTask = new BackgroundTask("app/test.php",data);
-                try{
-                    result = backgroundTask.execute().get();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-                Log.d("test",result);
 
 
-                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data);
+                recent_video(lec_num);
+
+
+                try{
+                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
+                    Log.d("time",data1);
+                } catch (Exception e){
+                }
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
                 try{
                     result2 = backgroundTask2.execute().get();
                 } catch (Exception e){
@@ -257,7 +253,7 @@ public class LectureListFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lec_title,lec_text,video))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lec_title,lec_text,video, course, member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
@@ -277,12 +273,12 @@ public class LectureListFragment extends Fragment {
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(result);
-            
+
             //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_like;
+            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_num;
             String[][] S = new String[jsonArray.length()][2];
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -294,11 +290,12 @@ public class LectureListFragment extends Fragment {
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
                 recent_time = object.getString("recent_time");
+                lec_num = object.getString("lec_num");
                 S[count][0] = lec_order;
                 S[count][1] = recent_time;
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
@@ -317,8 +314,11 @@ public class LectureListFragment extends Fragment {
             e.printStackTrace();
         }
 // 이어보기 버튼 추후 개발 예정
-
-        //last.setText(lectureList.get(recent_num).getLec_title());
+        try {
+            last.setText(lectureList.get(recent_num).getLec_title());
+        } catch (Exception e){
+            last.setText("");
+        }
 
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -334,7 +334,7 @@ public class LectureListFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video,course,member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
@@ -344,9 +344,7 @@ public class LectureListFragment extends Fragment {
                                 .commit();
                     }
                 }else{
-                    progressDialog.setMessage("파일 경로를 확인해주세요.");
-                    progressDialog.setCancelable(false);
-                    progressDialog.show();
+                    Toast.makeText(getContext(), "파일 경로를 확인해주세요", Toast.LENGTH_LONG).show();
                 } //ifelse 끝*/
             }//onItemClick 끝
         });//setOnItemClickListener끝
@@ -391,6 +389,26 @@ public class LectureListFragment extends Fragment {
         mNow = System.currentTimeMillis();
         mDate = new Date(mNow);
         return mFormat.format(mDate);
+    }
+
+    private void recent_video(String lec_num){
+
+        String result = "";
+        try{
+            data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+            data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
+            data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
+            Log.d("time1",data);
+        } catch (Exception e){
+        }
+        BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
+        try{
+            result = backgroundTask.execute().get();
+            Log.d("test123",result);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 }

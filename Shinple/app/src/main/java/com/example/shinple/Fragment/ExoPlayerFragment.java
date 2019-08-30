@@ -25,8 +25,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shinple.Adapter.LectureListAdapter;
+import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.LectureVO;
+import com.example.shinple.VO.MemberVO;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -45,7 +48,10 @@ import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -55,6 +61,8 @@ public class ExoPlayerFragment extends Fragment {
     private static final String ARG_PARAM3 = "video_name";
     private static final String ARG_PARAM4 = "video_info";
     private static final String ARG_PARAM5 = "video_num";
+    private static final String ARG_PARAM7 = "member";
+    private static final String ARG_PARAM6 = "course";
 
     private PlayerView exoPlayerView;
     private SimpleExoPlayer player;
@@ -65,6 +73,13 @@ public class ExoPlayerFragment extends Fragment {
 
     private LectureListAdapter adapter;
     private List<LectureVO> lectureList;
+    private CourseVO course;
+    private MemberVO member;
+
+    long mNow;
+    Date mDate;
+    String pattern ="yyyy-MM-dd hh:mm:ss";
+    SimpleDateFormat mFormat = new SimpleDateFormat(pattern);
 
     private String mParam1;
     private String mParam2;
@@ -74,6 +89,7 @@ public class ExoPlayerFragment extends Fragment {
     private String video_info;
     private TextView tv_name;
     private TextView tv_info;
+    private String data;
     TextView textView;
     TextView exo_position;
     RecyclerView recyclerView;
@@ -81,7 +97,7 @@ public class ExoPlayerFragment extends Fragment {
     FrameLayout frameLayout;
     public boolean FileValideCheckResult = false;
 
-    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5) {
+    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5,CourseVO course, MemberVO member) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -89,6 +105,8 @@ public class ExoPlayerFragment extends Fragment {
         args.putString(ARG_PARAM3, param3);
         args.putString(ARG_PARAM4, param4);
         args.putString(ARG_PARAM5, param5);
+        args.putSerializable(ARG_PARAM6, course);
+        args.putSerializable(ARG_PARAM7, member);
         fragment.setArguments(args);
         return fragment;
     }
@@ -103,6 +121,8 @@ public class ExoPlayerFragment extends Fragment {
             result = getArguments().getString(ARG_PARAM2);
             video_name = getArguments().getString(ARG_PARAM3);
             video_info = getArguments().getString(ARG_PARAM4);
+            course = (CourseVO)getArguments().getSerializable(ARG_PARAM6);
+            member = (MemberVO)getArguments().getSerializable(ARG_PARAM7);
         }
         else
         {
@@ -137,7 +157,7 @@ public class ExoPlayerFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
+            public void onItemClick(View view, String lec_order, String lec_title, String lec_text, String lec_num) {
                 videourl = mParam1 + lec_order + ".mp4";
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
@@ -149,6 +169,26 @@ public class ExoPlayerFragment extends Fragment {
 
                     textView.setText(lec_title);
                     tv_info.setText(lec_text);
+
+
+                    String result = "";
+                    try{
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                        data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
+                        data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
+                        Log.d("asflmaslfmaslfmasf",data);
+                    } catch (Exception e){
+                    }
+                    BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
+                    try{
+                        result = backgroundTask.execute().get();
+                        Log.d("mrlsmalfmalsfmlas",result);
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+
+
                 }else{
                     Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
                 } //ifelse 끝
@@ -165,7 +205,7 @@ public class ExoPlayerFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time,recent_time;
+            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -177,9 +217,10 @@ public class ExoPlayerFragment extends Fragment {
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
                 recent_time = object.getString("recent_time");
+                lec_num = object.getString("lec_num");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
@@ -378,4 +419,11 @@ public void onConfigurationChanged(Configuration newConfig) {
             Log.e("Error", "ThreadError");
         }
     }
+
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+        return mFormat.format(mDate);
+    }
+
 }
