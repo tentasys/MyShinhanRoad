@@ -158,7 +158,7 @@ public class LectureListFragment extends Fragment {
                     button01pos = 0;
                     String result = "";
                     try{
-                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                        data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
                     } catch (Exception e){
