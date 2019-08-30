@@ -121,11 +121,13 @@ public class MainActivity extends AppCompatActivity
                 catch (Exception e){
                 }
                 res = "";
+                res2 = "";
                 BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
                 BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
                 try{
                     res = backgroundTask.execute().get();
                     res2 = backgroundTask1.execute().get();
+                    Log.d("mainCourse",res2);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -154,11 +156,13 @@ public class MainActivity extends AppCompatActivity
         catch (Exception e){
         }
         res = "";
+        res2 = "";
         BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
         BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
         try{
             res = backgroundTask.execute().get();
             res2 = backgroundTask1.execute().get();
+            Log.d("mainCourse",res2);
         } catch (Exception e){
             e.printStackTrace();
         }

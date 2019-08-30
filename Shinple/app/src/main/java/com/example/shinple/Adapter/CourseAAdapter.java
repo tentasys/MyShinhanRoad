@@ -51,10 +51,12 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         TextView courseName = (TextView) holder.itemView.findViewById(R.id.tv_courseName3);
         TextView courseLevel = (TextView) holder.itemView.findViewById(R.id.tv_cl2_lv3);
         TextView tchName = (TextView)holder.itemView.findViewById(R.id.tv_courseinfo3) ;
+        TextView like = (TextView)holder.itemView.findViewById(R.id.tv_like);
 //        TextView tagName = (TextView) holder.itemView.findViewById(R.id.tv_lec_courseInfo);
         tchName.setText(courseList.get(position).getTchName());
         courseName.setText(courseList.get(position).getcourseName());
         courseLevel.setText(courseList.get(position).getcourseLevel());
+        like.setText(courseList.get(position).getLike());
         Button LS = (Button) holder.itemView.findViewById(R.id.bt_subCC3);
         if(courseList.get(position).getLearnState().equals("0")){
             LS.setBackgroundResource(R.drawable.beforelearning);

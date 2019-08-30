@@ -63,6 +63,6 @@ public class ViewPagerFragment extends Fragment {
         course_N.setText(mParam1.getcourseName());
         tch.setText(mParam1.getTchName());
 
-        return inflater.inflate(R.layout.fragment_view_pager, container, false);
+        return view;
     }
 }

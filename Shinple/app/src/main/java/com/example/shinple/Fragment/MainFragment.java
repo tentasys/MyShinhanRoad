@@ -50,7 +50,8 @@ public class MainFragment extends Fragment {
     private List<LectureVO> lectureList = new ArrayList<LectureVO>();
     private MemberVO member;
     private String result1;
-    private CourseVO course;
+    private List<CourseVO> new_course;
+    private List<CourseVO> hot_course;
     private String MainResult;
     private String data;
 
@@ -151,7 +152,10 @@ public class MainFragment extends Fragment {
                         .commit();
             }
         });
-
+        //////////////////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////
+        new_course = new ArrayList<CourseVO>();
+        hot_course = new ArrayList<CourseVO>();
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(MainResult);
@@ -180,6 +184,62 @@ public class MainFragment extends Fragment {
                 count++;
             }
 
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
+        //////////////////////////////////////////////////////////////////////////////////////
+                        //////  course list  ////////
+        ///////////////////////////////////////////////////////////
+        try{
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(result1);
+
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            JSONArray jsonArray1 = jsonObject.getJSONArray("response2");
+
+            int count = 0;
+
+            String courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like;
+
+            //JSON 배열 길이만큼 반복문을 실행
+            while(count < jsonArray.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(count);
+
+                courseName = object.getString("course_title");//여기서 ID가 대문자임을 유의
+                courseLevel = object.getString("course_level");
+                tchName = object.getString("course_tch");
+                courseText= object.getString("course_text");
+                courseNum = object.getString("course_num");
+                LearnState = object.getString("learn_state");
+                Like = object.getString("Like");
+
+                //값들을 User클래스에 묶어줍니다
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like);
+                new_course.add(course);//리스트뷰에 값을 추가해줍니다
+                Log.d("sdsf",new_course.get(count).getCourseNum());
+                count++;
+            }
+
+            int count1 = 0;
+            while(count1 < jsonArray1.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray1.getJSONObject(count1);
+
+                courseName = object.getString("course_title");//여기서 ID가 대문자임을 유의
+                courseLevel = object.getString("course_level");
+                tchName = object.getString("course_tch");
+                courseText= object.getString("course_text");
+                courseNum = object.getString("course_num");
+                LearnState = object.getString("learn_state");
+                Like = object.getString("Like");
+
+                //값들을 User클래스에 묶어줍니다
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like);
+                hot_course.add(course);//리스트뷰에 값을 추가해줍니다
+                count1++;
+            }
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -250,7 +310,6 @@ public class MainFragment extends Fragment {
         setupViewPager(viewPager);
         //adapter = new MainSliderAdapter(v.getContext(), "newCourse");
         //viewPager.setAdapter(adapter);
-        course = new CourseVO("hi","2","ttt","asasasfasfas","11","1");
 
         viewPager2 =  v.findViewById(R.id.hot_course_slider);
         Vadapter2 = new ViewAdapter(getChildFragmentManager());
@@ -284,8 +343,6 @@ public class MainFragment extends Fragment {
         }, 500, 2000);
 
 
-
-
         // hot 강의   start auto scroll of viewpager
         currentPage2 = 0;
         handler2 = new Handler();
@@ -316,16 +373,16 @@ public class MainFragment extends Fragment {
 
     }
     public void setupViewPager(ViewPager viewPager) {
-        Vadapter.addFragment(ViewPagerFragment.newInstance(course));
-        Vadapter.addFragment(ViewPagerFragment.newInstance(course));
-        Vadapter.addFragment(ViewPagerFragment.newInstance(course));
+        Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(0)));
+        Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1)));
+        Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2)));
         viewPager.setAdapter(Vadapter);
     }
 
     public void setupViewPager2(ViewPager viewPager) {
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(course));
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(course));
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(course));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(0)));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(1)));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(2)));
         viewPager.setAdapter(Vadapter2);
     }
 }

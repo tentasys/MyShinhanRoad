@@ -269,6 +269,7 @@ public class FilterFragment extends Fragment {
                 BackgroundTask backgroundTask = new BackgroundTask("app/courseList.php",data);
                 try{
                     result = backgroundTask.execute().get();
+                    Log.d("CourseList",result);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
