@@ -42,7 +42,6 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         // context 와 parent.getContext() 는 같다.
         View view = LayoutInflater.from(context)
                 .inflate(R.layout.course_item3, parent, false);
-
         return new ViewHolder(view);
     }
 
@@ -58,6 +57,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
         courseLevel.setText(courseList.get(position).getcourseLevel());
         like.setText(courseList.get(position).getLike());
         Button LS = (Button) holder.itemView.findViewById(R.id.bt_subCC3);
+
         if(courseList.get(position).getLearnState().equals("0")){
             LS.setBackgroundResource(R.drawable.beforelearning);
             LS.setText("수강신청");
@@ -66,6 +66,11 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
             LS.setBackgroundResource(R.drawable.nowlearning);
             LS.setText("수강중");
             LS.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.white));
+        }
+        else if (courseList.get(position).getLearnState().equals("2")){
+            LS.setBackgroundResource(R.drawable.testcomplete);
+            LS.setText("테스트 완료");
+            LS.setTextColor(ContextCompat.getColor(holder.itemView.getContext(),R.color.black));
         }
         else if (courseList.get(position).getLearnState().equals("2")){
             LS.setBackgroundResource(R.drawable.afterlearning);
@@ -86,16 +91,20 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
             super(itemView);
             bt_sub = itemView.findViewById(R.id.bt_subCC3);
             bt_sub.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION){
-                        if(mListener != null){
-                            mListener.onItemClick(view,courseList.get(pos));
+                                @Override
+                                public void onClick(View view) {
+                                    int pos = getAdapterPosition();
+                                    if (pos != RecyclerView.NO_POSITION){
+                                        if(mListener != null){
+                                            mListener.onItemClick(view,courseList.get(pos));
                         }
                     }
                 }
             });
         }
     }
+
+
+
+
 }

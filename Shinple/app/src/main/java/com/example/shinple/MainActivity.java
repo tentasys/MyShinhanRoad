@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-//        fr = new LectureRoomFragment();
+//        fr = LectureRoomFragment.newInstance("string","string",new MemberVO("e","e","e","e"));
         fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 
