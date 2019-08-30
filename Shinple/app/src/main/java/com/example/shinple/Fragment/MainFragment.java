@@ -200,7 +200,7 @@ public class MainFragment extends Fragment {
 
             int count = 0;
 
-            String courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like;
+            String courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like, mem_like;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -214,9 +214,10 @@ public class MainFragment extends Fragment {
                 courseNum = object.getString("course_num");
                 LearnState = object.getString("learn_state");
                 Like = object.getString("Like");
+                mem_like = object.getString("mem_like");
 
                 //값들을 User클래스에 묶어줍니다
-                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like);
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like,mem_like);
                 new_course.add(course);//리스트뷰에 값을 추가해줍니다
                 Log.d("sdsf",new_course.get(count).getCourseNum());
                 count++;
@@ -234,9 +235,10 @@ public class MainFragment extends Fragment {
                 courseNum = object.getString("course_num");
                 LearnState = object.getString("learn_state");
                 Like = object.getString("Like");
+                mem_like = object.getString("mem_like");
 
                 //값들을 User클래스에 묶어줍니다
-                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like);
+                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, LearnState, Like, mem_like );
                 hot_course.add(course);//리스트뷰에 값을 추가해줍니다
                 count1++;
             }

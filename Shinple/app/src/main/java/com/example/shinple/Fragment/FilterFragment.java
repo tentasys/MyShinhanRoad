@@ -270,6 +270,7 @@ public class FilterFragment extends Fragment {
                 try{
                     result = backgroundTask.execute().get();
                     Log.d("CourseList",result);
+                    Log.d("CourseList1",data);
                 } catch (Exception e){
                     e.printStackTrace();
                 }

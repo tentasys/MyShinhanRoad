@@ -191,7 +191,7 @@ public class LectureRoomFragment extends Fragment{
         }
         */
 
-        courseList.add(new CourseVO("courseName", "courseLevel", "tchName", "courseText", "courseNum", "learnState","123"));
+        courseList.add(new CourseVO("courseName", "courseLevel", "tchName", "courseText", "courseNum", "learnState","123", "1"));
         Spinner spinner = (Spinner)v.findViewById(R.id.spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

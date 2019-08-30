@@ -119,6 +119,7 @@ public class ExoPlayerFragment extends Fragment {
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
         exo_position = view.findViewById(R.id.exo_position);
+        exo_position.setText("1:20");
         textView.setText(video_name);
         tv_info.setText(video_info);
 

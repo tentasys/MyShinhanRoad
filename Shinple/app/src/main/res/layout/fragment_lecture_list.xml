@@ -186,7 +186,7 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="342dp"
+                    android:layout_width="362dp"
                     android:layout_height="39dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
@@ -218,27 +218,18 @@
 
                 <ImageButton
                     android:id="@+id/like_button"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="288dp"
-                    android:layout_marginLeft="288dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@color/white"
                     android:scaleType="fitXY"
                     android:src="@drawable/unlike"
                     app:layout_constraintBottom_toTopOf="@+id/tv_lec_courseInfo"
-                    app:layout_constraintStart_toStartOf="@+id/textView10"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.421" />
-
-                <TextView
-                    android:id="@+id/like_num"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="@+id/textView10"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/like_button"
-                    tools:layout_editor_absoluteY="0dp" />
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/textView10"
+                    app:layout_constraintTop_toTopOf="@+id/textView10" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
