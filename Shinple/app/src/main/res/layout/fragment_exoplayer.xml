@@ -32,14 +32,12 @@
                 app:controller_layout_id="@layout/custom_controller"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/hidden_1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/tv_video_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     android:layout_width="match_parent"
                     android:layout_height="31dp"
                     android:layout_marginStart="8dp"
@@ -49,7 +47,10 @@
                     android:layout_marginRight="8dp"
                     android:text="VideoView"
                     android:textColor="@color/shinhan1"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/tv_video_info"

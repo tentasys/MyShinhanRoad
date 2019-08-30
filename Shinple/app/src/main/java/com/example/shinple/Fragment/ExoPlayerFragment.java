@@ -2,6 +2,7 @@ package com.example.shinple.Fragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -251,7 +252,7 @@ public class ExoPlayerFragment extends Fragment {
     private void initializePlayer() {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(view.getContext());
-
+            ConstraintLayout hidden_1 = view.findViewById(R.id.hidden_1);
             //플레이어 연결
             exoPlayerView.setPlayer(player);
             FrameLayout playerBt = (FrameLayout) exoPlayerView.findViewById(R.id.exo_fullscreen_button);
@@ -261,8 +262,9 @@ public class ExoPlayerFragment extends Fragment {
                 public void onClick(View view) {
                     ((MainActivity)getActivity()).playerLandscapeToggle(enableFullScreen);
                     if (enableFullScreen) {   //fullscreen start
-                        textView.setVisibility(View.INVISIBLE);
-                        recyclerView.setVisibility(View.INVISIBLE);
+                        textView.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.GONE);
+                        hidden_1.setVisibility(View.GONE);
                         scrollView.setFillViewport(true);
                         FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
                         param.bottomMargin=0;
