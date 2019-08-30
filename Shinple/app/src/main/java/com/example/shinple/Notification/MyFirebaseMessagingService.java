@@ -94,27 +94,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String body) {
 
-        Log.d("TEST", "test_01");
-        Log.d("TEST", body);
-
-        Intent intent = new Intent(this, LoginActivity.class);
-
+        Intent intent = new Intent(this, LoginActivity.class);      //알람을 터치하면 로그인
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Uri ringtoneUri= RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default");
-        builder.setSmallIcon(R.drawable.shinhan_logo_noti);
-        builder.setContentText(body);
+        builder.setSmallIcon(R.drawable.shinhan_logo_noti);     //알림 아이콘 설정
+        builder.setContentText(body);                              //알림 메시지
         builder.setAutoCancel(true);
-        builder.setSound(ringtoneUri);
-        builder.setVibrate(new long[]{0, 100, 200, 300});
-        builder.setLights(Color.BLUE, 1,1);
+        builder.setSound(ringtoneUri);                             //알림음
+        builder.setVibrate(new long[]{0, 100, 200, 300});         //진동
+        builder.setLights(Color.BLUE, 1,1);         //알림 색상
         builder.setContentIntent(pendingIntent);
 
+        //알림 채널 설정
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             notificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
-            Log.d("TEST", "test_02");
         }
 
         notificationManager.notify(1, builder.build());
