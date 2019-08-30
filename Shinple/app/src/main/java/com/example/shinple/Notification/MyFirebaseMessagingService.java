@@ -1,7 +1,9 @@
 package com.example.shinple.Notification;
 
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.shinple.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -56,10 +58,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
         // Instance ID token to your app server.
-//        sendRegistrationToServer(token);
+        sendRegistrationToServer(token);
     }
     private void handleNow(){
         Log.d("TEST", "Short lived task is done.");
     }
 
+    public void sendRegistrationToServer(String token){
+        Log.d("TEST", "Short");
+    }
 }
