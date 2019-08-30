@@ -26,6 +26,7 @@ import com.example.shinple.Adapter.TestAdapter;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.FilterVO;
 import com.example.shinple.VO.MemberVO;
 import com.example.shinple.VO.QuizVO;
@@ -46,11 +47,10 @@ public class TestFragment extends Fragment {
     private RecyclerView rv_quiz;
     private String result = "";
     private MemberVO member;
+    private CourseVO course;
     private Button submit;
     private int Point = 0;
     private String data;
-    private String courseNum;
-    private String courseL;
 // 정답 받는 부분
     private int answer_check[];
     private int answer_list[];
@@ -60,13 +60,12 @@ public class TestFragment extends Fragment {
     public TestFragment() {
     }
 
-    public static TestFragment newInstance(String param1, MemberVO member, String courseNum, String courseLevel) {
+    public static TestFragment newInstance(String param1, MemberVO member, CourseVO course) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
         args.putString("test", param1);
         args.putSerializable("member",member);
-        args.putString("course",courseNum);
-        args.putString("courseL",courseLevel);
+        args.putSerializable("course",course);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,8 +77,7 @@ public class TestFragment extends Fragment {
         if (getArguments() != null) {
             result = getArguments().getString("test");
             member = (MemberVO)getArguments().getSerializable("member");
-            courseNum = getArguments().getString("course");
-            courseL = getArguments().getString("courseL");
+            course = (CourseVO)getArguments().getSerializable("course");
         }
     }
 
@@ -153,25 +151,25 @@ public class TestFragment extends Fragment {
                     }
                 }
 
-                if (courseL.equals("1")){
+                if (course.getcourseLevel().equals("1")){
                     Point = 10;
                 }
-                else if (courseL.equals("2")){
+                else if (course.getcourseLevel().equals("2")){
                     Point = 12;
                 }
-                else if (courseL.equals("3")){
+                else if (course.getcourseLevel().equals("3")){
                     Point = 14;
                 }
-                else if (courseL.equals("4")){
+                else if (course.getcourseLevel().equals("4")){
                     Point = 16;
                 }
-                else if (courseL.equals("5")){
+                else if (course.getcourseLevel().equals("5")){
                     Point = 18;
                 }
-                else if (courseL.equals("6")){
+                else if (course.getcourseLevel().equals("6")){
                     Point = 20;
                 }
-                else if (courseL.equals("7")){
+                else if (course.getcourseLevel().equals("7")){
                     Point = 22;
                 }
 
@@ -181,6 +179,40 @@ public class TestFragment extends Fragment {
 
                 showCustomDialog(view,score);
 
+                String temp = "";
+                if (course.getLearnState() == null){
+                    temp = "0";
+                }
+                else{
+                    temp = course.getLearnState();
+                }
+                try{
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data += "&" +  URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    if(course.getLearnState().equals("0")){
+                        data += "&" +  URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(temp, "UTF-8");
+                    }
+                    else {
+                        data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    }
+                    Log.d("cccc",data);
+                }
+                catch (Exception e){
+                }
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("app/lectureList.php",data);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                Log.d("lecture",result);
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
+                        .commit();
+            }
                 /*AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
                 ab.setTitle("시험결과");
                 ab.setMessage(score + "점으로 " + AN + "하셨습니다.");
@@ -221,7 +253,6 @@ public class TestFragment extends Fragment {
                     }
                 });
                 ab.show();*/
-            }
         });
 
         count = 0;
@@ -259,7 +290,7 @@ public class TestFragment extends Fragment {
                 if(score > 60){
                     String result = "";
                     try{
-                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
+                        data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(Point), "UTF-8");
                         data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode( "1", "UTF-8");

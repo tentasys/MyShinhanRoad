@@ -164,6 +164,7 @@ public class MainActivity extends AppCompatActivity
         BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
         try{
             res = backgroundTask.execute().get();
+            Log.d("slamflasflas",res);
             res2 = backgroundTask1.execute().get();
             Log.d("mainCourse",res2);
         } catch (Exception e){

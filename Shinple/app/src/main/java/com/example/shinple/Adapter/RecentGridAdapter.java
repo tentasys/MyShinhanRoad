@@ -23,7 +23,7 @@ public class RecentGridAdapter extends BaseAdapter {
     private List<LectureVO> lectureList;
 
     public interface OnCheckedChangeListener {
-        void onItemClick(View view, String lec_order, String lec_title, String lec_text);
+        void onItemClick(View view, LectureVO lecture);
     }
 
     private RecentGridAdapter.OnCheckedChangeListener mListener = null;
@@ -78,7 +78,7 @@ public class RecentGridAdapter extends BaseAdapter {
                 int pos = i;
                 if (pos != RecyclerView.NO_POSITION){
                     if(mListener != null){
-                        mListener.onItemClick(view,lectureList.get(pos).getLec_order(),lectureList.get(pos).getLec_title(),lectureList.get(pos).getLec_text());
+                        mListener.onItemClick(view,lectureList.get(pos));
                     }
                 }
             }
