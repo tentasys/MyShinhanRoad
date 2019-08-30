@@ -1,9 +1,21 @@
 package com.example.shinple.Notification;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.media.RingtoneManager;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.core.app.NotificationCompat;
+
 import com.example.shinple.MainActivity;
+import com.example.shinple.R;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -24,6 +36,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Check if message contains a data payload.
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+            PowerManager.WakeLock wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP, ":MyFirebase");
+            wakeLock.acquire(3000);
+
+            String title = remoteMessage.getData().get("title");
+            String body = remoteMessage.getData().get("body");
+
 
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
@@ -67,4 +87,40 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void sendRegistrationToServer(String token){
         Log.d("TEST", "Short");
     }
+
+    private void sendNotification(String title, String body) {
+        if (title == null){
+            //제목이 없는 payload이면 php에서 보낼때 이미 한번 점검했음.
+            title = "공지사항"; //기본제목을 적어 주자.
+        }
+        //전달된 액티비티에 따라 분기하여 해당 액티비티를 오픈하도록 한다.
+        Intent intent;
+        intent = new Intent(this, MainActivity.class);
+        //번들에 수신한 메세지를 담아서 메인액티비티로 넘겨 보자.
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        bundle.putString("body", body);
+        intent.putExtras(bundle);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setVibrate(new long[]{1000, 1000})
+                .setLights(Color.BLUE, 1,1)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
 }
