@@ -98,25 +98,28 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="390dp"
-                android:layout_height="180dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/ex3"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                >
 
                 <TextView
                     android:id="@+id/textView13"
-                    android:layout_width="73dp"
-                    android:layout_height="25dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
-                    android:gravity="bottom"
+                    android:background="@drawable/spinner_spinner1"
+                    android:gravity="center_horizontal|center_vertical"
                     android:text="필수 강좌"
-                    android:textColor="@color/shinhan3"
+                    android:textColor="@color/colorWarnning"
                     android:textSize="15dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -126,13 +129,13 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_mycop"
-                    android:layout_width="360dp"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_marginBottom="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -149,40 +152,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:layout_editor_absoluteY="420dp">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="3dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginRight="4dp"
-                    app:layout_constraintEnd_toStartOf="@+id/spinner"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/spinner"
-                    app:srcCompat="@drawable/bar" />
-                    
                 <Spinner
-                    android:layout_width="346dp"
-                    android:layout_height="49dp"
+                    android:id="@+id/spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="8dp"
                     android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
+                    android:background="@drawable/spinner_spinner1"
                     android:gravity="center_vertical"
                     android:text=" 수강한 강좌"
                     android:textSize="15dp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:id="@+id/spinner"
-
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 <!--                <TextView
                     android:id="@+id/textView14"
                     android:layout_width="346dp"
@@ -203,7 +190,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_courseList"
-                    android:layout_width="380dp"
+                    android:layout_width="match_parent"
                     android:layout_height="235dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="8dp"

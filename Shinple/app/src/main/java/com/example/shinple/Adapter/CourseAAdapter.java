@@ -96,4 +96,8 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
             });
         }
     }
+
+
+
+
 }

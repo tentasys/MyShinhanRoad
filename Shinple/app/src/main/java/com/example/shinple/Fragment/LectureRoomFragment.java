@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.shinple.Adapter.CopAdapter;
 import com.example.shinple.Adapter.CourseAAdapter;
 import com.example.shinple.Adapter.CourseBAdapter;
 import com.example.shinple.Adapter.LectureListAdapter;
+import com.example.shinple.Adapter.LectureRoomSpinnerAdapter;
 import com.example.shinple.Adapter.StringAdapter;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
@@ -38,12 +40,12 @@ import java.util.concurrent.TimeoutException;
 
 public class LectureRoomFragment extends Fragment{
 
-    private CourseAAdapter adapter_course;
-    private List<CourseVO> courseList;
+    private CourseAAdapter[] adapter_course;
+    private List<CourseVO>[] courseList;
     private RecyclerView rv_course;
 
-    private CopAdapter my_cop_adapter;
-    private List<CopVO> my_cop_list;
+    private CopAdapter essential_course_adapter;
+    private List<CopVO> essential_course_list;
     private RecyclerView my_rv;
     private MemberVO member;
     private String result1;
@@ -77,14 +79,18 @@ public class LectureRoomFragment extends Fragment{
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lecture_room, container, false);
+        member = new MemberVO("1","name","12","122");
+        essential_course_list = new ArrayList<CopVO>();
 
-        courseList = new ArrayList<CourseVO>();
-        my_cop_list = new ArrayList<CopVO>();
-
+        /* 0 : 전체강좌, 1: 수강 중 2:테스트 완료 3:수강 완료*/
+        courseList = new ArrayList[4];
+        adapter_course = new CourseAAdapter[4];
+        for(int listIndex = 0; listIndex<courseList.length;listIndex++){
+            courseList[listIndex] = new ArrayList<CourseVO>();
+        }
         TextView tv_point = (TextView)v.findViewById(R.id.tv_person_point);
         TextView tv_com = (TextView)v.findViewById(R.id.tv_company);
         TextView tv_name = (TextView)v.findViewById(R.id.tv_name);
@@ -115,13 +121,59 @@ public class LectureRoomFragment extends Fragment{
         LinearLayoutManager layoutManager2 = new LinearLayoutManager(v.getContext());
 
         rv_course.setLayoutManager(layoutManager);
+
         my_rv.setLayoutManager(layoutManager2);
-        adapter_course = new CourseAAdapter(v.getContext(),courseList);
-        my_cop_adapter = new CopAdapter(v.getContext(),my_cop_list);
-        rv_course.setAdapter(adapter_course);
-        my_rv.setAdapter(my_cop_adapter);
+        jsonParsing();  //jsonparsing해서 list변수들에 값을 넣어줌.
+        essential_course_adapter = new CopAdapter(v.getContext(),essential_course_list);
+
+        for(int listIndex = 0; listIndex<courseList.length;listIndex++){
+            adapter_course[listIndex] = new CourseAAdapter(v.getContext(),courseList[listIndex]);
+        }
+        rv_course.setAdapter(adapter_course[0]);
+        my_rv.setAdapter(essential_course_adapter);
 
         /*
+        0 : 수강 전
+        1 : 수강 중
+        2 : 테스트 완료(수료처리 대기)
+        3 :수료완료(웹에서 처리)
+        */
+        //UI생성
+        Spinner spinner = (Spinner)v.findViewById(R.id.spinner);
+
+        //Adapter
+        LectureRoomSpinnerAdapter adapterSpinner = new LectureRoomSpinnerAdapter(v);
+
+        //Adapter 적용
+        spinner.setAdapter(adapterSpinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> parent , View view, int pos ,long id) {
+
+                if(parent.getItemAtPosition(pos).toString().equals("수강 중")){
+                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
+                    rv_course.setAdapter(adapter_course[1]);
+
+                }else if(parent.getItemAtPosition(pos).toString().equals("테스트 완료")){
+                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
+                    rv_course.setAdapter(adapter_course[2]);
+                }else if(parent.getItemAtPosition(pos).toString().equals("수강 완료")){
+                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
+                    rv_course.setAdapter(adapter_course[3]);
+                }else{
+                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
+                    rv_course.setAdapter(adapter_course[0]);
+                }
+            }// onItemSelected end
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }  //onNothingSelected end
+        });
+
+        return v;
+    }  //onCreateView end
+
+    public void jsonParsing(){
+
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(result1);
@@ -145,66 +197,49 @@ public class LectureRoomFragment extends Fragment{
 
                 //값들을 User클래스에 묶어줍니다
                 CopVO cop = new CopVO(copName, copRank, copIntro, copNum);
-                my_cop_list.add(cop);//리스트뷰에 값을 추가해줍니다
+                essential_course_list.add(cop);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
 
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-*/
-        my_cop_list.add(new CopVO("cop_name","cop_rank","cop_intro","cop_num"));
-        my_cop_list.add(new CopVO("cop_name1","cop_rank1","cop_intro1","cop_num1"));
 
-/*
-
-        try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
-            JSONObject jsonObject = new JSONObject(result2);
+            jsonObject = new JSONObject(result2);
 
             //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
-            JSONArray jsonArray = jsonObject.getJSONArray("response");
-            int count = 0;
+            jsonArray = jsonObject.getJSONArray("response");
+            count = 0;
 
             String courseName, courseLevel, tchName, courseText, courseNum, learnState;
 
             //JSON 배열 길이만큼 반복문을 실행
-            while(count < jsonArray.length()){
+            while(count < jsonArray.length()) {
                 //count는 배열의 인덱스를 의미
                 JSONObject object = jsonArray.getJSONObject(count);
-
+                Log.e("myTag",object.toString());
                 courseName = object.getString("course_title");//여기서 ID가 대문자임을 유의
                 courseLevel = object.getString("course_level");
                 tchName = object.getString("course_tch");
-                courseText= object.getString("course_text");
+                courseText = object.getString("course_text");
                 courseNum = object.getString("course_num");
                 learnState = object.getString("learn_state");
 
+                if(learnState.equals("1")){
+                    courseList[1].add(new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, learnState) );
+                }else if(learnState.equals("2")){
+                    courseList[2].add(new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, learnState) );
 
-                //값들을 User클래스에 묶어줍니다
-                CourseVO course = new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, learnState);
-                courseList.add(course);//리스트뷰에 값을 추가해줍니다
+                }else if(learnState.equals("3")){
+                    courseList[3].add(new CourseVO(courseName, courseLevel, tchName, courseText, courseNum, learnState) );
+
+                }else{
+                    Log.e("CourseListError","목록 에러");
+                }
+                    courseList[0].addAll(courseList[1]); courseList[0].addAll(courseList[2]); courseList[0].addAll(courseList[3]);
                 count++;
             }
         }catch(Exception e) {
             e.printStackTrace();
         }
-        */
-
-        courseList.add(new CourseVO("courseName", "courseLevel", "tchName", "courseText", "courseNum", "learnState"));
-        Spinner spinner = (Spinner)v.findViewById(R.id.spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
-            public void onItemSelected(AdapterView<?> parent , View view, int pos ,long id) {
-                Toast.makeText(parent.getContext(), "선택된 건" +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
-            }
-            public void onNothingSelected(AdapterView<?> arg0) {
-
-            }
-        } );
-        return v;
     }
 
 }
