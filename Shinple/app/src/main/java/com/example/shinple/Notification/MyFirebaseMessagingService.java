@@ -29,7 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "hello");
             } else {
                 // Handle message within 10 seconds
-//                handleNow();
+                handleNow();
                 Log.d(TAG, "world");
             }
 
@@ -58,4 +58,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Instance ID token to your app server.
 //        sendRegistrationToServer(token);
     }
+    private void handleNow(){
+        Log.d("TEST", "Short lived task is done.");
+    }
+
 }
