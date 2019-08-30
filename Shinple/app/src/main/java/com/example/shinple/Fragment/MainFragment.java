@@ -161,7 +161,7 @@ public class MainFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time;
+            String lec_title, lec_order, lec_text, lec_time, recent_time;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -172,9 +172,10 @@ public class MainFragment extends Fragment {
                 lec_order = object.getString("lec_order");
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
+                recent_time = object.getString("recent_time");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
@@ -271,6 +272,7 @@ public class MainFragment extends Fragment {
                 }
             }
         };
+
 
         timer1 = new Timer(); // This will create a new Thread
         timer1.schedule(new TimerTask() { // task to be scheduled

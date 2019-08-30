@@ -272,7 +272,6 @@ public class FilterFragment extends Fragment {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                Log.d("course",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()

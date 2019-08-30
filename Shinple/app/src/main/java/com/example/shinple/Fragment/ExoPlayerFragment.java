@@ -75,6 +75,7 @@ public class ExoPlayerFragment extends Fragment {
     private TextView tv_name;
     private TextView tv_info;
     TextView textView;
+    TextView exo_position;
     RecyclerView recyclerView;
     ScrollView scrollView;
     FrameLayout frameLayout;
@@ -117,7 +118,7 @@ public class ExoPlayerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_exoplayer, container, false);
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
-
+        exo_position = view.findViewById(R.id.exo_position);
         textView.setText(video_name);
         tv_info.setText(video_info);
 
@@ -163,7 +164,7 @@ public class ExoPlayerFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time;
+            String lec_title, lec_order, lec_text, lec_time,recent_time;
 
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -174,9 +175,10 @@ public class ExoPlayerFragment extends Fragment {
                 lec_order = object.getString("lec_order");
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
+                recent_time = object.getString("recent_time");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
@@ -195,6 +197,7 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+
         releasePlayer();
     }
 
@@ -211,7 +214,6 @@ public class ExoPlayerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     ((MainActivity)getActivity()).playerLandscapeToggle(enableFullScreen);
-
                     if (enableFullScreen) {   //fullscreen start
                         Toast.makeText(getContext(),"test",Toast.LENGTH_SHORT);
 
@@ -245,7 +247,6 @@ public class ExoPlayerFragment extends Fragment {
                         frameLayout.setLayoutParams(param);
                         playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
                         enableFullScreen = true;
-
                     }
                 }
             });
@@ -260,7 +261,6 @@ public class ExoPlayerFragment extends Fragment {
             //음량조절
             player.setVolume(10);
             //프레임 포지션 설정
-
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
@@ -304,6 +304,9 @@ public class ExoPlayerFragment extends Fragment {
             exoPlayerView.setPlayer(null);
             player.release();
             player = null;
+            /*TODO : 본 시간 저장 변수 exo_position_time*/
+            CharSequence exo_position_time = exo_position.getText();
+            Log.i("getPosition",(String)exo_position_time);
 
         }
     }

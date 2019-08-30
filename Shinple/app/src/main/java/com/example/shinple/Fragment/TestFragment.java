@@ -44,8 +44,10 @@ public class TestFragment extends Fragment {
     private String result = "";
     private MemberVO member;
     private Button submit;
+    private int Point = 0;
     private String data;
     private String courseNum;
+    private String courseL;
 // 정답 받는 부분
     private int answer_check[];
     private int answer_list[];
@@ -55,12 +57,13 @@ public class TestFragment extends Fragment {
     public TestFragment() {
     }
 
-    public static TestFragment newInstance(String param1, MemberVO member, String courseNum) {
+    public static TestFragment newInstance(String param1, MemberVO member, String courseNum, String courseLevel) {
         TestFragment fragment = new TestFragment();
         Bundle args = new Bundle();
         args.putString("test", param1);
         args.putSerializable("member",member);
         args.putString("course",courseNum);
+        args.putString("courseL",courseLevel);
         fragment.setArguments(args);
         return fragment;
     }
@@ -73,6 +76,7 @@ public class TestFragment extends Fragment {
             result = getArguments().getString("test");
             member = (MemberVO)getArguments().getSerializable("member");
             courseNum = getArguments().getString("course");
+            courseL = getArguments().getString("courseL");
         }
     }
 
@@ -145,6 +149,30 @@ public class TestFragment extends Fragment {
                         count+=1;
                     }
                 }
+
+                if (courseL.equals("1")){
+                    Point = 10;
+                }
+                else if (courseL.equals("2")){
+                    Point = 12;
+                }
+                else if (courseL.equals("3")){
+                    Point = 14;
+                }
+                else if (courseL.equals("4")){
+                    Point = 16;
+                }
+                else if (courseL.equals("5")){
+                    Point = 18;
+                }
+                else if (courseL.equals("6")){
+                    Point = 20;
+                }
+                else if (courseL.equals("7")){
+                    Point = 22;
+                }
+
+
                 score = Math.round((Double.valueOf(count)/Double.valueOf(answer_list.length))*100);
                 Log.d("action", String.valueOf(score));
                 String AN = "";
@@ -164,8 +192,8 @@ public class TestFragment extends Fragment {
                             try{
                                 data = URLEncoder.encode("courseNUM", "UTF-8") + "=" + URLEncoder.encode(courseNum, "UTF-8");
                                 data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                                data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(score), "UTF-8");
-                                data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                                data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(Point), "UTF-8");
+                                data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode( "1", "UTF-8");
                                 data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("2", "UTF-8");
                             } catch (Exception e){
 
