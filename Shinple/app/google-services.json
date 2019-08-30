@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "667766100674-clom66a5lm1b4f7v79cgk5s4sdlfea3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shinple",
+            "certificate_hash": "892521e3cd4dcccbc2a77f0bccf44df488af7530"
+          }
+        },
+        {
           "client_id": "667766100674-8sb5pgujhse77vqrtmcuksdkesncsulg.apps.googleusercontent.com",
           "client_type": 3
         }
