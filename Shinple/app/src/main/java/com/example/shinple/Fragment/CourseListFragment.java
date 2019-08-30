@@ -106,6 +106,9 @@ public class CourseListFragment extends Fragment{
                 if (course.getLearnState() == null){
                     temp = "0";
                 }
+                else{
+                    temp = course.getLearnState();
+                }
                 try{
                     data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                     data += "&" +  URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
