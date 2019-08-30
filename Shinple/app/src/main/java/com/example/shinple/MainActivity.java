@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-
+//        fr = new LectureRoomFragment();
         fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 

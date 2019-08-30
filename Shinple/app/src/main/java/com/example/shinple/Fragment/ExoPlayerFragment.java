@@ -75,6 +75,7 @@ public class ExoPlayerFragment extends Fragment {
     private TextView tv_name;
     private TextView tv_info;
     TextView textView;
+    TextView exo_position;
     RecyclerView recyclerView;
     ScrollView scrollView;
     FrameLayout frameLayout;
@@ -117,7 +118,7 @@ public class ExoPlayerFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_exoplayer, container, false);
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
-
+        exo_position = view.findViewById(R.id.exo_position);
         textView.setText(video_name);
         tv_info.setText(video_info);
 
@@ -196,6 +197,7 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+
         releasePlayer();
     }
 
@@ -302,6 +304,9 @@ public class ExoPlayerFragment extends Fragment {
             exoPlayerView.setPlayer(null);
             player.release();
             player = null;
+            /*TODO : 본 시간 저장 변수 exo_position_time*/
+            CharSequence exo_position_time = exo_position.getText();
+            Log.i("getPosition",(String)exo_position_time);
 
         }
     }

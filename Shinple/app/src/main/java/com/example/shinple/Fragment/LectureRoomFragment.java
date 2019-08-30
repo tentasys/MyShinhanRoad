@@ -9,7 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shinple.Adapter.CopAdapter;
 import com.example.shinple.Adapter.CourseAAdapter;
@@ -41,9 +45,6 @@ public class LectureRoomFragment extends Fragment{
     private CopAdapter my_cop_adapter;
     private List<CopVO> my_cop_list;
     private RecyclerView my_rv;
-
-
-
     private MemberVO member;
     private String result1;
     private String result2;
@@ -120,20 +121,13 @@ public class LectureRoomFragment extends Fragment{
         rv_course.setAdapter(adapter_course);
         my_rv.setAdapter(my_cop_adapter);
 
-
-
-
-
-
-
-
-
+        /*
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
             JSONObject jsonObject = new JSONObject(result1);
 
 
-            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만 들었음..
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
@@ -158,9 +152,11 @@ public class LectureRoomFragment extends Fragment{
         }catch(Exception e) {
             e.printStackTrace();
         }
+*/
+        my_cop_list.add(new CopVO("cop_name","cop_rank","cop_intro","cop_num"));
+        my_cop_list.add(new CopVO("cop_name1","cop_rank1","cop_intro1","cop_num1"));
 
-
-
+/*
 
         try{
             //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
@@ -193,7 +189,21 @@ public class LectureRoomFragment extends Fragment{
         }catch(Exception e) {
             e.printStackTrace();
         }
+        */
 
+        courseList.add(new CourseVO("courseName", "courseLevel", "tchName", "courseText", "courseNum", "learnState"));
+        Spinner spinner = (Spinner)v.findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.spinner_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+            public void onItemSelected(AdapterView<?> parent , View view, int pos ,long id) {
+                Toast.makeText(parent.getContext(), "선택된 건" +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
+            }
+            public void onNothingSelected(AdapterView<?> arg0) {
+
+            }
+        } );
         return v;
     }
 
