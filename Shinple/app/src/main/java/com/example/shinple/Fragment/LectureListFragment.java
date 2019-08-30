@@ -104,8 +104,7 @@ public class LectureListFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
         progressDialog = new ProgressDialog(view.getContext());
 
@@ -176,14 +175,6 @@ public class LectureListFragment extends Fragment {
                 }
             }
         });
-
-
-
-
-
-
-
-
 
         recyclerView = view.findViewById(R.id.rv_lecture);
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
@@ -324,9 +315,11 @@ public class LectureListFragment extends Fragment {
             e.printStackTrace();
         }
 // 이어보기 버튼 추후 개발 예정
+        try {
+            last.setText(lectureList.get(recent_num).getLec_title());
+        }catch (Exception e){
 
-        last.setText(lectureList.get(recent_num).getLec_title());
-
+        }
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

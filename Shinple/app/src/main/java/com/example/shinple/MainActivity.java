@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView navView;
     TextView toolbar_title;
 
-    boolean windowMode = true;    //true가 세로모드, false가 가로모드
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -166,8 +165,8 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-//        fr = LectureRoomFragment.newInstance("string","string",new MemberVO("e","e","e","e"));
-        fr = MainFragment.newInstance(res,member,res2);
+        fr = new ExoPlayerFragment();
+//        fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 
     }
@@ -324,11 +323,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
-    public boolean getWindowMode() {
-        return windowMode;
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -342,7 +336,6 @@ public class MainActivity extends AppCompatActivity
             toolbar.setVisibility(View.GONE);
             navView.setVisibility(View.GONE);
             navigationView.setVisibility(View.GONE);
-            windowMode= false;
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -359,7 +352,7 @@ public class MainActivity extends AppCompatActivity
             toolbar.setVisibility(View.VISIBLE);
             navView.setVisibility(View.VISIBLE);
             navigationView.setVisibility(View.VISIBLE);
-            windowMode = true;
+
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
     }
