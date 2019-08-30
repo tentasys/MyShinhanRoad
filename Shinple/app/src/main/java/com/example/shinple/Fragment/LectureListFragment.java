@@ -282,14 +282,18 @@ public class LectureListFragment extends Fragment {
         bt_continue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /*isFileValid();  //파일이 유효한 지 체크
+                videourl = BackgroundTask.server+"video/"+ course.getCourseNum() + "/" + lectureList.get(recent_num).getLec_order() + ".mp4";
+                String url =  BackgroundTask.server+"video/"+ course.getCourseNum() + "/";
+                String video = lectureList.get(recent_num).getLec_order() + ".mp4";
+                String lec_title = lectureList.get(recent_num).getLec_title();
+                String lec_text = lectureList.get(recent_num).getLec_text();
+                isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())

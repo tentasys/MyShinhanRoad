@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity
                 BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
                 try{
                     res = backgroundTask.execute().get();
-                    Log.d("hihihi",res);
                     res2 = backgroundTask1.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
@@ -159,7 +158,6 @@ public class MainActivity extends AppCompatActivity
         BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
         try{
             res = backgroundTask.execute().get();
-            Log.d("hihihi",res);
             res2 = backgroundTask1.execute().get();
         } catch (Exception e){
             e.printStackTrace();

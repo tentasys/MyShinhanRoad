@@ -212,7 +212,6 @@ public class ExoPlayerFragment extends Fragment {
                 @Override
                 public void onClick(View view) {
                     ((MainActivity)getActivity()).playerLandscapeToggle(enableFullScreen);
-
                     if (enableFullScreen) {   //fullscreen start
                         Toast.makeText(getContext(),"test",Toast.LENGTH_SHORT);
 
@@ -246,7 +245,6 @@ public class ExoPlayerFragment extends Fragment {
                         frameLayout.setLayoutParams(param);
                         playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
                         enableFullScreen = true;
-
                     }
                 }
             });
@@ -261,7 +259,6 @@ public class ExoPlayerFragment extends Fragment {
             //음량조절
             player.setVolume(10);
             //프레임 포지션 설정
-
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
