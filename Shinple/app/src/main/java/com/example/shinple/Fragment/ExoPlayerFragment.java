@@ -162,7 +162,7 @@ public class ExoPlayerFragment extends Fragment {
 
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, String lec_order, String lec_title, String lec_text) {
+            public void onItemClick(View view, String lec_order, String lec_title, String lec_text, String lec_num) {
                 videourl = mParam1 + lec_order + ".mp4";
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
@@ -179,7 +179,7 @@ public class ExoPlayerFragment extends Fragment {
                     try{
                         data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                        data += "&" + URLEncoder.encode("lecNum", "UTF-8") + "=" + URLEncoder.encode(lec_order, "UTF-8");
+                        data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
                         data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
 
                     } catch (Exception e){
@@ -203,7 +203,7 @@ public class ExoPlayerFragment extends Fragment {
             JSONObject jsonObject = new JSONObject(result);
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
-            String lec_title, lec_order, lec_text, lec_time,recent_time;
+            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num;
             while(count < jsonArray.length()){
                 JSONObject object = jsonArray.getJSONObject(count);
 
@@ -212,7 +212,9 @@ public class ExoPlayerFragment extends Fragment {
                 lec_text = object.getString("lec_text");
                 lec_time = object.getString("lec_time");
                 recent_time = object.getString("recent_time");
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time);
+                lec_num = object.getString("lec_num");
+                //값들을 User클래스에 묶어줍니다
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }

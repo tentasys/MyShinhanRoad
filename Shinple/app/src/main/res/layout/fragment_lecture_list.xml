@@ -200,34 +200,49 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/tv_lec_courseInfo"
-                    android:layout_width="367dp"
-                    android:layout_height="92dp"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
-                    android:text="블록체인이 어쩌구 저쩌구 하는 강의입니다. 열심히 들으세여"
-                    android:textColor="@color/shinhan3"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                    app:layout_constraintTop_toBottomOf="@+id/like_button">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_lec_courseInfo"
+                            android:layout_width="367dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginBottom="5dp"
+                            android:text="블록체인이 어쩌구 저쩌구 하는 강의입니다. 열심히 들으세여"
+                            android:textColor="@color/shinhan3" />
+                    </LinearLayout>
+                </ScrollView>
 
                 <ImageButton
                     android:id="@+id/like_button"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
                     android:background="@color/white"
                     android:scaleType="fitXY"
                     android:src="@drawable/unlike"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_lec_courseInfo"
                     app:layout_constraintEnd_toEndOf="@+id/textView10"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.963"
                     app:layout_constraintStart_toStartOf="@+id/textView10"
                     app:layout_constraintTop_toTopOf="@+id/textView10" />
 
