@@ -390,18 +390,18 @@ public class MainFragment extends Fragment {
     }
     public void setupViewPager(ViewPager viewPager) {
         if (new_course.get(0) != null) {
-            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(0)));
-            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1)));
-            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2)));
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1),member));
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1),member));
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2),member));
             viewPager.setAdapter(Vadapter);
         }
     }
 
     public void setupViewPager2(ViewPager viewPager) {
         if(hot_course.get(0) != null){
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(0)));
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(1)));
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(2)));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(0),member));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(1),member));
+        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(2),member));
         viewPager.setAdapter(Vadapter2);
         }
     }

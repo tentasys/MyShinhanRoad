@@ -144,7 +144,6 @@ public class ExoPlayerFragment extends Fragment {
         tv_info = view.findViewById(R.id.tv_video_info);
         exo_position = view.findViewById(R.id.exo_position);
 
-        exo_position.setText("1:20");
         textView.setText(video_name);
         tv_info.setText(video_info);
 
@@ -309,7 +308,7 @@ public class ExoPlayerFragment extends Fragment {
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
-        player.seekTo(360000);
+//        player.seekTo(360000);
         //prepare
         player.prepare(mediaSource, false, false);
         //start,stop
