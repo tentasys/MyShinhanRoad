@@ -1,12 +1,14 @@
 package com.example.shinple.Fragment;
 
 import android.app.ProgressDialog;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -181,7 +183,11 @@ public class LectureListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList);
         recyclerView.setAdapter(adapter);
-
+        /* TODO : recyclerView scroll 및 사이즈 조정  == 테스트 필요!!!  */
+        Resources resources = getContext().getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        int px = (int) (80 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+        recyclerView.setMinimumHeight(px * lectureList.size());
 
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override

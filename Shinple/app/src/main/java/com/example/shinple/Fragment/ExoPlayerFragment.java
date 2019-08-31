@@ -31,8 +31,10 @@ import com.example.shinple.MainActivity;
 import com.example.shinple.VO.CourseVO;
 import com.example.shinple.VO.LectureVO;
 import com.example.shinple.VO.MemberVO;
+import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.ConcatenatingMediaSource;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
@@ -101,16 +103,18 @@ public class ExoPlayerFragment extends Fragment {
     private boolean enableFullScreen = true;
 
 
+/*    ConcatenatingMediaSource concatenatedSource =
+            new ConcatenatingMediaSource(firstSource, secondSource);*/
 
     public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5, MemberVO member) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        args.putString(ARG_PARAM3, param3);
-        args.putString(ARG_PARAM4, param4);
-        args.putString(ARG_PARAM5, param5);
-        args.putSerializable(ARG_PARAM7, member);
+        args.putString(ARG_PARAM1, param1);  //videourl
+        args.putString(ARG_PARAM2, param2);  //result
+        args.putString(ARG_PARAM3, param3);  //video_name
+        args.putString(ARG_PARAM4, param4);  //video_info
+        args.putString(ARG_PARAM5, param5);  //video_num
+        args.putSerializable(ARG_PARAM7, member);  //member
         fragment.setArguments(args);
         return fragment;
     }
@@ -119,13 +123,13 @@ public class ExoPlayerFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM5);
-            videourl = mParam1 + mParam2;
-            result = getArguments().getString(ARG_PARAM2);
-            video_name = getArguments().getString(ARG_PARAM3);
-            video_info = getArguments().getString(ARG_PARAM4);
-            member = (MemberVO)getArguments().getSerializable(ARG_PARAM7);
+            mParam1 = getArguments().getString(ARG_PARAM1); //videourl
+            mParam2 = getArguments().getString(ARG_PARAM5); //video_num
+            videourl = mParam1 + mParam2;  // videourl = videour + video_num;
+            result = getArguments().getString(ARG_PARAM2);  //result
+            video_name = getArguments().getString(ARG_PARAM3); //video_name
+            video_info = getArguments().getString(ARG_PARAM4);  //video_info
+            member = (MemberVO)getArguments().getSerializable(ARG_PARAM7); //member
         }
         else
         {
@@ -163,7 +167,7 @@ public class ExoPlayerFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, LectureVO lecture) {
-                videourl = mParam1 + lecture.getLec_num() + ".mp4";
+                videourl = mParam1 + lecture.getLec_num() + ".mp4";  //TODO: 여기있는 url 정의는 뭘깡....
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
@@ -192,9 +196,7 @@ public class ExoPlayerFragment extends Fragment {
                         result = backgroundTask.execute().get();
                     } catch (Exception e){
                         e.printStackTrace();
-                    }
-
-
+                    } 
                 }else{
                     Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
                 } //ifelse 끝
@@ -212,7 +214,7 @@ public class ExoPlayerFragment extends Fragment {
 
             //JSON 배열 길이만큼 반복문을 실행
 
-            while(count < jsonArray.length()){
+            while(count < jsonArray.length()){  //이 전체가 강의 정보!!
                 JSONObject object = jsonArray.getJSONObject(count);
 
                 lec_title = object.getString("lec_title");
@@ -228,7 +230,9 @@ public class ExoPlayerFragment extends Fragment {
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
-            exo_position.setText("05:30");
+
+
+//            exo_position.setText("05:30");
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -315,6 +319,19 @@ public class ExoPlayerFragment extends Fragment {
         player.prepare(mediaSource, false, false);
         //start,stop
         player.setPlayWhenReady(playWhenReady);
+        player.addListener(new ExoPlayer.EventListener() {
+            @Override
+            public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+                if (playbackState == ExoPlayer.STATE_ENDED) {
+
+                    Log.e("myTag","ExoPlayer.STATE_ENDED");
+                    player.stop();
+                    player.seekTo(0L);
+                    player.prepare(mediaSource,true,false);
+                    player.setPlayWhenReady(playWhenReady);
+                }
+            }
+        });
     }
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -349,10 +366,10 @@ public class ExoPlayerFragment extends Fragment {
             exoPlayerView.setPlayer(null);
             player.release();
             player = null;
+
             /*TODO : 본 시간 저장 변수 exo_position_time*/
             CharSequence exo_position_time = exo_position.getText();
             Log.i("getPosition",(String)exo_position_time);
-
         }
     }
 
