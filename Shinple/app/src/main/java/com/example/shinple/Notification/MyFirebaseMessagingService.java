@@ -16,11 +16,15 @@ import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 
+import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.ui.login.LoginActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.net.URLEncoder;
 
 import static com.android.volley.VolleyLog.TAG;
 
@@ -85,7 +89,28 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     //token을 서버에 등록하는 함수
     public void sendRegistrationToServer(String token){
-        Log.d("TEST", "Short");
+        Log.d("TEST", "token");
+
+//        String data;    //php로 넘기기 위한 값
+//
+//        try {
+//            data = URLEncoder.encode("mem_token", "UTF-8") + "=" + URLEncoder.encode(unum, "UTF-8");
+//            data+= "&"+URLEncoder.encode("mem_name","UTF-8")+"="+ URLEncoder.encode(uname,"UTF-8");
+//            data+= "&"+URLEncoder.encode("mem_password","UTF-8")+"="+ URLEncoder.encode(upassword,"UTF-8");
+//            data+= "&"+URLEncoder.encode("mem_code","UTF-8")+"="+ URLEncoder.encode(ucode,"UTF-8");
+//        } catch (Exception e){
+//        }
+//
+//        String result = "";
+//        BackgroundTask backgroundTask = new BackgroundTask("app/UserRegister.php",data);
+//        Log.d("Tttt",data);
+//        try{
+//            result = backgroundTask.execute().get();
+//            onResponse(result);
+//            Log.d("ssss",result);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
     //PHP에서 보내는 알림을 처리하는 모듈
@@ -111,6 +136,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         notificationManager.notify(1, builder.build());
+
     }
 
 }
