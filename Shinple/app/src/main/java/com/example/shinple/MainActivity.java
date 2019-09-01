@@ -40,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -75,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     private String res;
     private String res2;
     private String data;
+    private String data_for_token;
     private MemberVO member;
     private CourseVO course;
     Fragment fr;
@@ -95,9 +97,6 @@ public class MainActivity extends AppCompatActivity
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
 
-
-
-
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -114,6 +113,8 @@ public class MainActivity extends AppCompatActivity
         actionBar.setDisplayShowCustomEnabled(true); //커스터마이징 하기 위해 필요
         actionBar.setDisplayShowTitleEnabled(false);
 
+        //firebase token 확인
+//        Log.d("TOKEN", FirebaseInstanceId.getInstance().getToken());
 
         toolbar.findViewById(R.id.toolbar_title).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,12 +126,14 @@ public class MainActivity extends AppCompatActivity
                 }
                 res = "";
                 res2 = "";
+
                 BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
                 BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
+
                 try{
                     res = backgroundTask.execute().get();
                     res2 = backgroundTask1.execute().get();
-                    Log.d("mainCourse",res2);
+
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -139,6 +142,22 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        //firbase token 저장
+        try{
+            data_for_token = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            data_for_token += "&"+URLEncoder.encode("userToken", "UTF-8") + "=" + URLEncoder.encode(FirebaseInstanceId.getInstance().getToken(), "UTF-8");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+        BackgroundTask btsk_noti = new BackgroundTask("app/notification_setup.php", data_for_token);
+
+        try{
+            String temp_res = btsk_noti.execute().get();
+            Log.d("token2", temp_res);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         //사이드바 설정 및 토글 기능 정의
         drawer = findViewById(R.id.drawer_layout);
