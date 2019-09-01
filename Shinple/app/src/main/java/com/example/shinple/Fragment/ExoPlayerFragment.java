@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shinple.Adapter.LectureListAdapter;
+import com.example.shinple.BackPressHandler;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.MainActivity;
 import com.example.shinple.VO.CourseVO;
@@ -58,7 +59,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class ExoPlayerFragment extends Fragment {
+public class ExoPlayerFragment extends Fragment{
     private static final String ARG_PARAM1 = "videourl";
     private static final String ARG_PARAM2 = "result";
     private static final String ARG_PARAM3 = "video_name";
@@ -99,6 +100,8 @@ public class ExoPlayerFragment extends Fragment {
     RecyclerView recyclerView;
     ScrollView scrollView;
     FrameLayout frameLayout;
+    private  ConstraintLayout hidden_1;
+    private ImageView playerImg;
     public boolean FileValideCheckResult = false;
     private boolean enableFullScreen = true;
 
@@ -230,7 +233,11 @@ public class ExoPlayerFragment extends Fragment {
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
-
+            /* TODO : recyclerView scroll 및 사이즈 조정  == 테스트 필요!!!  */
+            Resources resources = getContext().getResources();
+            DisplayMetrics metrics = resources.getDisplayMetrics();
+            int px = (int) (80 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+            recyclerView.setMinimumHeight(px * lectureList.size());
 
 //            exo_position.setText("05:30");
         }catch(Exception e) {
@@ -248,7 +255,6 @@ public class ExoPlayerFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-
         releasePlayer();
     }
 
@@ -256,11 +262,11 @@ public class ExoPlayerFragment extends Fragment {
     private void initializePlayer() {
         if (player == null) {
             player = ExoPlayerFactory.newSimpleInstance(view.getContext());
-            ConstraintLayout hidden_1 = view.findViewById(R.id.hidden_1);
+            hidden_1 = view.findViewById(R.id.hidden_1);
             //플레이어 연결
             exoPlayerView.setPlayer(player);
             FrameLayout playerBt = (FrameLayout) exoPlayerView.findViewById(R.id.exo_fullscreen_button);
-            ImageView playerImg = (ImageView) exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
+            playerImg = (ImageView) exoPlayerView.findViewById(R.id.exo_fullscreen_icon);
             playerBt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -283,17 +289,18 @@ public class ExoPlayerFragment extends Fragment {
                         LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,240);
                         layoutsize.rightMargin= 0;
                         exoPlayerView.setLayoutParams(layoutsize);
+                        hidden_1.setVisibility(View.VISIBLE);
                         textView.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
-                        scrollView.setFillViewport(false);
+//                        scrollView.setFillViewport(false);
                         Resources resources = getContext().getResources();
                         DisplayMetrics metrics = resources.getDisplayMetrics();
                         int px = (int) (240 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
                         LinearLayout.LayoutParams explayersize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,px);
                         exoPlayerView.setLayoutParams(explayersize);
                         FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
-                        px = (int) (55 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-                        param.bottomMargin= 0;
+                        px = (int) (55 * (  (float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+                        param.bottomMargin= px;
                         frameLayout.setLayoutParams(param);
                         playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
                         enableFullScreen = true;
@@ -356,9 +363,35 @@ public class ExoPlayerFragment extends Fragment {
         }
 
     }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(!enableFullScreen){
+            ((MainActivity)getActivity()).playerLandscapeToggle(!enableFullScreen);
 
+            LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,240);
+            layoutsize.rightMargin= 0;
+            exoPlayerView.setLayoutParams(layoutsize);
+            hidden_1.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+//                        scrollView.setFillViewport(false);
+            Resources resources = getContext().getResources();
+            DisplayMetrics metrics = resources.getDisplayMetrics();
+            int px = (int) (240 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+            LinearLayout.LayoutParams explayersize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,px);
+            exoPlayerView.setLayoutParams(explayersize);
+            FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            px = (int) (55 * (  (float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+            param.bottomMargin= px;
+            frameLayout.setLayoutParams(param);
+            playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
+            enableFullScreen = true;
+        }
+    }
     private void releasePlayer() {
         if (player != null) {
+
             playbackPosition = player.getCurrentPosition();
             currentWindow = player.getCurrentWindowIndex();
             playWhenReady = player.getPlayWhenReady();
@@ -376,6 +409,8 @@ public class ExoPlayerFragment extends Fragment {
 @Override
 public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
+
+    Log.e("myTest","here????");
 }
     public  void isFileValid() {
         Thread th = new Thread() {
@@ -413,6 +448,17 @@ public void onConfigurationChanged(Configuration newConfig) {
         mNow = System.currentTimeMillis();
         mDate = new Date(mNow);
         return mFormat1.format(mDate);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
     }
 
 }

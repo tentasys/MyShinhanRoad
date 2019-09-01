@@ -182,12 +182,10 @@ public class LectureListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList);
+
+        Log.e("myTag", Integer.toString(lectureList.size()));
         recyclerView.setAdapter(adapter);
-        /* TODO : recyclerView scroll 및 사이즈 조정  == 테스트 필요!!!  */
-        Resources resources = getContext().getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        int px = (int) (80 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
-        recyclerView.setMinimumHeight(px * lectureList.size());
+
 
         bt_test.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -297,6 +295,13 @@ public class LectureListFragment extends Fragment {
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
+
+            /* TODO : recyclerView scroll 및 사이즈 조정  == 테스트 필요!!!  */
+            Resources resources = getContext().getResources();
+            DisplayMetrics metrics = resources.getDisplayMetrics();
+            int px = (int) (80 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+            recyclerView.setMinimumHeight(px * lectureList.size());
+
             Date date1 = recent.parse(S[0][1]);
             recent_num = 0;
             for (int i = 1; i < jsonArray.length(); i++){
