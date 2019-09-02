@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:layout_marginBottom="55dp"
-    tools:context=".Fragment.MediaPlayerFragment">
+    tools:context=".fragment.MediaPlayerFragment">
 
 
     <ScrollView

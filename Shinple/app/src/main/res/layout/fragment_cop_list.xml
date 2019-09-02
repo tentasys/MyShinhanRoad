@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="55dp"
     android:background="#ececec"
-    tools:context=".Fragment.CopListFragment">
+    tools:context=".fragment.CopListFragment">
 
     <ScrollView
         android:layout_width="match_parent"

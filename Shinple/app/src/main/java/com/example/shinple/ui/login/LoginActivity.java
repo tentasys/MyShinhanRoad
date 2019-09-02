@@ -1,45 +1,27 @@
 package com.example.shinple.ui.login;
 
-import android.Manifest;
-import android.app.Activity;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.preference.PreferenceManager;
-import android.renderscript.ScriptGroup;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.shinple.BackPressHandler;
-import com.example.shinple.MainActivity;
+import com.example.shinple.activities.MainActivity;
 import com.example.shinple.R;
-import com.example.shinple.RegisterActivity;
-import com.example.shinple.VO.MemberVO;
+import com.example.shinple.activities.RegisterActivity;
+import com.example.shinple.vo.MemberVO;
 import com.example.shinple.data.LoginDataSource;
 import com.example.shinple.data.LoginRepository;
 

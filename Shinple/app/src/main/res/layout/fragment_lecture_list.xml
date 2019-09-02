@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="55dp"
     android:background="#FFFFFF"
-    tools:context=".Fragment.LectureListFragment">
+    tools:context=".fragment.LectureListFragment">
 
 
 

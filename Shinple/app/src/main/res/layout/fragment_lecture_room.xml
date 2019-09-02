@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="55dp"
     android:background="@color/white"
-    tools:context=".Fragment.LectureRoomFragment">
+    tools:context=".fragment.LectureRoomFragment">
 
     <ScrollView
         android:layout_width="match_parent"

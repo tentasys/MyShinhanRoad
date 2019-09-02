@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="55dp"
     android:background="#FFFFFF"
-    tools:context=".Fragment.MainFragment">
+    tools:context=".fragment.MainFragment">
     <!--TODO: UI 구성 다시 확인하기 -->
     <ScrollView
         android:layout_width="match_parent"

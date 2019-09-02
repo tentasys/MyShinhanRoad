@@ -3,13 +3,11 @@ package com.example.shinple.data;
 import android.util.Log;
 
 import com.example.shinple.BackgroundTask;
-import com.example.shinple.VO.CourseVO;
-import com.example.shinple.VO.MemberVO;
+import com.example.shinple.vo.MemberVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 
 /**

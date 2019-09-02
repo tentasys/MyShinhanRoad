@@ -1,16 +1,8 @@
 package com.example.shinple.ui.login;
 
-import android.content.Intent;
-import android.widget.Toast;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
-
 import com.example.shinple.data.LoginRepository;
 import com.example.shinple.data.Result;
-import com.example.shinple.VO.MemberVO;
-import com.example.shinple.R;
+import com.example.shinple.vo.MemberVO;
 
 public class LoginViewModel  {
 

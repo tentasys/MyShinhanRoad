@@ -1,6 +1,6 @@
 package com.example.shinple.data;
 
-import com.example.shinple.VO.MemberVO;
+import com.example.shinple.vo.MemberVO;
 
 /**
  * Class that requests authentication and user information from the remote data source and

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="55dp"
     android:background="#FFFFFF"
-    tools:context=".Fragment.FilterFragment">
+    tools:context=".fragment.FilterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
