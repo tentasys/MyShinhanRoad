@@ -11,6 +11,7 @@ import android.os.Bundle;
 import com.example.shinple.BackPressHandler;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
+import com.example.shinple.data.Result;
 import com.example.shinple.fragment.CopFragment;
 import com.example.shinple.fragment.FilterFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
@@ -25,6 +26,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -52,7 +54,12 @@ import android.view.WindowManager;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.net.URLEncoder;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +74,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tv_com;
     private TextView tv_name;
     private TextView tv_lp;
+    private Handler mHandler = new Handler();
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -87,7 +95,6 @@ public class MainActivity extends AppCompatActivity
 
 
         /////////////
-
         ////////////////
 
         Window window = getWindow();
@@ -155,6 +162,32 @@ public class MainActivity extends AppCompatActivity
         //사이드바 설정 및 토글 기능 정의
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        View headerV = navigationView.getHeaderView(0);
+
+
+        tv_com = headerV.findViewById(R.id.tv_com);
+        tv_name = headerV.findViewById(R.id.tv_main_name);
+        tv_lp = headerV.findViewById(R.id.tv_LP);
+
+        if(member.getCompany_num().equals("1")){
+            tv_com.setText("신한DS");
+        }
+        else if(member.getCompany_num().equals("2")){
+            tv_com.setText("신한은행");
+        }
+        else if(member.getCompany_num().equals("3")){
+            tv_com.setText("신한카드");
+        }
+        else if(member.getCompany_num().equals("4")){
+            tv_com.setText("신한금융투자");
+        }
+        else {
+            tv_com.setText("신한생명");
+        }
+
+        tv_name.setText(member.getMem_name());
+        tv_lp.setText(member.getMem_point());
+        renewMem();
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -462,4 +495,53 @@ public class MainActivity extends AppCompatActivity
     public void setMember2(MemberVO member) {
         this.member = member;
     }
+    public MemberVO getMember(){
+        return member;
+    }
+
+    public void renewMem(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask tt = new TimerTask() {
+                    @Override
+                    public void run() {
+                        String data = "";
+                        String result = "";
+
+                        try {
+                            data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                            BackgroundTask backgroundTask1 = new BackgroundTask("app/member.php", data);
+                            result = backgroundTask1.execute().get();
+                            Log.d("sdlmsdlms",result);
+                            JSONObject jsonObject = new JSONObject(result);
+                            JSONArray loginresult = jsonObject.getJSONArray("response");
+                            JSONObject obj = loginresult.getJSONObject(0);
+                            String mem_name = obj.getString("mem_name");
+                            String mem_point = obj.getString("mem_point");
+                            String company_num= obj.getString("company_num");
+                                //값들을 User클래스에 묶어줍니다
+                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
+                            member = MemberVO;
+                            Log.d("all success","all right");
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_lp.setText(member.getMem_point());
+                                Log.d("all success","all right");
+                            }
+                        });
+                    }
+                };
+
+                Timer t = new Timer();
+                t.schedule(tt,0,1000);
+            }
+        }).start();
+    }
+
+
 }
