@@ -11,9 +11,11 @@ import android.os.Bundle;
 import com.example.shinple.BackPressHandler;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
+import com.example.shinple.fragment.CourseListFragment;
 import com.example.shinple.fragment.FilterFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
+import com.example.shinple.fragment.NotificationFragment;
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.vo.MemberVO;
 import com.example.shinple.ui.login.LoginActivity;
@@ -56,6 +58,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity
     private TextView tv_name;
     private TextView tv_lp;
     private Handler mHandler = new Handler();
+    private ArrayList<String> alll;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -275,7 +279,22 @@ public class MainActivity extends AppCompatActivity
             switchFragment(fr);
         } else if (id == R.id.nav_gallery) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 
-        } else if (id == R.id.nav_slideshow) {  //CoP 랭킹 리스트
+        } else if (id == R.id.nav_all_course) {  //CoP 랭킹 리스트
+
+            alll = new ArrayList<String>();
+
+            String result = "";
+            BackgroundTask backgroundTask = new BackgroundTask("app/courseList.php",data);
+            try{
+                result = backgroundTask.execute().get();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            this    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame, CourseListFragment.newInstance(result,alll,member))
+                    .addToBackStack("course")
+                    .commit();
 
         } else if (id == R.id.nav_tools) {
 
@@ -287,6 +306,15 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.nav_config) {
 
+        } else if (id == R.id.nav_noti){
+            String resultnoti = "";
+            BackgroundTask backgroundTask5 = new BackgroundTask("app/notification.php",data);
+            try{
+                resultnoti = backgroundTask5.execute().get();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            switchFragment(NotificationFragment.newInstance(resultnoti));
         }
 
 
@@ -511,7 +539,6 @@ public class MainActivity extends AppCompatActivity
                             data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                             BackgroundTask backgroundTask1 = new BackgroundTask("app/member.php", data);
                             result = backgroundTask1.execute().get();
-                            Log.d("sdlmsdlms",result);
                             JSONObject jsonObject = new JSONObject(result);
                             JSONArray loginresult = jsonObject.getJSONArray("response");
                             JSONObject obj = loginresult.getJSONObject(0);
@@ -521,7 +548,6 @@ public class MainActivity extends AppCompatActivity
                                 //값들을 User클래스에 묶어줍니다
                             MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
                             member = MemberVO;
-                            Log.d("all success","all right");
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -529,7 +555,6 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 tv_lp.setText(member.getMem_point());
-                                Log.d("all success","all right");
                             }
                         });
                     }

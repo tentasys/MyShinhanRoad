@@ -474,7 +474,6 @@ public class MainFragment extends Fragment {
                             data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                             BackgroundTask backgroundTask1 = new BackgroundTask("app/member.php", data);
                             result = backgroundTask1.execute().get();
-                            Log.d("sdlmsdlms",result);
                             JSONObject jsonObject = new JSONObject(result);
                             JSONArray loginresult = jsonObject.getJSONArray("response");
                             JSONObject obj = loginresult.getJSONObject(0);
@@ -484,7 +483,6 @@ public class MainFragment extends Fragment {
                             //값들을 User클래스에 묶어줍니다
                             MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
                             member = MemberVO;
-                            Log.d("all success","all right");
                         }catch (Exception e){
                             e.printStackTrace();
                         }
@@ -492,7 +490,6 @@ public class MainFragment extends Fragment {
                             @Override
                             public void run() {
                                 point.setText(member.getMem_point());
-                                Log.d("all success","all right");
                             }
                         });
                     }
