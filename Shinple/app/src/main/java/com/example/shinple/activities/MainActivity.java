@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView navView;
     TextView toolbar_title;
     boolean windowMode;
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -239,10 +241,17 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
+        searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
         searchView.setOnQueryTextListener(queryTextListener);
+        int id = searchView.getContext()
+                .getResources()
+                .getIdentifier("android:id/search_src_text",null,null);
+        TextView textView = (TextView)searchView.findViewById(id);
+        textView.setTextColor(getResources().getColor(R.color.shinhan1));
+        textView.setHintTextColor(getResources().getColor(R.color.shinhan1));
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
         if(null!=searchManager ) {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
@@ -257,6 +266,7 @@ public class MainActivity extends AppCompatActivity
         @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         @Override
         public boolean onQueryTextSubmit(String query) {
+            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
             alll = new ArrayList<String>();
             alll.add(query);
             String cou = "";

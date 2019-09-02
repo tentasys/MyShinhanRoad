@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:fontFamily">@font/oneshinhanmedium</item>
+        <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="colorControlHighlight">@color/shinhan3</item>
     </style>
@@ -20,6 +21,7 @@
         <item name="android:textColorHint">@color/shinhan1</item>
         <item name="android:editTextColor">@color/shinhan1</item>
     </style>
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

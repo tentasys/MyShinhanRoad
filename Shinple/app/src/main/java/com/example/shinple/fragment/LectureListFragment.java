@@ -128,7 +128,7 @@ public class LectureListFragment extends Fragment {
                 .centerCrop()
                 .into(iv_cor);
 
-        if(course.getLearnState().equals("2")){
+        if(course.getLearnState().equals("2") || course.getLearnState().equals("3")){
             bt_test.setVisibility(view.GONE);
         }
         bt_continue = view.findViewById(R.id.bt_continue);
