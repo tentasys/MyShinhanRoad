@@ -15,6 +15,7 @@ import com.example.shinple.fragment.CopFragment;
 import com.example.shinple.fragment.FilterFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
+import com.example.shinple.fragment.UnfoldableDetailsFragment;
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.vo.MemberVO;
 import com.example.shinple.ui.login.LoginActivity;
@@ -309,8 +310,7 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            Intent intent = new Intent(MainActivity.this , UnfoldableDetailsActivity.class);
-                            startActivity(intent);
+                            switchFragment(new UnfoldableDetailsFragment());
 
                              return true;
         }
@@ -461,5 +461,10 @@ public class MainActivity extends AppCompatActivity
 
     public void setMember2(MemberVO member) {
         this.member = member;
+    }
+
+    public Fragment getCurrentFragment(){
+        return getSupportFragmentManager().findFragmentById(R.id.frame);
+
     }
 }
