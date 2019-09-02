@@ -62,7 +62,7 @@ public class ViewPagerFragment extends Fragment {
         TextView course_N = (TextView) view.findViewById(R.id.course_n);
         TextView tch = (TextView) view.findViewById(R.id.tch_name);
         ImageView cour = (ImageView) view.findViewById(R.id.iv_cour);
-        server = BackgroundTask.server + "video/" + course.getCourseNum() + "/background.png";
+        server = BackgroundTask.server + "video/course/" + course.getCourseNum() + ".png";
 
         Glide.with(getContext())
                 .load(server)

@@ -55,8 +55,11 @@ public class CourseVO implements Serializable {
     }
 
     public String getLearnState() { return  LearnState; }
+    public  void setLearnState(String learnState){this.LearnState = learnState;}
+
     public String getLike() { return  Like; }
     public String getMem_like() { return  mem_like; }
+    public void setMem_like(String mem_like){ this.mem_like = mem_like;}
 
     public CourseVO(String courseName, String courseLevel,String tchName, String courseText, String courseNum, String LearnState, String Like, String mem_like) {
         this.courseName = courseName;

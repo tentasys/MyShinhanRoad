@@ -64,6 +64,9 @@ public class MainActivity extends AppCompatActivity
     private String data_for_token;
     private MemberVO member;
     private CourseVO course;
+    private TextView tv_com;
+    private TextView tv_name;
+    private TextView tv_lp;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -81,6 +84,11 @@ public class MainActivity extends AppCompatActivity
         // clear FLAG_TRANSLUCENT_STATUS flag:
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
+
+
+        /////////////
+
+        ////////////////
 
         Window window = getWindow();
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -449,5 +457,9 @@ public class MainActivity extends AppCompatActivity
         });
         //finally creating the alert dialog and displaying it
         alertDialog.show();
+    }
+
+    public void setMember2(MemberVO member) {
+        this.member = member;
     }
 }

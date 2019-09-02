@@ -47,10 +47,10 @@ public class LectureListAdapter  extends RecyclerView.Adapter<LectureListAdapter
         TextView lectureNum = (TextView)holder.itemView.findViewById(R.id.tv_lecture_num);
         TextView lectureName = (TextView)holder.itemView.findViewById(R.id.tv_lecture_name);
         TextView lectureTime = (TextView)holder.itemView.findViewById(R.id.tv_playtime);
-        TextView lectureText = (TextView)holder.itemView.findViewById(R.id.tv_lec_text);
+        //TextView lectureText = (TextView)holder.itemView.findViewById(R.id.tv_lec_text);
 
 
-        lectureText.setText(lectureList.get(position).getLec_text());
+        //lectureText.setText(lectureList.get(position).getLec_text());
         lectureTime.setText(lectureList.get(position).getLec_time());
         lectureNum.setText(lectureList.get(position).getLec_order());
         lectureName.setText(lectureList.get(position).getLec_title());

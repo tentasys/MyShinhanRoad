@@ -197,6 +197,14 @@ public class TestFragment extends Fragment {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+
+                int point = Integer.parseInt(member.getMem_point());
+                point = point + Point;
+                member.setMem_point(String.valueOf(point));
+
+                MainActivity activity = new MainActivity();
+                activity.setMember2(member);
+
                 Log.d("lecture",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
@@ -286,6 +294,7 @@ public class TestFragment extends Fragment {
                         data += "&" + URLEncoder.encode("score", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(Point), "UTF-8");
                         data += "&" + URLEncoder.encode("pass", "UTF-8") + "=" + URLEncoder.encode( "1", "UTF-8");
                         data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("2", "UTF-8");
+                        course.setLearnState("2");
                     } catch (Exception e){
 
                     }

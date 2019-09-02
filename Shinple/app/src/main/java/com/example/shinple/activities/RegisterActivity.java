@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                ucode = String.valueOf(i);
+                ucode = String.valueOf(i+1);
             }
 
             @Override

@@ -38,6 +38,7 @@ public class MemberVO implements Serializable {
     public String getMem_point() {
         return mem_point;
     }
+    public void setMem_point(String point) {this.mem_point = mem_point;}
 
     public String getCompany_num() {
         return company_num;

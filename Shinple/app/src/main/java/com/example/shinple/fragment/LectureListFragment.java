@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.adapter.LectureListAdapter;
 import com.example.shinple.activities.MainActivity;
@@ -53,6 +54,7 @@ public class LectureListFragment extends Fragment {
     private CourseVO course;
     private MemberVO member;
     private int recent_num;
+    private ImageView iv_cor;
 
     private String[][] S;
 
@@ -109,6 +111,8 @@ public class LectureListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
         progressDialog = new ProgressDialog(view.getContext());
 
+
+        iv_cor = view.findViewById(R.id.iv_lec_course);
         lectureList = new ArrayList<LectureVO>();
         last = view.findViewById(R.id.tv_lastVideo);
         tv_courseName = view.findViewById(R.id.tv_lec_courseN);
@@ -116,6 +120,14 @@ public class LectureListFragment extends Fragment {
         tv_tch = view.findViewById(R.id.tv_lec_tchName);
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
         bt_test = view.findViewById(R.id.bt_test);
+
+        String server = BackgroundTask.server + "video/course/" + course.getCourseNum() + ".png";
+
+        Glide.with(getContext())
+                .load(server)
+                .centerCrop()
+                .into(iv_cor);
+
         if(course.getLearnState().equals("2")){
             bt_test.setVisibility(view.GONE);
         }
@@ -146,6 +158,7 @@ public class LectureListFragment extends Fragment {
                         data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                        course.setMem_like("1");
                     } catch (Exception e){
                     }
                     BackgroundTask backgroundTask = new BackgroundTask("app/userLike.php",data);
@@ -162,6 +175,7 @@ public class LectureListFragment extends Fragment {
                         data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
                         data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                         data += "&" + URLEncoder.encode("Like", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
+                        course.setMem_like("0");
                     } catch (Exception e){
 
                     }
