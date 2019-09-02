@@ -54,4 +54,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.1'
     implementation 'com.google.firebase:firebase-messaging:19.0.0'
     implementation 'com.google.firebase:firebase-analytics:17.0.1'
+    implementation 'com.alexvasilkov:android-commons:2.0.2'
+    implementation 'com.alexvasilkov:foldable-layout:1.2.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
 }
