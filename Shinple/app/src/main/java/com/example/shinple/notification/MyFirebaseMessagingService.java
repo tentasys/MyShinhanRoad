@@ -114,7 +114,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri ringtoneUri= RingtoneManager.getActualDefaultRingtoneUri(this, RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default");
-        builder.setSmallIcon(R.drawable.shinhan_logo_noti);     //알림 아이콘 설정
+        builder.setSmallIcon(R.mipmap.ic_launcher_round);     //알림 아이콘 설정
         builder.setContentText(body);                              //알림 메시지
         builder.setAutoCancel(true);
         builder.setSound(ringtoneUri);                             //알림음

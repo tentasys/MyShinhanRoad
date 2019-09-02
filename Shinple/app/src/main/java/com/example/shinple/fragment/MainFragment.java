@@ -55,6 +55,8 @@ public class MainFragment extends Fragment {
     private String data;
     public String videourl;
     public boolean FileValideCheckResult = false;
+    private Handler mHandler = new Handler();
+    private TextView point;
 
     long mNow;
     private String data1;
@@ -115,11 +117,13 @@ public class MainFragment extends Fragment {
         learning_status = v.findViewById(R.id.learning_status);
 
         TextView name = (TextView)v.findViewById(R.id.my_learning_status2);
-        TextView point = (TextView)v.findViewById(R.id.tv_PersonalRank);
+        point = (TextView)v.findViewById(R.id.tv_PersonalRank);
         if(member != null) {
             name.setText(member.getMem_name());
             point.setText(member.getMem_point());
         }
+
+        renewMem();
 
         //recent_course_layout1 = v.findViewById(R.id.recent_course_layout1);
         //recent_course_layout2 = v.findViewById(R.id.recent_course_layout2);
@@ -456,5 +460,44 @@ public class MainFragment extends Fragment {
         mDate = new Date(mNow);
         return mFormat.format(mDate);
     }
+    public void renewMem(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask tt = new TimerTask() {
+                    @Override
+                    public void run() {
+                        String data = "";
+                        String result = "";
 
+                        try {
+                            data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                            BackgroundTask backgroundTask1 = new BackgroundTask("app/member.php", data);
+                            result = backgroundTask1.execute().get();
+                            JSONObject jsonObject = new JSONObject(result);
+                            JSONArray loginresult = jsonObject.getJSONArray("response");
+                            JSONObject obj = loginresult.getJSONObject(0);
+                            String mem_name = obj.getString("mem_name");
+                            String mem_point = obj.getString("mem_point");
+                            String company_num= obj.getString("company_num");
+                            //값들을 User클래스에 묶어줍니다
+                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
+                            member = MemberVO;
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                point.setText(member.getMem_point());
+                            }
+                        });
+                    }
+                };
+
+                Timer t = new Timer();
+                t.schedule(tt,0,1000);
+            }
+        }).start();
+    }
 }

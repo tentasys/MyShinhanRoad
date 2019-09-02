@@ -1,21 +1,29 @@
 package com.example.shinple.activities;
 
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.shinple.BackPressHandler;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
-import com.example.shinple.fragment.CopFragment;
+import com.example.shinple.fragment.CourseListFragment;
 import com.example.shinple.fragment.FilterFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
+
 import com.example.shinple.fragment.UnfoldableDetailsFragment;
+import com.example.shinple.fragment.NotificationFragment;
+
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.vo.MemberVO;
 import com.example.shinple.ui.login.LoginActivity;
@@ -26,6 +34,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -50,10 +59,20 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,6 +87,10 @@ public class MainActivity extends AppCompatActivity
     private TextView tv_com;
     private TextView tv_name;
     private TextView tv_lp;
+    private Handler mHandler = new Handler();
+    private ArrayList<String> alll;
+    private SearchView searchView;
+    private String cou;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -77,6 +100,7 @@ public class MainActivity extends AppCompatActivity
     BottomNavigationView navView;
     TextView toolbar_title;
     boolean windowMode;
+    private InputMethodManager imm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +112,6 @@ public class MainActivity extends AppCompatActivity
 
 
         /////////////
-
         ////////////////
 
         Window window = getWindow();
@@ -156,6 +179,32 @@ public class MainActivity extends AppCompatActivity
         //사이드바 설정 및 토글 기능 정의
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
+        View headerV = navigationView.getHeaderView(0);
+
+
+        tv_com = headerV.findViewById(R.id.tv_com);
+        tv_name = headerV.findViewById(R.id.tv_main_name);
+        tv_lp = headerV.findViewById(R.id.tv_LP);
+
+        if(member.getCompany_num().equals("1")){
+            tv_com.setText("신한DS");
+        }
+        else if(member.getCompany_num().equals("2")){
+            tv_com.setText("신한은행");
+        }
+        else if(member.getCompany_num().equals("3")){
+            tv_com.setText("신한카드");
+        }
+        else if(member.getCompany_num().equals("4")){
+            tv_com.setText("신한금융투자");
+        }
+        else {
+            tv_com.setText("신한생명");
+        }
+
+        tv_name.setText(member.getMem_name());
+        tv_lp.setText(member.getMem_point());
+        renewMem();
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -195,12 +244,60 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
 
-        SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
+        searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
+        searchView.setOnQueryTextListener(queryTextListener);
+        int id = searchView.getContext()
+                .getResources()
+                .getIdentifier("android:id/search_src_text",null,null);
+        TextView textView = (TextView)searchView.findViewById(id);
+        textView.setTextColor(getResources().getColor(R.color.shinhan1));
+        textView.setHintTextColor(getResources().getColor(R.color.shinhan1));
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+        if(null!=searchManager ) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+        }
+        // 검색필드를 항상 표시하고싶을 경우false, 아이콘으로 보이고 싶을 경우 true
+        searchView.setIconifiedByDefault(true);
 
         return true;
     }
+
+    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+            alll = new ArrayList<String>();
+            alll.add(query);
+            String cou = "";
+            try{
+                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                data += "&" + URLEncoder.encode("searchCourse", "UTF-8") + "=" + URLEncoder.encode(query, "UTF-8");
+                Log.d("Test1",data);
+            }
+            catch (Exception e){
+            }
+            BackgroundTask backgroundTask = new BackgroundTask("app/searchCourse.php",data);
+            try{
+                cou = backgroundTask.execute().get();
+                Log.d("Test",cou);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            fr = CourseListFragment.newInstance(cou,alll,member);
+            switchFragment(fr);
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -245,7 +342,22 @@ public class MainActivity extends AppCompatActivity
             switchFragment(fr);
         } else if (id == R.id.nav_gallery) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 
-        } else if (id == R.id.nav_slideshow) {  //CoP 랭킹 리스트
+        } else if (id == R.id.nav_all_course) {  //CoP 랭킹 리스트
+
+            alll = new ArrayList<String>();
+
+            String result = "";
+            BackgroundTask backgroundTask = new BackgroundTask("app/courseList.php",data);
+            try{
+                result = backgroundTask.execute().get();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            this    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame, CourseListFragment.newInstance(result,alll,member))
+                    .addToBackStack("course")
+                    .commit();
 
         } else if (id == R.id.nav_tools) {
 
@@ -257,6 +369,15 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.nav_config) {
 
+        } else if (id == R.id.nav_noti){
+            String resultnoti = "";
+            BackgroundTask backgroundTask5 = new BackgroundTask("app/notification.php",data);
+            try{
+                resultnoti = backgroundTask5.execute().get();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            switchFragment(NotificationFragment.newInstance(resultnoti));
         }
 
 
@@ -465,6 +586,49 @@ public class MainActivity extends AppCompatActivity
 
     public Fragment getCurrentFragment(){
         return getSupportFragmentManager().findFragmentById(R.id.frame);
+    }
+    public MemberVO getMember(){
+        return member;
+    }
 
+    public void renewMem(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask tt = new TimerTask() {
+                    @Override
+                    public void run() {
+                        String data = "";
+                        String result = "";
+
+                        try {
+                            data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                            BackgroundTask backgroundTask1 = new BackgroundTask("app/member.php", data);
+                            result = backgroundTask1.execute().get();
+                            JSONObject jsonObject = new JSONObject(result);
+                            JSONArray loginresult = jsonObject.getJSONArray("response");
+                            JSONObject obj = loginresult.getJSONObject(0);
+                            String mem_name = obj.getString("mem_name");
+                            String mem_point = obj.getString("mem_point");
+                            String company_num= obj.getString("company_num");
+                                //값들을 User클래스에 묶어줍니다
+                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
+                            member = MemberVO;
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        mHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                tv_lp.setText(member.getMem_point());
+                            }
+                        });
+                    }
+                };
+
+                Timer t = new Timer();
+                t.schedule(tt,0,1000);
+            }
+        }).start();
     }
 }

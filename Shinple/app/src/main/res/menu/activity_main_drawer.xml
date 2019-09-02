@@ -13,13 +13,17 @@
             android:icon="@drawable/ic_star_black"
             android:title="내 강의실" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_all_course"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="강좌" />
+            android:title="전체 강좌" />
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_notifications_black_24dp"
             android:title="CoP" />
+        <item
+            android:id="@+id/nav_noti"
+            android:icon="@drawable/ic_notifications_black_24dp"
+            android:title="공지사항" />
     </group>
 
     <item android:title="앱 설정">

@@ -103,7 +103,7 @@ public class TestFragment extends Fragment {
                 //count는 배열의 인덱스를 의미
                 JSONObject object = jsonArray.getJSONObject(count);
 
-                quizNum = object.getString("quiz_num");//여기서 ID가 대문자임을 유의
+                quizNum = String.valueOf(count+1);//여기서 ID가 대문자임을 유의
                 question = object.getString("question");
                 quiz1 = object.getString("quiz1");
                 quiz2 = object.getString("quiz2");
