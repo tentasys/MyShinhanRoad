@@ -11,8 +11,6 @@ import android.os.Bundle;
 import com.example.shinple.BackPressHandler;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
-import com.example.shinple.data.Result;
-import com.example.shinple.fragment.CopFragment;
 import com.example.shinple.fragment.FilterFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
