@@ -1,30 +1,37 @@
-package com.example.shinple.activities;
+package com.example.shinple.fragment;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.alexvasilkov.foldablelayout.UnfoldableView;
 import com.alexvasilkov.foldablelayout.shading.GlanceFoldShading;
 import com.example.shinple.R;
-import com.example.shinple.vo.Painting;
+import com.example.shinple.activities.MainActivity;
 import com.example.shinple.adapter.PaintingsAdapter;
 import com.example.shinple.utils.GlideHelper;
+import com.example.shinple.vo.Painting;
 
-public class UnfoldableDetailsActivity extends AppCompatActivity {
+public class UnfoldableDetailsFragment extends Fragment {
 
     private View listTouchInterceptor;
     private View detailsLayout;
     private UnfoldableView unfoldableView;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -36,25 +43,30 @@ public class UnfoldableDetailsActivity extends AppCompatActivity {
         }
     }
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_unfoldable_details);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+       // View v = inflater.inflate(R.layout.activity_unfoldable_details, container , false);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        FrameLayout wrapper = new FrameLayout(getActivity()); // for example
+        View v = inflater.inflate(R.layout.activity_unfoldable_details, wrapper, true);
 
-        ListView listView = Views.find(this, R.id.list_view);
-        listView.setAdapter(new PaintingsAdapter(this));
+        ListView listView = v.findViewById(R.id.list_view);
+        listView.setAdapter(new PaintingsAdapter((MainActivity)getContext()));
 
-        listTouchInterceptor = Views.find(this, R.id.touch_interceptor_view);
+        listTouchInterceptor = v.findViewById(R.id.touch_interceptor_view);
         listTouchInterceptor.setClickable(false);
 
-        detailsLayout = Views.find(this, R.id.details_layout);
+        detailsLayout = v.findViewById( R.id.details_layout);
         detailsLayout.setVisibility(View.INVISIBLE);
 
-        unfoldableView = Views.find(this, R.id.unfoldable_view);
+        unfoldableView = v.findViewById(R.id.unfoldable_view);
 
         Bitmap glance = BitmapFactory.decodeResource(getResources(), R.drawable.unfold_glance);
         unfoldableView.setFoldShading(new GlanceFoldShading(glance));
-
         unfoldableView.setOnFoldingListener(new UnfoldableView.SimpleFoldingListener() {
             @Override
             public void onUnfolding(UnfoldableView unfoldableView) {
@@ -78,15 +90,15 @@ public class UnfoldableDetailsActivity extends AppCompatActivity {
                 detailsLayout.setVisibility(View.INVISIBLE);
             }
         });
+        return v;
     }
 
-    @Override
     public void onBackPressed() {
         if (unfoldableView != null
                 && (unfoldableView.isUnfolded() || unfoldableView.isUnfolding())) {
             unfoldableView.foldBack();
         } else {
-            super.onBackPressed();
+            ((MainActivity)getActivity()).onBackPressed();
         }
     }
 
@@ -98,7 +110,7 @@ public class UnfoldableDetailsActivity extends AppCompatActivity {
         GlideHelper.loadPaintingImage(image, painting);
         title.setText(painting.getTitle());
 
-        SpannableBuilder builder = new SpannableBuilder(this);
+        SpannableBuilder builder = new SpannableBuilder((MainActivity)getContext());
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                 .append("year").append(": ")

@@ -39,14 +39,6 @@
             android:resource="@color/colorAccent" />
 
         <activity
-            android:name=".activities.UnfoldableDetailsActivity"
-            android:label="Unfoldable details"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".activities.FoldableListActivity"
-            android:label="Foldable list"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activities.RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

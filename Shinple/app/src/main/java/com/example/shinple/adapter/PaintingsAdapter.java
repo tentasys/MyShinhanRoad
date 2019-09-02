@@ -9,12 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+
 import com.alexvasilkov.android.commons.adapters.ItemsAdapter;
 import com.alexvasilkov.android.commons.ui.ContextHelper;
 import com.alexvasilkov.android.commons.ui.Views;
 import com.example.shinple.R;
-import com.example.shinple.activities.FoldableListActivity;
-import com.example.shinple.activities.UnfoldableDetailsActivity;
+import com.example.shinple.activities.MainActivity;
+import com.example.shinple.fragment.FoldableListFragment;
+import com.example.shinple.fragment.UnfoldableDetailsFragment;
 import com.example.shinple.utils.GlideHelper;
 import com.example.shinple.vo.Painting;
 
@@ -22,9 +27,10 @@ import java.util.Arrays;
 
 public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.ViewHolder>
         implements View.OnClickListener {
-
+    Context context;
     public PaintingsAdapter(Context context) {
         setItemsList(Arrays.asList(Painting.getAllPaintings(context.getResources())));
+        this.context = context;
     }
 
     @Override
@@ -46,12 +52,12 @@ public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.Vi
     @Override
     public void onClick(View view) {
         final Painting item = (Painting) view.getTag(R.id.list_item_image);
-        final Activity activity = ContextHelper.asActivity(view.getContext());
+        final Fragment fragment = ((MainActivity)context).getCurrentFragment();
 
-        if (activity instanceof UnfoldableDetailsActivity) {
-            ((UnfoldableDetailsActivity) activity).openDetails(view, item);
-        } else if (activity instanceof FoldableListActivity) {
-            Toast.makeText(activity, item.getTitle(), Toast.LENGTH_SHORT).show();
+        if (fragment instanceof UnfoldableDetailsFragment) {
+            ((UnfoldableDetailsFragment) fragment).openDetails(view, item);
+        } else if (fragment instanceof FoldableListFragment) {
+//            Toast.makeText(activity, item.getTitle(), Toast.LENGTH_SHORT).show();
         }
     }
 
