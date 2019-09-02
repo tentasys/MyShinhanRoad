@@ -21,6 +21,7 @@ import com.example.shinple.BackPressHandler;
 import com.example.shinple.activities.MainActivity;
 import com.example.shinple.R;
 import com.example.shinple.activities.RegisterActivity;
+import com.example.shinple.activities.Splash;
 import com.example.shinple.vo.MemberVO;
 import com.example.shinple.data.LoginDataSource;
 import com.example.shinple.data.LoginRepository;
@@ -42,7 +43,7 @@ public class LoginActivity extends AppCompatActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        startActivity(new Intent(this, Splash.class));
 
         userIdEditText = findViewById(R.id.user_id);
         passwordEditText = findViewById(R.id.user_pw);

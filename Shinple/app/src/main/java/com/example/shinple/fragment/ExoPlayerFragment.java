@@ -234,7 +234,8 @@ public class ExoPlayerFragment extends Fragment{
             int px = (int) (80 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
             recyclerView.setMinimumHeight(px * lectureList.size());
 
-//            exo_position.setText("05:30");
+            exo_position.setText("05:30");
+            exo_position.getText();
         }catch(Exception e) {
             e.printStackTrace();
         }

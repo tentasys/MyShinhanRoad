@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.Splash"></activity>
+        <activity android:name=".activities.Splash"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
 
         <service
             android:name=".notification.MyFirebaseMessagingService"
