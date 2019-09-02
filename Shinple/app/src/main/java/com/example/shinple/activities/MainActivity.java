@@ -1,11 +1,15 @@
 package com.example.shinple.activities;
 
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import com.example.shinple.BackPressHandler;
@@ -51,8 +55,10 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -61,6 +67,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -77,6 +85,8 @@ public class MainActivity extends AppCompatActivity
     private TextView tv_lp;
     private Handler mHandler = new Handler();
     private ArrayList<String> alll;
+    private SearchView searchView;
+    private String cou;
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -232,9 +242,49 @@ public class MainActivity extends AppCompatActivity
         SearchView searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("태그명으로 검색합니다.");
+        searchView.setOnQueryTextListener(queryTextListener);
+        SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+        if(null!=searchManager ) {
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(this.getComponentName()));
+        }
+        // 검색필드를 항상 표시하고싶을 경우false, 아이콘으로 보이고 싶을 경우 true
+        searchView.setIconifiedByDefault(true);
 
         return true;
     }
+
+    private SearchView.OnQueryTextListener queryTextListener = new SearchView.OnQueryTextListener() {
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            alll = new ArrayList<String>();
+            alll.add(query);
+            String cou = "";
+            try{
+                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                data += "&" + URLEncoder.encode("searchCourse", "UTF-8") + "=" + URLEncoder.encode(query, "UTF-8");
+                Log.d("Test1",data);
+            }
+            catch (Exception e){
+            }
+            BackgroundTask backgroundTask = new BackgroundTask("app/searchCourse.php",data);
+            try{
+                cou = backgroundTask.execute().get();
+                Log.d("Test",cou);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            fr = CourseListFragment.newInstance(cou,alll,member);
+            switchFragment(fr);
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            // TODO Auto-generated method stub
+            return false;
+        }
+    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

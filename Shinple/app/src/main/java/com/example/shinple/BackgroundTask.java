@@ -17,7 +17,7 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
     String param1;
 
     //TODO: 서버 주소 바뀌면 여기 바꿀것
-    static public String server = "https://1ac3fa6e.ngrok.io/";
+    static public String server = "http://192.168.1.134/";
 //    static public String server = "http://192.168.1.134/";
 
     // 서버 주소 저장
