@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {   //home 메뉴
             fr = new MainFragment();
             switchFragment(fr);
-        } else if (id == R.id.nav_gallery) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
+        } else if (id == R.id.nav_my_room) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 
         } else if (id == R.id.nav_all_course) {  //CoP 랭킹 리스트
 
@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity
                     .addToBackStack("course")
                     .commit();
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.nav_CoP) {
 
         } else if (id == R.id.log_out) {
             showCustomDialog();
