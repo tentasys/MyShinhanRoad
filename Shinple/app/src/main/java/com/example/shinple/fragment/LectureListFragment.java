@@ -189,8 +189,6 @@ public class LectureListFragment extends Fragment {
                     BackgroundTask backgroundTask2 = new BackgroundTask("app/userLike.php",data);
                     try{
                         result = backgroundTask2.execute().get();
-                        Log.d("hihihi",result);
-
                     } catch (Exception e){
                         e.printStackTrace();
                     }
@@ -203,7 +201,6 @@ public class LectureListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LectureListAdapter(view.getContext(),lectureList);
 
-        Log.e("myTag", Integer.toString(lectureList.size()));
         recyclerView.setAdapter(adapter);
 
 
@@ -223,7 +220,6 @@ public class LectureListFragment extends Fragment {
                 } catch (Exception e){
                     e.printStackTrace();
                 }
-                Log.d("test",result);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
@@ -252,7 +248,6 @@ public class LectureListFragment extends Fragment {
                     data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                     data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
                     data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
-                    Log.d("time",data1);
                 } catch (Exception e){
                 }
                 BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
@@ -262,7 +257,6 @@ public class LectureListFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                Log.d("order",result2);
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
@@ -339,8 +333,6 @@ public class LectureListFragment extends Fragment {
                     recent_num = i;
                 }
             }
-            Log.d("time",recent.format(date1));
-            Log.d("sdmlsmfl",lectureList.get(recent_num).getLec_title());
         }catch(Exception e) {
             e.printStackTrace();
         }
@@ -431,13 +423,11 @@ public class LectureListFragment extends Fragment {
             data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
             data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
             data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
-            Log.d("time1",data);
         } catch (Exception e){
         }
         BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
         try{
             result = backgroundTask.execute().get();
-            Log.d("test123",result);
         } catch (Exception e){
             e.printStackTrace();
         }

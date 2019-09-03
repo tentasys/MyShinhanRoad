@@ -16,6 +16,7 @@ import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -143,8 +144,7 @@ public class ExoPlayerFragment extends Fragment{
         else
         {
 //                videourl =  "https://file-examples.com/wp-content/uploads/2017/04/file_example_MP4_480_1_5MG.mp4";
-//                  videourl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-                    videourl = "https://dbcf91c1.ngrok.io/video/course/10.mp4";
+                  videourl = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
         }
 
     }
@@ -178,13 +178,20 @@ public class ExoPlayerFragment extends Fragment{
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, LectureVO lecture) {
-                videourl = mParam1 + lecture.getLec_num() + ".mp4";  //TODO: 여기있는 url 정의는 뭘깡....
+                videourl = mParam1 + lecture.getLec_num() + ".mp4";
                 isFileValid();  //파일이 유효한 지1 체크
-                lectureF = lecture;
+                Log.e("myTag",lecture.getLearn_time() );
                 if(FileValideCheckResult){
                     MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
                     //prepare
-                    player.prepare(mediaSource, false, false);
+                    String a = "";
+                    try{
+
+//                        Long.parseLong(lecture.getLearn_time())
+                        player.seekTo(180000);
+                    } catch (Exception e){ }
+
+                    player.prepare(mediaSource, false, true);
                     //start,stop
                     player.setPlayWhenReady(playWhenReady);
                     textView.setText(lecture.getLec_title());
@@ -322,8 +329,6 @@ public class ExoPlayerFragment extends Fragment{
 //            exoPlayerView.
             //음량조절
             player.setVolume(10);
-
-            player.seekTo(360000);
             //프레임 포지션 설정
 
 
@@ -495,6 +500,7 @@ public void onConfigurationChanged(Configuration newConfig) {
             public void run() {
                 try {
                     dd = player.getCurrentPosition();
+                    Log.e("left",Long.toString(player.getCurrentPosition()));
                 } catch (Exception e) {
                 }
             }
