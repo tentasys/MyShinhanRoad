@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Paint;
 import android.util.DisplayMetrics;
+import android.util.Log;
 
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
@@ -52,22 +53,30 @@ public class Painting {
         TypedArray images = res.obtainTypedArray(R.array.paintings_images);
         try{
             result_painting = backgroundTask.execute().get();
-
             JSONObject jsonObject = new JSONObject(result_painting);
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             String cop_num, cop_point, cop_intro, cop_chief;
             int count = 0;
             paintings = new Painting[jsonArray.length()];
-
-            while(count < jsonArray.length()){  //이 전체가 강의 정보!!
+            while(count < jsonArray.length()){
                 JSONObject object = jsonArray.getJSONObject(count);
 
                 cop_num = object.getString("cop_num");
                 cop_point = object.getString("cop_point");
+                cop_point = object.getString("cop_point");
+
+                if(cop_point == null) {
+                    cop_point= "0";
+                }
                 cop_intro = object.getString("cop_intro");
+                if(cop_intro == null) {
+                    cop_intro= "0";
+                }
                 cop_chief = object.getString("cop_chief");
-                final int imageId = images.getResourceId(count, -1);
-                paintings[count] = new Painting(imageId, cop_point, cop_intro, cop_chief);
+                if(cop_chief == null) {
+                    cop_chief= "0";
+                }
+                paintings[count] = new Painting(Integer.parseInt(cop_num), cop_point, cop_intro, cop_chief);
                 count++;
             }
             images.recycle();
