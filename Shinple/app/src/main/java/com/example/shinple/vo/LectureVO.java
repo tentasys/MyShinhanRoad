@@ -1,6 +1,8 @@
 package com.example.shinple.vo;
 
-public class LectureVO {
+import java.io.Serializable;
+
+public class LectureVO implements Serializable {
     String lec_title;
     String lec_order;
     String lec_text;

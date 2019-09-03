@@ -17,6 +17,7 @@ import com.example.shinple.BackPressHandler;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
 import com.example.shinple.fragment.CourseListFragment;
+import com.example.shinple.fragment.ExoPlayerFragment;
 import com.example.shinple.fragment.FilterFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
@@ -319,13 +320,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /* fragment 내에서 이동하기 위한 메소드 */
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frame, fragment).commit();      // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     /**
      * 사이드바 정의
@@ -444,7 +438,6 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.frame, fr);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

@@ -299,7 +299,7 @@ public class MainFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text(),video, member))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture,video, member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
