@@ -60,7 +60,7 @@ public class CourseAAdapter  extends RecyclerView.Adapter<CourseAAdapter.ViewHol
 
         if(courseList.get(position).getLearnState().equals("0")){
             LS.setBackgroundResource(R.drawable.beforelearning);
-            LS.setText("수강신청");
+            LS.setText("수강");
         }
         else if(courseList.get(position).getLearnState().equals("1")){
             LS.setBackgroundResource(R.drawable.nowlearning);

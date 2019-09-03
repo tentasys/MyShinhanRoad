@@ -19,6 +19,7 @@ import com.example.shinple.R;
 import com.example.shinple.fragment.CourseListFragment;
 import com.example.shinple.fragment.ExoPlayerFragment;
 import com.example.shinple.fragment.FilterFragment;
+import com.example.shinple.fragment.FoldableListFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
 
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity
     TextView toolbar_title;
     boolean windowMode;
     private InputMethodManager imm;
-
+    private FragmentManager fm;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -110,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         // clear FLAG_TRANSLUCENT_STATUS flag:
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
-
+        fm = getSupportFragmentManager();
 
         /////////////
         ////////////////
@@ -155,6 +156,9 @@ public class MainActivity extends AppCompatActivity
                 } catch (Exception e){
                     e.printStackTrace();
                 }
+                Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
+                fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
                 fr = MainFragment.newInstance(res,member,res2);
                 switchFragment(fr);
             }
@@ -239,7 +243,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    public void ClearBackstack(){
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -350,6 +356,9 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e){
                 e.printStackTrace();
             }
+
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             fr = MainFragment.newInstance(res,member,res2);
             switchFragment(fr);
         } else if (id == R.id.nav_my_room) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
@@ -365,23 +374,36 @@ public class MainActivity extends AppCompatActivity
             } catch (Exception e){
                 e.printStackTrace();
             }
-            this    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame, CourseListFragment.newInstance(result,alll,member))
-                    .addToBackStack("course")
-                    .commit();
+            //모든
+
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
+            fm.beginTransaction()
+                .replace(R.id.frame, CourseListFragment.newInstance(result,alll,member))
+                .commit();
 
         } else if (id == R.id.nav_CoP) {
-
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
+                fm.beginTransaction()
+                    .replace(R.id.frame, new UnfoldableDetailsFragment());
         } else if (id == R.id.log_out) {
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             showCustomDialog();
             return  true;
         } else if (id == R.id.exit) {
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             showCustomDialog2();
             return true;
         } else if (id == R.id.nav_config) {
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
 
         } else if (id == R.id.nav_noti){
+            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             String resultnoti = "";
             BackgroundTask backgroundTask5 = new BackgroundTask("app/notification.php",data);
             try{
@@ -463,6 +485,25 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {   //뒤로가기 키 동작
         DrawerLayout drawer = findViewById(R.id.drawer_layout); //사이드바 닫기
         FragmentManager fm = getSupportFragmentManager();
+        if(!windowMode){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            toolbar.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+            navigationView.setVisibility(View.VISIBLE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            windowMode = true;
+        }
+        Fragment current_fragment = fm.findFragmentById(R.id.frame);
+        if(current_fragment instanceof  UnfoldableDetailsFragment){
+            ((UnfoldableDetailsFragment) current_fragment).setunfoldableViewFoldBack();
+        }
+        if(current_fragment instanceof ExoPlayerFragment){
+          fm.beginTransaction().remove(current_fragment).commit();
+        }
+/*        else if(current_fragment instanceof FoldableListFragment){
+            backPressHandler.onBackPressed();
+            fm.popBackStack();
+        }*/
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -470,19 +511,14 @@ public class MainActivity extends AppCompatActivity
 
             if (count == 1) {
                 backPressHandler.onBackPressed();
+
             } else {
                 fm.popBackStack();
-                if(!windowMode){
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    toolbar.setVisibility(View.VISIBLE);
-                    navView.setVisibility(View.VISIBLE);
-                    navigationView.setVisibility(View.VISIBLE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    windowMode = true;
-                }
             }
 
         }
+
+
     }
 
     @Override

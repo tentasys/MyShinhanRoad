@@ -55,7 +55,7 @@ public class Painting {
             result_painting = backgroundTask.execute().get();
             JSONObject jsonObject = new JSONObject(result_painting);
             JSONArray jsonArray = jsonObject.getJSONArray("response");
-            String cop_num, cop_point, cop_intro, cop_chief;
+            String cop_num, cop_point, cop_intro, cop_chief,cop_name;
             int count = 0;
             paintings = new Painting[jsonArray.length()];
             while(count < jsonArray.length()){
@@ -63,20 +63,11 @@ public class Painting {
 
                 cop_num = object.getString("cop_num");
                 cop_point = object.getString("cop_point");
-                cop_point = object.getString("cop_point");
-
-                if(cop_point == null) {
-                    cop_point= "0";
-                }
+                cop_name = object.getString("cop_name");
                 cop_intro = object.getString("cop_intro");
-                if(cop_intro == null) {
-                    cop_intro= "0";
-                }
                 cop_chief = object.getString("cop_chief");
-                if(cop_chief == null) {
-                    cop_chief= "0";
-                }
-                paintings[count] = new Painting(Integer.parseInt(cop_num), cop_point, cop_intro, cop_chief);
+
+                paintings[count] = new Painting(Integer.parseInt(cop_num), cop_name, cop_intro, cop_chief);
                 count++;
             }
             images.recycle();
