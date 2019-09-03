@@ -261,7 +261,7 @@ public class LectureListFragment extends Fragment {
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text(),video,member))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture,video,member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
@@ -344,13 +344,14 @@ public class LectureListFragment extends Fragment {
                 String video = lectureList.get(recent_num).getLec_order() + ".mp4";
                 String lec_title = lectureList.get(recent_num).getLec_title();
                 String lec_text = lectureList.get(recent_num).getLec_text();
+                String lec_time = lectureList.get(recent_num).getLec_time();
                 isFileValid();  //파일이 유효한 지 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lec_title,lec_text,video,member))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lectureList.get(recent_num),video,member))
                                 .commit();
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())

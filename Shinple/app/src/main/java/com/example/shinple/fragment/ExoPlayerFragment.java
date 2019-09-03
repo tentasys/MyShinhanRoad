@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,6 +53,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class ExoPlayerFragment extends Fragment{
@@ -61,19 +64,25 @@ public class ExoPlayerFragment extends Fragment{
     private static final String ARG_PARAM4 = "video_info";
     private static final String ARG_PARAM5 = "video_num";
     private static final String ARG_PARAM7 = "member";
-    private static final String ARG_PARAM6 = "course";
+    private static final String ARG_PARAM6 = "video_time";
 
+    private Handler mHandler = new Handler();
     private PlayerView exoPlayerView;
     private SimpleExoPlayer player;
     View view;
     private Boolean playWhenReady = true;
     private int currentWindow = 0;
     private Long playbackPosition = 0L;
+    private Thread thread;
 
     private LectureListAdapter adapter;
     private List<LectureVO> lectureList;
     private CourseVO course;
     private MemberVO member;
+    private String Dd;
+    private CharSequence exo_position_time = "";
+
+    private boolean stopped;
 
     long mNow;
     Date mDate;
@@ -87,9 +96,11 @@ public class ExoPlayerFragment extends Fragment{
     private String result;
     private String video_name;
     private String video_info;
+    private String lec_time;
     private TextView tv_name;
     private TextView tv_info;
     private String data;
+    private LectureVO lectureF;
     TextView textView;
     TextView exo_position;
     RecyclerView recyclerView;
@@ -104,13 +115,12 @@ public class ExoPlayerFragment extends Fragment{
 /*    ConcatenatingMediaSource concatenatedSource =
             new ConcatenatingMediaSource(firstSource, secondSource);*/
 
-    public static ExoPlayerFragment newInstance(String param1,String param2, String param3, String param4,String param5, MemberVO member) {
+    public static ExoPlayerFragment newInstance(String param1,String param2, LectureVO lectureR, String param5, MemberVO member) {
         ExoPlayerFragment fragment = new ExoPlayerFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);  //videourl
         args.putString(ARG_PARAM2, param2);  //result
-        args.putString(ARG_PARAM3, param3);  //video_name
-        args.putString(ARG_PARAM4, param4);  //video_info
+        args.putSerializable(ARG_PARAM3, lectureR);  //video_name
         args.putString(ARG_PARAM5, param5);  //video_num
         args.putSerializable(ARG_PARAM7, member);  //member
         fragment.setArguments(args);
@@ -125,8 +135,7 @@ public class ExoPlayerFragment extends Fragment{
             mParam2 = getArguments().getString(ARG_PARAM5); //video_num
             videourl = mParam1 + mParam2;  // videourl = videour + video_num;
             result = getArguments().getString(ARG_PARAM2);  //result
-            video_name = getArguments().getString(ARG_PARAM3); //video_name
-            video_info = getArguments().getString(ARG_PARAM4);  //video_info
+            lectureF = (LectureVO)getArguments().getSerializable(ARG_PARAM3); //video_name
             member = (MemberVO)getArguments().getSerializable(ARG_PARAM7); //member
         }
         else
@@ -147,8 +156,9 @@ public class ExoPlayerFragment extends Fragment{
         tv_info = view.findViewById(R.id.tv_video_info);
         exo_position = view.findViewById(R.id.exo_position);
 
-        textView.setText(video_name);
-        tv_info.setText(video_info);
+        textView.setText(lectureF.getLec_title());
+        tv_info.setText(lectureF.getLec_text());
+
 
         exo_position.setText("12:12");
         recyclerView = view.findViewById(R.id.rv_videolist);
@@ -168,6 +178,7 @@ public class ExoPlayerFragment extends Fragment{
             public void onItemClick(View view, LectureVO lecture) {
                 videourl = mParam1 + lecture.getLec_num() + ".mp4";  //TODO: 여기있는 url 정의는 뭘깡....
                 isFileValid();  //파일이 유효한 지1 체크
+                lectureF = lecture;
                 if(FileValideCheckResult){
                     MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
                     //prepare
@@ -234,7 +245,13 @@ public class ExoPlayerFragment extends Fragment{
         }catch(Exception e) {
             e.printStackTrace();
         }
-        exo_position.setText("03:33");
+
+        exo_position.setText(lectureF.getLec_time());
+        sThread ST = new sThread(lectureF);
+        thread = new Thread(ST);
+        thread.start();
+
+        thread.interrupt();
         return view;
     }
     @Override
@@ -247,6 +264,7 @@ public class ExoPlayerFragment extends Fragment{
     @Override
     public void onStop() {
         super.onStop();
+        thread.interrupt();
         releasePlayer();
     }
 
@@ -359,9 +377,17 @@ public class ExoPlayerFragment extends Fragment{
         }   
 
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        thread.interrupt();
+    }
+
     @Override
     public void onDestroy(){
         super.onDestroy();
+        thread.interrupt();
         if(!enableFullScreen){
             ((MainActivity)getActivity()).playerLandscapeToggle(!enableFullScreen);
 
@@ -397,8 +423,7 @@ public class ExoPlayerFragment extends Fragment{
             player = null;
 
             /*TODO : 본 시간 저장 변수 exo_position_time*/
-            CharSequence exo_position_time = exo_position.getText();
-            Log.i("getPosition",(String)exo_position_time);
+            exo_position_time = exo_position.getText();
         }
     }
 
@@ -443,5 +468,104 @@ public void onConfigurationChanged(Configuration newConfig) {
         mDate = new Date(mNow);
         return mFormat1.format(mDate);
     }
+
+    class sThread implements Runnable{
+        LectureVO lecture;
+        public sThread(LectureVO lecture){
+            this.lecture = lecture;
+        }
+
+        public void run(){
+            TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    while (!Thread.currentThread().isInterrupted()) {
+
+                        Long dd = 0L;
+                        try {
+                            dd = player.getCurrentPosition();
+                        } catch (Exception e) {
+                        }
+                        String rrr = "";
+
+                        try {
+                            Dd = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                            Dd += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                            Dd += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
+                            Dd += "&" + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(dd), "UTF-8");
+                            Log.d("text", Dd);
+                        } catch (Exception e) {
+                        }
+                        BackgroundTask backgroundTask = new BackgroundTask("app/updateLearntime.php", Dd);
+                        try {
+                            rrr = backgroundTask.execute().get();
+                            //Log.d("ttt",rrr);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (Exception e){
+
+                }finally {
+                    Log.d("Interupt","ㄴㅇㅁㅁㄴㄹ");
+                }
+            }
+
+        };
+            Timer t = new Timer();
+            t.schedule(tt,0,1000);
+        }
+    }
+
+
+    /*public void renewMem(LectureVO lecture){
+        stopped = false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TimerTask tt = new TimerTask() {
+                    @Override
+                    public void run() {
+                        try {
+                            while (!Thread.currentThread().isInterrupted()) {
+
+                                Long dd = 0L;
+                                try {
+                                    dd = player.getCurrentPosition();
+                                } catch (Exception e) {
+                                }
+                                String rrr = "";
+
+                                try {
+                                    Dd = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                                    Dd += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                                    Dd += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
+                                    Dd += "&" + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(dd), "UTF-8");
+                                    Log.d("text", Dd);
+                                } catch (Exception e) {
+                                }
+                                BackgroundTask backgroundTask = new BackgroundTask("app/updateLearntime.php", Dd);
+                                try {
+                                    rrr = backgroundTask.execute().get();
+                                    //Log.d("ttt",rrr);
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } catch (Exception e){
+
+                        }finally {
+
+                        }
+                        }
+
+                };
+                Timer t = new Timer();
+                t.schedule(tt,0,1000);
+            }
+        });
+
+    }*/
 
 }
