@@ -34,6 +34,9 @@ public class BackgroundTask extends AsyncTask<Void, Void, String> {
             this.param1 = param1;
         }
     }
+    public BackgroundTask() {
+        super();
+    }
 
 
     @Override

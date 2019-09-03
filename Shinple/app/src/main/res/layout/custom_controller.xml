@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:background="#CC000000"
+        android:background="#55000000"
         android:layoutDirection="ltr"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="0dp"
@@ -91,7 +91,8 @@
                 android:paddingRight="4dp"
                 android:textColor="#FFBEBEBE"
                 android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:text="05:30"/>
 
             <TextView
                 android:id="@id/exo_duration"
