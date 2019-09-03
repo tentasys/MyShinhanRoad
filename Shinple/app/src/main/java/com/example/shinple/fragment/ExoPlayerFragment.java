@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 import com.example.shinple.adapter.LectureListAdapter;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.activities.MainActivity;
+import com.example.shinple.utils.CustomProgressDialog;
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.vo.LectureVO;
 import com.example.shinple.vo.MemberVO;
@@ -84,6 +87,7 @@ public class ExoPlayerFragment extends Fragment{
     private CharSequence exo_position_time = "";
     private Long dd = 0L;
 
+    private CustomProgressDialog customProgressDialog;
     private boolean stopped;
 
     long mNow;
@@ -132,6 +136,11 @@ public class ExoPlayerFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        customProgressDialog = new CustomProgressDialog(getContext());
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        customProgressDialog.show();
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1); //videourl
             mParam2 = getArguments().getString(ARG_PARAM5); //video_num
@@ -153,6 +162,8 @@ public class ExoPlayerFragment extends Fragment{
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_exoplayer, container, false);
+
+
 
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
@@ -178,6 +189,7 @@ public class ExoPlayerFragment extends Fragment{
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, LectureVO lecture) {
+                customProgressDialog.show();
                 videourl = mParam1 + lecture.getLec_num() + ".mp4";  //TODO: 여기있는 url 정의는 뭘깡....
                 isFileValid();  //파일이 유효한 지1 체크
                 lectureF = lecture;
@@ -203,7 +215,9 @@ public class ExoPlayerFragment extends Fragment{
                         result = backgroundTask.execute().get();
                     } catch (Exception e){
                         e.printStackTrace();
-                    } 
+                    }
+
+                    customProgressDialog.dismiss();
                 }else{
                     Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
                 } //ifelse 끝
@@ -249,6 +263,7 @@ public class ExoPlayerFragment extends Fragment{
             e.printStackTrace();
         }
         setCT();
+        customProgressDialog.dismiss();
         return view;
     }
     @Override
@@ -323,11 +338,10 @@ public class ExoPlayerFragment extends Fragment{
             //음량조절
             player.setVolume(10);
 
-            player.seekTo(360000);
             //프레임 포지션 설정
-
-
     }
+
+
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
         String a = "";
         try{
@@ -336,7 +350,6 @@ public class ExoPlayerFragment extends Fragment{
         } catch (Exception e){
 
         }
-        Log.d("seekTo",lectureF.getLearn_time());
 
         //prepare
         player.prepare(mediaSource, false, true);
@@ -363,6 +376,7 @@ public class ExoPlayerFragment extends Fragment{
         String userAgent = Util.getUserAgent(view.getContext(), "ExoVideoPlayer");
 
         if ( uri.getLastPathSegment().contains("mp4")) {
+
 
             return new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory(userAgent))
                     .createMediaSource(uri);

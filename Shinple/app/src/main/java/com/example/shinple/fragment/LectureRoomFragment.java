@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shinple.BackgroundTask;
+import com.example.shinple.activities.MainActivity;
 import com.example.shinple.adapter.CopAdapter;
 import com.example.shinple.adapter.CourseAAdapter;
 import com.example.shinple.adapter.LectureRoomSpinnerAdapter;
@@ -28,6 +30,7 @@ import com.example.shinple.vo.MemberVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +50,9 @@ public class LectureRoomFragment extends Fragment{
     private String result2;
     private int rv_course_height[];
     private int px;
+    private String data;
+
+
 
     public LectureRoomFragment() {
         // Required empty public constructor
@@ -131,8 +137,21 @@ public class LectureRoomFragment extends Fragment{
             adapter_course[listIndex] = new CourseAAdapter(v.getContext(),courseList[listIndex]);
 
         }
+
         rv_course.setAdapter(adapter_course[0]);
         my_rv.setAdapter(essential_course_adapter);
+
+        adapter_course[0].setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, CourseVO course) {
+                CL(view,course);
+            }
+        });
+
+
+
+
+
         Log.e("myTag",Integer.toString(rv_course.getHeight()));
 
 
@@ -149,19 +168,33 @@ public class LectureRoomFragment extends Fragment{
             public void onItemSelected(AdapterView<?> parent , View view, int pos ,long id) {
 
                 if(parent.getItemAtPosition(pos).toString().equals("수강 중")){
-                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
                     rv_course.setAdapter(adapter_course[1]);
                     rv_course.setMinimumHeight(rv_course_height[1]);
+                    adapter_course[1].setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, CourseVO course) {
+                            CL(view,course);
+                        }
+                    });
                 }else if(parent.getItemAtPosition(pos).toString().equals("테스트 완료")){
-                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
                     rv_course.setAdapter(adapter_course[2]);
                     rv_course.setMinimumHeight(rv_course_height[2]);
+                    adapter_course[2].setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, CourseVO course) {
+                            CL(view,course);
+                        }
+                    });
                 }else if(parent.getItemAtPosition(pos).toString().equals("수강 완료")){
-                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
                     rv_course.setAdapter(adapter_course[3]);
                     rv_course.setMinimumHeight(rv_course_height[3]);
+                    adapter_course[3].setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view, CourseVO course) {
+                            CL(view,course);
+                        }
+                    });
                 }else{
-                    Toast.makeText(parent.getContext(), "선택된 건 " +parent.getItemAtPosition(pos).toString(),Toast.LENGTH_LONG).show();
                     rv_course.setAdapter(adapter_course[0]);
                     rv_course.setMinimumHeight(rv_course_height[0]);
                 }
@@ -244,4 +277,42 @@ public class LectureRoomFragment extends Fragment{
         }
     }
 
+    public void CL(View view, CourseVO course){
+                //new CourseListFragment.BackgroundTask().execute();
+                String temp = "";
+                data = "";
+                if (course.getLearnState() == null){
+                    temp = "0";
+                }
+                else{
+                    temp = course.getLearnState();
+                }
+                try{
+                    data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data += "&" +  URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    if(course.getLearnState().equals("0")){
+                        data += "&" +  URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(temp, "UTF-8");
+                    }
+                    else {
+                        data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    }
+                    Log.d("cccc",data);
+                }
+                catch (Exception e){
+                }
+                String result = "";
+                BackgroundTask backgroundTask = new BackgroundTask("app/lectureList.php",data);
+                try{
+                    result = backgroundTask.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+                Log.d("lecture",result);
+                ((MainActivity) view.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
+                        .addToBackStack("lecture_list")
+                        .commit();
+    }
 }

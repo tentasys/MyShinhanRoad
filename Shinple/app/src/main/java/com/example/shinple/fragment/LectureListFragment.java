@@ -105,6 +105,11 @@ public class LectureListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        customProgressDialog = new CustomProgressDialog(getContext());
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        customProgressDialog.show();
+
         if (getArguments() != null) {
             result = getArguments().getString(ARG_PARAM1);
             course = (CourseVO)getArguments().getSerializable(ARG_PARAM2);
@@ -116,8 +121,6 @@ public class LectureListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
 
-        customProgressDialog = new CustomProgressDialog(view.getContext());
-        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         iv_cor = view.findViewById(R.id.iv_lec_course);
         lectureList = new ArrayList<LectureVO>();
@@ -236,16 +239,17 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, LectureVO lecture) {
+
+                customProgressDialog = new CustomProgressDialog(view.getContext());
                 customProgressDialog.show();
+
                 videourl = BackgroundTask.server+"video/course/" + lecture.getLec_num() + ".mp4";
                 String url =  BackgroundTask.server+"video/course/";
                 String video = lecture.getLec_num() + ".mp4";
 
                 String result2 = "";
 
-
                 recent_video(lecture.getLec_num());
-
 
                 try{
                     data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
@@ -262,7 +266,6 @@ public class LectureListFragment extends Fragment {
                     e.printStackTrace();
                 }
 
-                Log.d("order",result2);
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
@@ -271,8 +274,8 @@ public class LectureListFragment extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture,video,member))
                                 .commit();
-
-                        customProgressDialog.dismiss();
+                        Thread.sleep(1000);
+                        //customProgressDialog.dismiss();
 
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
@@ -280,12 +283,12 @@ public class LectureListFragment extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text()))
                                 .commit();
-                        customProgressDialog.dismiss();
-
+                        //customProgressDialog.dismiss();
                     }
                 }else{
+                    //customProgressDialog.dismiss();
                     Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
-                    customProgressDialog.dismiss();
+
 
                 } //ifelse 끝
             }//onItemClick 끝
@@ -380,7 +383,6 @@ public class LectureListFragment extends Fragment {
                 } //ifelse 끝*/
             }//onItemClick 끝
         });//setOnItemClickListener끝
-
         return view;
     }
 
@@ -424,7 +426,6 @@ public class LectureListFragment extends Fragment {
     }
 
     private void recent_video(String lec_num){
-        customProgressDialog.show();
         String result = "";
         try{
             data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
@@ -442,7 +443,6 @@ public class LectureListFragment extends Fragment {
             e.printStackTrace();
         }
 
-        customProgressDialog.dismiss();
     }
 
 }

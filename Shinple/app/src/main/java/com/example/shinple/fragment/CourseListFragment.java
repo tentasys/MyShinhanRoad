@@ -1,5 +1,7 @@
 package com.example.shinple.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -15,6 +17,7 @@ import com.example.shinple.adapter.CourseAAdapter;
 import com.example.shinple.adapter.StringAdapter;
 import com.example.shinple.activities.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.utils.CustomProgressDialog;
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.vo.MemberVO;
@@ -44,6 +47,7 @@ public class CourseListFragment extends Fragment{
     private String mem_like;
     private MemberVO member;
     private ArrayList<String> all = new ArrayList<String>();
+    private CustomProgressDialog customProgressDialog;
 
 
     private static final String ARG_PARM = "course";
@@ -66,6 +70,11 @@ public class CourseListFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        customProgressDialog = new CustomProgressDialog(getContext());
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        customProgressDialog.show();
+
         if (getArguments() != null) {
             result_course = getArguments().getString(ARG_PARM);
             all.addAll(getArguments().getStringArrayList(ARG_PARM2));
@@ -98,6 +107,7 @@ public class CourseListFragment extends Fragment{
         adapter.setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, CourseVO course) {
+                customProgressDialog.show();
                 //new CourseListFragment.BackgroundTask().execute();
                 String temp = "";
                 if (course.getLearnState() == null){
@@ -133,6 +143,7 @@ public class CourseListFragment extends Fragment{
                         .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
                         .addToBackStack("lecture_list")
                         .commit();
+                customProgressDialog.dismiss();
             }
         });
 
@@ -169,7 +180,7 @@ public class CourseListFragment extends Fragment{
             e.printStackTrace();
         }
 
-
+        customProgressDialog.dismiss();
         return v;
     }
 }
