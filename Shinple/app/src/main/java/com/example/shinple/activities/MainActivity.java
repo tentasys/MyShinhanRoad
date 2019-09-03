@@ -19,6 +19,7 @@ import com.example.shinple.R;
 import com.example.shinple.fragment.CourseListFragment;
 import com.example.shinple.fragment.ExoPlayerFragment;
 import com.example.shinple.fragment.FilterFragment;
+import com.example.shinple.fragment.FoldableListFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
 
@@ -445,6 +446,22 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {   //뒤로가기 키 동작
         DrawerLayout drawer = findViewById(R.id.drawer_layout); //사이드바 닫기
         FragmentManager fm = getSupportFragmentManager();
+        if(!windowMode){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            toolbar.setVisibility(View.VISIBLE);
+            navView.setVisibility(View.VISIBLE);
+            navigationView.setVisibility(View.VISIBLE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            windowMode = true;
+        }
+        Fragment current_fragment = fm.findFragmentById(R.id.frame);
+        if(current_fragment instanceof  UnfoldableDetailsFragment){
+            ((UnfoldableDetailsFragment) current_fragment).setunfoldableViewFoldBack();
+        }
+/*        else if(current_fragment instanceof FoldableListFragment){
+            backPressHandler.onBackPressed();
+            fm.popBackStack();
+        }*/
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -452,19 +469,14 @@ public class MainActivity extends AppCompatActivity
 
             if (count == 1) {
                 backPressHandler.onBackPressed();
+
             } else {
                 fm.popBackStack();
-                if(!windowMode){
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                    toolbar.setVisibility(View.VISIBLE);
-                    navView.setVisibility(View.VISIBLE);
-                    navigationView.setVisibility(View.VISIBLE);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-                    windowMode = true;
-                }
             }
 
         }
+
+
     }
 
     @Override

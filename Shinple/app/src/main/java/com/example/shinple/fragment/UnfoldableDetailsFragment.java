@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -14,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.alexvasilkov.android.commons.texts.SpannableBuilder;
@@ -49,11 +52,19 @@ public class UnfoldableDetailsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-       // View v = inflater.inflate(R.layout.activity_unfoldable_details, container , false);
+        // View v = inflater.inflate(R.layout.activity_unfoldable_details, container , false);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         FrameLayout wrapper = new FrameLayout(getActivity()); // for example
         View v = inflater.inflate(R.layout.activity_unfoldable_details, wrapper, true);
+        NestedScrollView scrollView = v.findViewById(R.id.cop_scrollview);
+/*        scrollView.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
+                unfoldableView.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });*/
         ListView listView = v.findViewById(R.id.list_view);
         listView.setAdapter(new PaintingsAdapter((MainActivity)getContext()));
 
@@ -77,6 +88,8 @@ public class UnfoldableDetailsFragment extends Fragment {
             @Override
             public void onUnfolded(UnfoldableView unfoldableView) {
                 listTouchInterceptor.setClickable(false);
+//                unfoldableView.setGesturesEnabled(false);
+
             }
 
             @Override
@@ -94,14 +107,16 @@ public class UnfoldableDetailsFragment extends Fragment {
     }
 
     public void onBackPressed() {
-        if (unfoldableView != null
-                && (unfoldableView.isUnfolded() || unfoldableView.isUnfolding())) {
+        Log.e("myTag","click");
+        if (unfoldableView != null && (unfoldableView.isUnfolded() || unfoldableView.isUnfolding())) {
             unfoldableView.foldBack();
         } else {
             ((MainActivity)getActivity()).onBackPressed();
         }
     }
-
+    public void setunfoldableViewFoldBack(){
+        unfoldableView.foldBack();
+    }
     public void openDetails(View coverView, Painting painting) {
         final ImageView image = Views.find(detailsLayout, R.id.details_image);
         final TextView title = Views.find(detailsLayout, R.id.details_title);
@@ -113,11 +128,12 @@ public class UnfoldableDetailsFragment extends Fragment {
         SpannableBuilder builder = new SpannableBuilder((MainActivity)getContext());
         builder
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append("year").append(": ")
+                .append("")
                 .clearStyle()
-                .append(painting.getYear()).append("\n")
+                .append(painting.getYear()).append("\n\n")
                 .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
-                .append("location").append(": ")
+                .append("리더").append(" : ")
+                .createStyle().setFont(Typeface.DEFAULT_BOLD).apply()
                 .clearStyle()
                 .append(painting.getLocation());
         description.setText(builder.build());

@@ -5,10 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- TODO: 수정사항 togglebutton width 130에서 100으로 조정  -->
     <ToggleButton
         android:id="@+id/tb_tag"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:layout_margin="10dp"
         android:background="@drawable/toggle_selector"
         android:textColor="@drawable/toggle_color"

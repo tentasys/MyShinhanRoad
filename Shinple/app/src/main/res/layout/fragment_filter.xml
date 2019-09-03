@@ -140,10 +140,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
+                    <!-- TODO : gv_tag width 400dp에서 matchparent로 변경  -->
 
                     <GridView
                         android:id="@+id/gv_tag"
-                        android:layout_width="400dp"
+                        android:layout_width="match_parent"
                         android:layout_height="450dp"
                         android:layout_gravity="center"
                         android:numColumns="3" />

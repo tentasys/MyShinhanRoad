@@ -66,7 +66,7 @@ public class PaintingsAdapter extends ItemsAdapter<Painting, PaintingsAdapter.Vi
         if (fragment instanceof UnfoldableDetailsFragment) {
             ((UnfoldableDetailsFragment) fragment).openDetails(view, item);
         } else if (fragment instanceof FoldableListFragment) {
-//            Toast.makeText(activity, item.getTitle(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText((MainActivity) activity, item.getTitle(), Toast.LENGTH_SHORT).show();
         }
     }
 

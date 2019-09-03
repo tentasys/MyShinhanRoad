@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
@@ -13,26 +15,41 @@
         android:listSelector="@android:color/transparent"
         android:padding="12dp"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollingCache="false" />
+        android:scrollingCache="false"
+        android:layout_marginBottom="55dp"/>
 
     <View
         android:id="@+id/touch_interceptor_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+
 
     <LinearLayout
         android:id="@+id/details_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#333"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginBottom="55dp"
+        >
 
-        <ImageView
-            android:id="@+id/details_image"
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/cop_scrollview">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+
+                    <ImageView
+                        android:id="@+id/details_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop" />
 
         <View
             android:layout_width="match_parent"
@@ -68,12 +85,16 @@
             android:lineSpacingExtra="4sp"
             android:textColor="#eee"
             android:textSize="14sp" />
+                </LinearLayout>
 
-    </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+
 
     <com.alexvasilkov.foldablelayout.UnfoldableView
         android:id="@+id/unfoldable_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginBottom="55dp"/>
 
 </merge>
