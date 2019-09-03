@@ -25,7 +25,7 @@ public class Splash extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
             }
         };
-        handler.sendEmptyMessageDelayed(0,2200);
+        handler.sendEmptyMessageDelayed(0,1500);
 
     }
 
