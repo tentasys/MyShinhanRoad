@@ -327,7 +327,7 @@ public class ExoPlayerFragment extends Fragment{
             //프레임 포지션 설정
 
 
-        }
+    }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
 
         player.seekTo(Long.parseLong(lectureF.getLearn_time()));
