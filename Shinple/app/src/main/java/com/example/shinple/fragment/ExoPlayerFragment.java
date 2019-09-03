@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,6 +82,7 @@ public class ExoPlayerFragment extends Fragment{
     private MemberVO member;
     private String Dd;
     private CharSequence exo_position_time = "";
+    private Long dd = 0L;
 
     private boolean stopped;
 
@@ -219,7 +221,7 @@ public class ExoPlayerFragment extends Fragment{
             int count = 0;
 
 
-            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num, course_num;
+            String lec_title, lec_order, lec_text, lec_time,recent_time, lec_num, course_num, learn_time;
 
             //JSON 배열 길이만큼 반복문을 실행
 
@@ -233,9 +235,10 @@ public class ExoPlayerFragment extends Fragment{
                 recent_time = object.getString("recent_time");
                 lec_num = object.getString("lec_num");
                 course_num = object.getString("course_num");
+                learn_time = object.getString("learn_time");
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num, course_num);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num, course_num, learn_time);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
@@ -247,25 +250,18 @@ public class ExoPlayerFragment extends Fragment{
         }catch(Exception e) {
             e.printStackTrace();
         }
-        exo_position.setText(lectureF.getLec_time());
-        sThread ST = new sThread(lectureF);
-        thread = new Thread(ST);
-        thread.start();
-
-        thread.interrupt();
+        setCT();
         return view;
     }
     @Override
     public void onStart() {
         super.onStart();
         initializePlayer();
-
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        thread.interrupt();
         releasePlayer();
     }
 
@@ -332,7 +328,9 @@ public class ExoPlayerFragment extends Fragment{
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
-//        player.seekTo(360000);
+        player.seekTo(Long.parseLong(lectureF.getLearn_time()));
+        Log.d("seekTo",lectureF.getLearn_time());
+        //
         //prepare
         player.prepare(mediaSource, false, false);
         //start,stop
@@ -378,13 +376,12 @@ public class ExoPlayerFragment extends Fragment{
     @Override
     public void onDetach() {
         super.onDetach();
-        thread.interrupt();
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
-        thread.interrupt();
+
         if(!enableFullScreen){
             ((MainActivity)getActivity()).playerLandscapeToggle(!enableFullScreen);
 
@@ -418,6 +415,24 @@ public class ExoPlayerFragment extends Fragment{
             exoPlayerView.setPlayer(null);
             player.release();
             player = null;
+
+            String rrr = "";
+
+            try {
+                Dd = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lectureF.getCourse_num(), "UTF-8");
+                Dd += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                Dd += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lectureF.getLec_num(), "UTF-8");
+                Dd += "&" + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(dd), "UTF-8");
+                Log.d("text", Dd);
+            } catch (Exception e) {
+            }
+            BackgroundTask backgroundTask = new BackgroundTask("app/updateLearntime.php", Dd);
+            try {
+                rrr = backgroundTask.execute().get();
+                //Log.d("ttt",rrr);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             /*TODO : 본 시간 저장 변수 exo_position_time*/
             exo_position_time = exo_position.getText();
@@ -468,103 +483,19 @@ public void onConfigurationChanged(Configuration newConfig) {
         return mFormat1.format(mDate);
     }
 
-    class sThread implements Runnable{
-        LectureVO lecture;
-        public sThread(LectureVO lecture){
-            this.lecture = lecture;
-        }
-
-        public void run(){
-            TimerTask tt = new TimerTask() {
+    public void setCT(){
+        TimerTask t = new TimerTask() {
             @Override
             public void run() {
                 try {
-                    while (!Thread.currentThread().isInterrupted()) {
-
-                        Long dd = 0L;
-                        try {
-                            dd = player.getCurrentPosition();
-                        } catch (Exception e) {
-                        }
-                        String rrr = "";
-
-                        try {
-                            Dd = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
-                            Dd += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                            Dd += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
-                            Dd += "&" + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(dd), "UTF-8");
-                            Log.d("text", Dd);
-                        } catch (Exception e) {
-                        }
-                        BackgroundTask backgroundTask = new BackgroundTask("app/updateLearntime.php", Dd);
-                        try {
-                            rrr = backgroundTask.execute().get();
-                            //Log.d("ttt",rrr);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } catch (Exception e){
-
-                }finally {
-                    Log.d("Interupt","ㄴㅇㅁㅁㄴㄹ");
+                    dd = player.getCurrentPosition();
+                } catch (Exception e) {
                 }
             }
-
         };
-            Timer t = new Timer();
-            t.schedule(tt,0,1000);
-        }
+
+        Timer tT = new Timer();
+        tT.schedule(t,0,5000);
     }
-
-
-    /*public void renewMem(LectureVO lecture){
-        stopped = false;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                TimerTask tt = new TimerTask() {
-                    @Override
-                    public void run() {
-                        try {
-                            while (!Thread.currentThread().isInterrupted()) {
-
-                                Long dd = 0L;
-                                try {
-                                    dd = player.getCurrentPosition();
-                                } catch (Exception e) {
-                                }
-                                String rrr = "";
-
-                                try {
-                                    Dd = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
-                                    Dd += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                                    Dd += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
-                                    Dd += "&" + URLEncoder.encode("time", "UTF-8") + "=" + URLEncoder.encode(String.valueOf(dd), "UTF-8");
-                                    Log.d("text", Dd);
-                                } catch (Exception e) {
-                                }
-                                BackgroundTask backgroundTask = new BackgroundTask("app/updateLearntime.php", Dd);
-                                try {
-                                    rrr = backgroundTask.execute().get();
-                                    //Log.d("ttt",rrr);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } catch (Exception e){
-
-                        }finally {
-
-                        }
-                        }
-
-                };
-                Timer t = new Timer();
-                t.schedule(tt,0,1000);
-            }
-        });
-
-    }*/
 
 }

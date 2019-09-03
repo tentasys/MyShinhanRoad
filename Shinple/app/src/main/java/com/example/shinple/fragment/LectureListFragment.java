@@ -286,7 +286,7 @@ public class LectureListFragment extends Fragment {
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
 
-            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_num, course_num;
+            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_num, course_num, learn_time;
             String[][] S = new String[jsonArray.length()][2];
             //JSON 배열 길이만큼 반복문을 실행
             while(count < jsonArray.length()){
@@ -300,11 +300,12 @@ public class LectureListFragment extends Fragment {
                 recent_time = object.getString("recent_time");
                 lec_num = object.getString("lec_num");
                 course_num = object.getString("course_num");
+                learn_time = object.getString("learn_time");
                 S[count][0] = lec_order;
                 S[count][1] = recent_time;
 
                 //값들을 User클래스에 묶어줍니다
-                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num, course_num);
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time,lec_num, course_num, learn_time);
                 lectureList.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
