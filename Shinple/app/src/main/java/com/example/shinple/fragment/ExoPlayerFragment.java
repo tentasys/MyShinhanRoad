@@ -150,6 +150,7 @@ public class ExoPlayerFragment extends Fragment{
         textView.setText(video_name);
         tv_info.setText(video_info);
 
+        exo_position.setText("12:12");
         recyclerView = view.findViewById(R.id.rv_videolist);
         exoPlayerView = view.findViewById(R.id.exoPlayerView);
         scrollView = view.findViewById(R.id.fragment_scrollview);
@@ -170,16 +171,11 @@ public class ExoPlayerFragment extends Fragment{
                 if(FileValideCheckResult){
                     MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
                     //prepare
-                    player.prepare(mediaSource, true, false);
+                    player.prepare(mediaSource, false, false);
                     //start,stop
                     player.setPlayWhenReady(playWhenReady);
-
-
                     textView.setText(lecture.getLec_title());
                     tv_info.setText(lecture.getLec_text());
-
-
-
                     String result = "";
                     try{
                         data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
@@ -234,10 +230,11 @@ public class ExoPlayerFragment extends Fragment{
             int px = (int) (80 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
             recyclerView.setMinimumHeight(px * lectureList.size());
 
-//            exo_position.setText("05:30");
+
         }catch(Exception e) {
             e.printStackTrace();
         }
+        exo_position.setText("03:33");
         return view;
     }
     @Override
@@ -312,15 +309,19 @@ public class ExoPlayerFragment extends Fragment{
 //            exoPlayerView.
             //음량조절
             player.setVolume(10);
+
+            player.seekTo(360000);
             //프레임 포지션 설정
+
 
         }
         MediaSource mediaSource = buildMediaSource(Uri.parse(videourl));
-//        player.seekTo(360000);
+        player.seekTo(360000);
         //prepare
-        player.prepare(mediaSource, false, false);
+        player.prepare(mediaSource, false, true);
         //start,stop
         player.setPlayWhenReady(playWhenReady);
+
         player.addListener(new ExoPlayer.EventListener() {
             @Override
             public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
@@ -329,7 +330,7 @@ public class ExoPlayerFragment extends Fragment{
                     Log.e("myTag","ExoPlayer.STATE_ENDED");
                     player.stop();
                     player.seekTo(0L);
-                    player.prepare(mediaSource,true,false);
+                    player.prepare(mediaSource,false,false);
                     player.setPlayWhenReady(playWhenReady);
                 }
             }
@@ -355,7 +356,7 @@ public class ExoPlayerFragment extends Fragment{
 
             return new ExtractorMediaSource.Factory(new DefaultDataSourceFactory(view.getContext(), userAgent))
                     .createMediaSource(uri);
-        }
+        }   
 
     }
     @Override
@@ -385,8 +386,8 @@ public class ExoPlayerFragment extends Fragment{
         }
     }
     private void releasePlayer() {
-        if (player != null) {
 
+        if (player != null) {
             playbackPosition = player.getCurrentPosition();
             currentWindow = player.getCurrentWindowIndex();
             playWhenReady = player.getPlayWhenReady();
@@ -404,9 +405,7 @@ public class ExoPlayerFragment extends Fragment{
 @Override
 public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-
-    Log.e("myTest","here????");
-}
+    }
     public  void isFileValid() {
         Thread th = new Thread() {
             @Override
