@@ -57,6 +57,8 @@ public class MainFragment extends Fragment {
     public boolean FileValideCheckResult = false;
     private Handler mHandler = new Handler();
     private TextView point;
+    private LectureVO lectureVO;
+    private String datadata;
 
     long mNow;
     private String data1;
@@ -274,26 +276,25 @@ public class MainFragment extends Fragment {
 
                 String result2 = "";
 
-
                 recent_video(lecture);
 
 
                 try{
-                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
-                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
-                    data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
-                    Log.d("time",data1);
+                    datadata = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                    datadata += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    datadata += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                    Log.d("time2134124214",lecture.getLearn_time());
                 } catch (Exception e){
+                    e.printStackTrace();
                 }
-                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",datadata);
                 try{
                     result2 = backgroundTask2.execute().get();
+                    Log.d("time11",result2);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
 
-                Log.d("order",result2);
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
@@ -386,20 +387,24 @@ public class MainFragment extends Fragment {
 
     }
     public void setupViewPager(ViewPager viewPager) {
-        if (new_course.get(0) != null) {
+        try{
             Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1),member));
             Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1),member));
             Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2),member));
             viewPager.setAdapter(Vadapter);
+        } catch (Exception e){
+
         }
     }
 
     public void setupViewPager2(ViewPager viewPager) {
-        if(hot_course.get(0) != null){
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(0),member));
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(1),member));
-        Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(2),member));
-        viewPager.setAdapter(Vadapter2);
+        try{
+            Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(0),member));
+            Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(1),member));
+            Vadapter2.addFragment(ViewPagerFragment.newInstance(hot_course.get(2),member));
+            viewPager.setAdapter(Vadapter2);
+        } catch (Exception e) {
+
         }
     }
 

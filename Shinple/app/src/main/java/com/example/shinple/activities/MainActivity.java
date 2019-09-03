@@ -333,7 +333,25 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {   //home 메뉴
-            fr = new MainFragment();
+            try{
+                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            }
+            catch (Exception e){
+            }
+            res = "";
+            res2 = "";
+
+            BackgroundTask backgroundTask = new BackgroundTask("app/recentLecture.php",data);
+            BackgroundTask backgroundTask1 = new BackgroundTask("app/mainCourse.php",data);
+
+            try{
+                res = backgroundTask.execute().get();
+                res2 = backgroundTask1.execute().get();
+
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            fr = MainFragment.newInstance(res,member,res2);
             switchFragment(fr);
         } else if (id == R.id.nav_my_room) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 

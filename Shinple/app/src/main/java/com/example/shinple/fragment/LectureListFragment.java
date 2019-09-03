@@ -2,6 +2,8 @@ package com.example.shinple.fragment;
 
 import android.app.ProgressDialog;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import com.example.shinple.BackgroundTask;
 import com.example.shinple.adapter.LectureListAdapter;
 import com.example.shinple.activities.MainActivity;
 import com.example.shinple.R;
+import com.example.shinple.utils.CustomProgressDialog;
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.vo.LectureVO;
 import com.example.shinple.vo.MemberVO;
@@ -55,6 +59,8 @@ public class LectureListFragment extends Fragment {
     private MemberVO member;
     private int recent_num;
     private ImageView iv_cor;
+
+    private CustomProgressDialog customProgressDialog;
 
     private String[][] S;
 
@@ -109,8 +115,9 @@ public class LectureListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lecture_list, container, false);
-        progressDialog = new ProgressDialog(view.getContext());
 
+        customProgressDialog = new CustomProgressDialog(view.getContext());
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         iv_cor = view.findViewById(R.id.iv_lec_course);
         lectureList = new ArrayList<LectureVO>();
@@ -229,6 +236,7 @@ public class LectureListFragment extends Fragment {
         adapter.setOnItemClickListener(new LectureListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, LectureVO lecture) {
+                customProgressDialog.show();
                 videourl = BackgroundTask.server+"video/course/" + lecture.getLec_num() + ".mp4";
                 String url =  BackgroundTask.server+"video/course/";
                 String video = lecture.getLec_num() + ".mp4";
@@ -263,15 +271,21 @@ public class LectureListFragment extends Fragment {
                                 .beginTransaction()
                                 .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture,video,member))
                                 .commit();
+
+                        customProgressDialog.dismiss();
+
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text()))
                                 .commit();
+                        customProgressDialog.dismiss();
+
                     }
                 }else{
                     Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
+                    customProgressDialog.dismiss();
 
                 } //ifelse 끝
             }//onItemClick 끝
@@ -410,7 +424,7 @@ public class LectureListFragment extends Fragment {
     }
 
     private void recent_video(String lec_num){
-
+        customProgressDialog.show();
         String result = "";
         try{
             data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
@@ -427,6 +441,8 @@ public class LectureListFragment extends Fragment {
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        customProgressDialog.dismiss();
     }
 
 }
