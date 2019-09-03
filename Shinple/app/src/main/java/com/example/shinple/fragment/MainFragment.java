@@ -57,6 +57,8 @@ public class MainFragment extends Fragment {
     public boolean FileValideCheckResult = false;
     private Handler mHandler = new Handler();
     private TextView point;
+    private LectureVO lectureVO;
+    private String datadata;
 
     long mNow;
     private String data1;
@@ -274,26 +276,25 @@ public class MainFragment extends Fragment {
 
                 String result2 = "";
 
-
                 recent_video(lecture);
 
 
                 try{
-                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
-                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
-                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
-                    data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
-                    Log.d("time",data1);
+                    datadata = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                    datadata += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    datadata += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                    Log.d("time2134124214",lecture.getLearn_time());
                 } catch (Exception e){
+                    e.printStackTrace();
                 }
-                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",datadata);
                 try{
                     result2 = backgroundTask2.execute().get();
+                    Log.d("time11",result2);
                 } catch (Exception e){
                     e.printStackTrace();
                 }
 
-                Log.d("order",result2);
                 isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
