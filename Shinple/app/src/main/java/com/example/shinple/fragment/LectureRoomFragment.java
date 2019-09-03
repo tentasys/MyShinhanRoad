@@ -148,10 +148,6 @@ public class LectureRoomFragment extends Fragment{
             }
         });
 
-
-
-
-
         Log.e("myTag",Integer.toString(rv_course.getHeight()));
 
 
