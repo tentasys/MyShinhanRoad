@@ -361,9 +361,29 @@ public class MainActivity extends AppCompatActivity
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             fr = MainFragment.newInstance(res,member,res2);
             switchFragment(fr);
-        } else if (id == R.id.nav_my_room) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 
-        } else if (id == R.id.nav_all_course) {  //CoP 랭킹 리스트
+        } else if (id == R.id.nav_my_room) { // 내 강의실
+
+            String result1 = "";
+            String result2 = "";
+            try{
+                data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            } catch (Exception e){
+
+            }
+            BackgroundTask backgroundTask3 = new BackgroundTask("app/lecNec.php",data);
+            BackgroundTask backgroundTask4 = new BackgroundTask("app/mycourselist.php",data);
+            try{
+                result1 = backgroundTask3.execute().get();
+                Log.d("result1",result1);
+                result2 = backgroundTask4.execute().get();
+                Log.d("result2",result2);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            switchFragment(LectureRoomFragment.newInstance(result1,result2,member));
+
+        } else if (id == R.id.nav_all_course) {  //전체 강좌 리스트
 
             alll = new ArrayList<String>();
 
@@ -383,10 +403,14 @@ public class MainActivity extends AppCompatActivity
                 .commit();
 
         } else if (id == R.id.nav_CoP) {
-            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
-                fm.beginTransaction()
-                    .replace(R.id.frame, new UnfoldableDetailsFragment());
+            result = "";
+            BackgroundTask backgroundTask2 = new BackgroundTask("app/cop.php");
+            try{
+                result = backgroundTask2.execute().get();
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            switchFragment(new UnfoldableDetailsFragment());
         } else if (id == R.id.log_out) {
             fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
@@ -398,6 +422,8 @@ public class MainActivity extends AppCompatActivity
             showCustomDialog2();
             return true;
         } else if (id == R.id.nav_config) {
+            //TODO: 설정 페이지 만들기
+
             fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
 
