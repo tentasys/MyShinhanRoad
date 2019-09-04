@@ -44,6 +44,7 @@ public class CourseListFragment extends Fragment{
     private RecyclerView recyclerView2;
     private String result_course = "";
     private String data;
+    private String progressdata;
     private String mem_like;
     private MemberVO member;
     private ArrayList<String> all = new ArrayList<String>();
@@ -125,18 +126,23 @@ public class CourseListFragment extends Fragment{
                     else {
                         data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
                     }
-                    Log.d("cccc",data);
+                    progressdata = URLEncoder.encode("course_num", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    progressdata += "&" +  URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 }
                 catch (Exception e){
                 }
                 String result = "";
+                String result2 = "";
                 BackgroundTask backgroundTask = new BackgroundTask("app/lectureList.php",data);
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/timetest.php",progressdata);
                 try{
                     result = backgroundTask.execute().get();
+                    result2 = backgroundTask2.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 Log.d("lecture",result);
+                Log.d("progress",result2);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
