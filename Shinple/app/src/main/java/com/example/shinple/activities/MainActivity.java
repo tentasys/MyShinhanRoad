@@ -27,6 +27,7 @@ import com.example.shinple.fragment.MainFragment;
 import com.example.shinple.fragment.UnfoldableDetailsFragment;
 import com.example.shinple.fragment.NotificationFragment;
 
+import com.example.shinple.utils.CustomProgressDialog;
 import com.example.shinple.vo.CourseVO;
 import com.example.shinple.vo.MemberVO;
 import com.example.shinple.ui.login.LoginActivity;
@@ -63,6 +64,7 @@ import android.view.WindowManager;
 
 
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +77,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static java.security.AccessController.getContext;
 
 public class MainActivity extends AppCompatActivity
@@ -94,6 +98,13 @@ public class MainActivity extends AppCompatActivity
     private ArrayList<String> alll;
     private SearchView searchView;
     private String cou;
+    private Menu it;
+    private FrameLayout redCircle;
+    private TextView countTextView;
+    private int alertCount = 0;
+
+    private CustomProgressDialog customProgressDialog;
+
     Fragment fr;
     Toolbar toolbar;
     DrawerLayout drawer;
@@ -110,6 +121,11 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         // clear FLAG_TRANSLUCENT_STATUS flag:
+
+        customProgressDialog = new CustomProgressDialog(this);
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        customProgressDialog.show();
+
         Intent intent = getIntent();
         member = (MemberVO) intent.getSerializableExtra("member");// finally change the color
         fm = getSupportFragmentManager();
@@ -187,7 +203,6 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         View headerV = navigationView.getHeaderView(0);
 
-
         tv_com = headerV.findViewById(R.id.tv_com);
         tv_name = headerV.findViewById(R.id.tv_main_name);
         tv_lp = headerV.findViewById(R.id.tv_LP);
@@ -238,12 +253,24 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
+
+        it = navigationView.getMenu();
+        final MenuItem itt = it.findItem(R.id.nav_noti);
+        FrameLayout rootView = (FrameLayout) itt.getActionView();
+        redCircle = (FrameLayout)  rootView.findViewById(R.id.view_alert_red_circle);
+        countTextView = (TextView) rootView.findViewById(R.id.view_alert_count_textview);
+        alertCount = Integer.parseInt(member.getMem_noti());
+        updateAlertIcon();
 //        fr = new ExoPlayerFragment();
         fr = MainFragment.newInstance(res,member,res2);
         switchFragment(fr);
 
     }
-
+    @Override
+    public void onStart(){
+        super.onStart();
+        customProgressDialog.dismiss();
+    }
     public void ClearBackstack(){
 
     }
@@ -312,6 +339,7 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -333,8 +361,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-
         // Handle navigation view item clicks here.
+
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {   //home 메뉴
@@ -412,7 +440,7 @@ public class MainActivity extends AppCompatActivity
             }
             switchFragment(new UnfoldableDetailsFragment());
         } else if (id == R.id.log_out) {
-            fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             showCustomDialog();
             return  true;
@@ -431,12 +459,23 @@ public class MainActivity extends AppCompatActivity
             fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             String resultnoti = "";
-            BackgroundTask backgroundTask5 = new BackgroundTask("app/notification.php",data);
+            String resultnoti2 = "";
+            String datad = "";
+            try {
+                datad = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            } catch (Exception e){
+            e.printStackTrace();
+            }
+            BackgroundTask backgroundTask5 = new BackgroundTask("app/notification.php");
+            BackgroundTask backgroundTask6 = new BackgroundTask("app/memNoti.php",datad);
             try{
                 resultnoti = backgroundTask5.execute().get();
+                resultnoti2 = backgroundTask6.execute().get();
+                Log.d("noti",resultnoti2);
             } catch (Exception e){
                 e.printStackTrace();
             }
+            Log.d("noti",resultnoti2);
             switchFragment(NotificationFragment.newInstance(resultnoti));
         }
 
@@ -513,9 +552,9 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         if(!windowMode){
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            toolbar.setVisibility(View.VISIBLE);
-            navView.setVisibility(View.VISIBLE);
-            navigationView.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(VISIBLE);
+            navView.setVisibility(VISIBLE);
+            navigationView.setVisibility(VISIBLE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             windowMode = true;
         }
@@ -555,9 +594,9 @@ public class MainActivity extends AppCompatActivity
     public void playerLandscapeToggle(boolean EnableFullscreen){
 //        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
         if(EnableFullscreen) {  //가로 start
-            toolbar.setVisibility(View.GONE);
-            navView.setVisibility(View.GONE);
-            navigationView.setVisibility(View.GONE);
+            toolbar.setVisibility(GONE);
+            navView.setVisibility(GONE);
+            navigationView.setVisibility(GONE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -572,9 +611,9 @@ public class MainActivity extends AppCompatActivity
 
         }else {  //가로 end
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            toolbar.setVisibility(View.VISIBLE);
-            navView.setVisibility(View.VISIBLE);
-            navigationView.setVisibility(View.VISIBLE);
+            toolbar.setVisibility(VISIBLE);
+            navView.setVisibility(VISIBLE);
+            navigationView.setVisibility(VISIBLE);
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
             windowMode = true;
 
@@ -604,7 +643,7 @@ public class MainActivity extends AppCompatActivity
         bt_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(dialogView.getContext(), LoginActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 member = null;
                 startActivity(intent);
             }
@@ -686,8 +725,9 @@ public class MainActivity extends AppCompatActivity
                             String mem_name = obj.getString("mem_name");
                             String mem_point = obj.getString("mem_point");
                             String company_num= obj.getString("company_num");
+                            String mem_noti = obj.getString("mem_noti");
                                 //값들을 User클래스에 묶어줍니다
-                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
+                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num, mem_noti);
                             member = MemberVO;
                         }catch (Exception e){
                             e.printStackTrace();
@@ -696,6 +736,8 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void run() {
                                 tv_lp.setText(member.getMem_point());
+                                alertCount = Integer.parseInt(member.getMem_noti());
+                                updateAlertIcon();
                             }
                         });
                     }
@@ -705,5 +747,15 @@ public class MainActivity extends AppCompatActivity
                 t.schedule(tt,0,1000);
             }
         }).start();
+    }
+
+    private void updateAlertIcon(){
+        if (0 < alertCount) {
+            countTextView.setText(String.valueOf(alertCount));
+        } else {
+            countTextView.setText("");
+        }
+
+        redCircle.setVisibility((alertCount > 0) ? VISIBLE : GONE);
     }
 }

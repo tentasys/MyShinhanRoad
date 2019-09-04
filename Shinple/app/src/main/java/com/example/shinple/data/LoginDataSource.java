@@ -38,8 +38,9 @@ public class LoginDataSource {
                 String mem_name = obj.getString("mem_name");
                 String mem_point = obj.getString("mem_point");
                 String company_num= obj.getString("company_num");
+                String mem_noti = obj.getString("mem_noti");
                 //값들을 User클래스에 묶어줍니다
-                MemberVO MemberVO = new MemberVO(mem_num, mem_name, mem_point, company_num);
+                MemberVO MemberVO = new MemberVO(mem_num, mem_name, mem_point, company_num, mem_noti);
                 return new Result.Success<>(MemberVO);
             }
             else {

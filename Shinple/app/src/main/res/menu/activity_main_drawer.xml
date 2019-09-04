@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
@@ -23,6 +24,7 @@
         <item
             android:id="@+id/nav_noti"
             android:icon="@drawable/ic_notifications_black_24dp"
+            app:actionLayout="@layout/notification_icon"
             android:title="공지사항" />
     </group>
 

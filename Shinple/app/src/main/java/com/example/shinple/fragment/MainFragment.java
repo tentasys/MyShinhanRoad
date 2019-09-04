@@ -388,7 +388,7 @@ public class MainFragment extends Fragment {
     }
     public void setupViewPager(ViewPager viewPager) {
         try{
-            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1),member));
+            Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(0),member));
             Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(1),member));
             Vadapter.addFragment(ViewPagerFragment.newInstance(new_course.get(2),member));
             viewPager.setAdapter(Vadapter);
@@ -486,8 +486,9 @@ public class MainFragment extends Fragment {
                             String mem_name = obj.getString("mem_name");
                             String mem_point = obj.getString("mem_point");
                             String company_num= obj.getString("company_num");
+                            String mem_noti = obj.getString("mem_noti");
                             //값들을 User클래스에 묶어줍니다
-                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num);
+                            MemberVO MemberVO = new MemberVO(member.getMem_num(), mem_name, mem_point, company_num, mem_noti);
                             member = MemberVO;
                         }catch (Exception e){
                             e.printStackTrace();
