@@ -243,7 +243,6 @@ public class FilterFragment extends Fragment {
 
                 for(int i = 0; i < level.length; i++){
                     if(level[i] != null){
-                        Log.d("level",level[i]);
                         try {
                             data += "&" + URLEncoder.encode("level[]", "UTF-8") + "=" + URLEncoder.encode(level[i], "UTF-8");
                             alll.add(level[i]);
@@ -255,7 +254,6 @@ public class FilterFragment extends Fragment {
 
                 for(int i = 0; i < filter.length; i++) {
                     if(filter[i] != null) {
-                        Log.d("Value", filter[i]);
                         try {
                             data += "&" + URLEncoder.encode("filter[]", "UTF-8") + "=" + URLEncoder.encode(filter[i], "UTF-8");
                             alll.add(filter[i]);
@@ -268,8 +266,6 @@ public class FilterFragment extends Fragment {
                 BackgroundTask backgroundTask = new BackgroundTask("app/courseList.php",data);
                 try{
                     result = backgroundTask.execute().get();
-                    Log.d("CourseList",result);
-                    Log.d("CourseList1",data);
                 } catch (Exception e){
                     e.printStackTrace();
                 }

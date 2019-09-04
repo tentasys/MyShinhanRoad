@@ -176,8 +176,6 @@ public class ExoPlayerFragment extends Fragment{
         textView.setText(lectureF.getLec_title());
         tv_info.setText(lectureF.getLec_text());
 
-
-        exo_position.setText("12:12");
         recyclerView = view.findViewById(R.id.rv_videolist);
         exoPlayerView = view.findViewById(R.id.exoPlayerView);
         scrollView = view.findViewById(R.id.fragment_scrollview);
@@ -359,7 +357,7 @@ public class ExoPlayerFragment extends Fragment{
         String a = "";
         try{
             a = lectureF.getLearn_time();
-            player.seekTo(Long.parseLong(lectureF.getLearn_time()));
+            player.seekTo(Long.parseLong(a));
         } catch (Exception e){
 
         }
@@ -455,6 +453,11 @@ public class ExoPlayerFragment extends Fragment{
             String rrr = "";
 
             try {
+                dd = player.getCurrentPosition();
+                Log.e("left",Long.toString(player.getCurrentPosition()));
+            } catch (Exception e) {
+            }
+            try {
                 Dd = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lectureF.getCourse_num(), "UTF-8");
                 Dd += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 Dd += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lectureF.getLec_num(), "UTF-8");
@@ -529,7 +532,7 @@ public void onConfigurationChanged(Configuration newConfig) {
             }
         };
         Timer tT = new Timer();
-        tT.schedule(t,0,5000);
+        tT.schedule(t,0,1000);
     }
 
 }

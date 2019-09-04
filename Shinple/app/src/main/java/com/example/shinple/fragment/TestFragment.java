@@ -42,6 +42,7 @@ public class TestFragment extends Fragment {
     private Button submit;
     private int Point = 0;
     private String data;
+    private TextView tv_name;
 // 정답 받는 부분
     private int answer_check[];
     private int answer_list[];
@@ -79,7 +80,8 @@ public class TestFragment extends Fragment {
         // Inflate the layout for this fragment
 
         testList = new ArrayList<QuizVO>();
-
+        tv_name = (TextView)v.findViewById(R.id.tv_test_name);
+        tv_name.setText(course.getcourseName());
         rv_quiz = v.findViewById(R.id.rv_quiz);
         LinearLayoutManager layoutManager = new LinearLayoutManager(v.getContext());
         rv_quiz.setLayoutManager(layoutManager);
@@ -286,6 +288,7 @@ public class TestFragment extends Fragment {
         bt_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                alertDialog.dismiss();
                 if(score > 60){
                     String result = "";
                     try{
@@ -305,7 +308,6 @@ public class TestFragment extends Fragment {
                     } catch (Exception e){
                         e.printStackTrace();
                     }
-                    alertDialog.dismiss();
                     FragmentManager fm = ((MainActivity) view.getContext())
                             .getSupportFragmentManager();
                     fm.beginTransaction()
@@ -313,7 +315,6 @@ public class TestFragment extends Fragment {
                     fm.popBackStack();
                 }
                 else{
-                    alertDialog.dismiss();
                     FragmentManager fm = ((MainActivity) view.getContext())
                             .getSupportFragmentManager();
                     fm.beginTransaction()

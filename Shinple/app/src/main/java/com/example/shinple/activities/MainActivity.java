@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity
 
         searchView = (SearchView)menu.findItem(R.id.app_bar_search).getActionView();
         searchView.setMaxWidth(Integer.MAX_VALUE);
-        searchView.setQueryHint("태그명으로 검색합니다.");
+        searchView.setQueryHint("제목으로 검색합니다.");
         searchView.setOnQueryTextListener(queryTextListener);
         int id = searchView.getContext()
                 .getResources()
