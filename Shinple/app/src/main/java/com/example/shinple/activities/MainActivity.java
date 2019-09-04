@@ -10,6 +10,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -315,10 +316,9 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.app_bar_logout) {
-            member = null;
+            showCustomDialog2();
 //            Intent intent1 = new Intent(this, LoginActivity.class);
 //            startActivity(intent1);
-            System.exit(0);
             return true;
         }
 
@@ -574,6 +574,7 @@ public class MainActivity extends AppCompatActivity
 
         context.setText("로그아웃하시겠습니까?");
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         bt_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -611,6 +612,7 @@ public class MainActivity extends AppCompatActivity
 
         context.setText("ShinPle을 종료하시겠습니까?");
         AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         bt_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
