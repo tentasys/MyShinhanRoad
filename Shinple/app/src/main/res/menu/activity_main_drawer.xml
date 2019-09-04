@@ -10,7 +10,7 @@
             android:title="메인 화면" />
         <item
             android:id="@+id/nav_my_room"
-            android:icon="@drawable/ic_star_black"
+            android:icon="@drawable/book"
             android:title="내 강의실" />
         <item
             android:id="@+id/nav_all_course"
@@ -18,7 +18,7 @@
             android:title="전체 강좌" />
         <item
             android:id="@+id/nav_CoP"
-            android:icon="@drawable/ic_notifications_black_24dp"
+            android:icon="@drawable/group"
             android:title="CoP" />
         <item
             android:id="@+id/nav_noti"

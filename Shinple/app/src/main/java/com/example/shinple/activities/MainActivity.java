@@ -361,9 +361,11 @@ public class MainActivity extends AppCompatActivity
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
             fr = MainFragment.newInstance(res,member,res2);
             switchFragment(fr);
+
         } else if (id == R.id.nav_my_room) { // 강좌 - 전체 강좌, 태그 검색, 학습 로드맵 - 이름 바꿔야함.
 
-        } else if (id == R.id.nav_all_course) {  //CoP 랭킹 리스트
+
+        } else if (id == R.id.nav_all_course) {  //전체 강좌 리스트
 
             alll = new ArrayList<String>();
 
