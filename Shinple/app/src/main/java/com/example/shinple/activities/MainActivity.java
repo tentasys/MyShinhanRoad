@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity
                             } catch (Exception e){
 
                             }
-                            BackgroundTask backgroundTask3 = new BackgroundTask("app/mycoplist.php",data);
+                            BackgroundTask backgroundTask3 = new BackgroundTask("app/lecNec.php",data);
                             BackgroundTask backgroundTask4 = new BackgroundTask("app/mycourselist.php",data);
                             try{
                                 result1 = backgroundTask3.execute().get();

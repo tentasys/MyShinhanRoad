@@ -21,17 +21,24 @@ import com.example.shinple.BackgroundTask;
 import com.example.shinple.activities.MainActivity;
 import com.example.shinple.adapter.CopAdapter;
 import com.example.shinple.adapter.CourseAAdapter;
+import com.example.shinple.adapter.LecNecAdapter;
+import com.example.shinple.adapter.LectureListAdapter;
 import com.example.shinple.adapter.LectureRoomSpinnerAdapter;
 import com.example.shinple.R;
 import com.example.shinple.vo.CopVO;
 import com.example.shinple.vo.CourseVO;
+import com.example.shinple.vo.LectureVO;
 import com.example.shinple.vo.MemberVO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,8 +49,8 @@ public class LectureRoomFragment extends Fragment{
     private List<CourseVO>[] courseList;
     private RecyclerView rv_course;
 
-    private CopAdapter essential_course_adapter;
-    private List<CopVO> essential_course_list;
+    private LecNecAdapter essential_course_adapter;
+    private List<LectureVO> essential_course_list;
     private RecyclerView my_rv;
     private MemberVO member;
     private String result1;
@@ -51,7 +58,16 @@ public class LectureRoomFragment extends Fragment{
     private int rv_course_height[];
     private int px;
     private String data;
+    private String videourl;
+    private String data1;
 
+
+    public boolean FileValideCheckResult = false;
+
+    long mNow;
+    Date mDate;
+    String pattern ="yyyy-MM-dd hh:mm:ss";
+    SimpleDateFormat mFormat = new SimpleDateFormat(pattern);
 
 
     public LectureRoomFragment() {
@@ -85,7 +101,7 @@ public class LectureRoomFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_lecture_room, container, false);
-        essential_course_list = new ArrayList<CopVO>();
+        essential_course_list = new ArrayList<LectureVO>();
 
         Resources resources = getContext().getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -131,7 +147,7 @@ public class LectureRoomFragment extends Fragment{
 
         my_rv.setLayoutManager(layoutManager2);
         jsonParsing();  //jsonparsing해서 list변수들에 값을 넣어줌.
-        essential_course_adapter = new CopAdapter(v.getContext(),essential_course_list);
+        essential_course_adapter = new LecNecAdapter(v.getContext(),essential_course_list);
 
         for(int listIndex = 0; listIndex<courseList.length;listIndex++){
             adapter_course[listIndex] = new CourseAAdapter(v.getContext(),courseList[listIndex]);
@@ -140,6 +156,59 @@ public class LectureRoomFragment extends Fragment{
 
         rv_course.setAdapter(adapter_course[0]);
         my_rv.setAdapter(essential_course_adapter);
+        essential_course_adapter.setOnItemClickListener(new LecNecAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, LectureVO lecture) {
+
+                videourl = BackgroundTask.server+"video/course/" + lecture.getLec_num() + ".mp4";
+                String url =  BackgroundTask.server+"video/course/";
+                String video = lecture.getLec_num() + ".mp4";
+
+                String result2 = "";
+
+                recent_video(lecture.getLec_num());
+
+                /*try{
+                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(lecture.getCourse_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8");
+                    data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lecture.getLec_num(), "UTF-8");
+                } catch (Exception e){
+                }
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/lectureList.php",data1);
+                try{
+                    result2 = backgroundTask2.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }*/
+
+                isFileValid();  //파일이 유효한 지1 체크
+                if(FileValideCheckResult){
+                    try {   // exo해보고
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result2,lecture,video,member))
+                                .commit();
+                        Thread.sleep(1000);
+                        //customProgressDialog.dismiss();
+
+                    }catch (Exception e){  //exo안되면 media로 가자!
+                        ((MainActivity) view.getContext())
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result2,lecture.getLec_title(),lecture.getLec_text()))
+                                .commit();
+                        //customProgressDialog.dismiss();
+                    }
+                }else{
+                    //customProgressDialog.dismiss();
+                    Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
+
+
+                } //ifelse 끝
+            }
+        });
 
         adapter_course[0].setOnItemClickListener(new CourseAAdapter.OnItemClickListener() {
             @Override
@@ -206,23 +275,28 @@ public class LectureRoomFragment extends Fragment{
      * DB에서 받아온 데이터 Json형식으로 쪼개고 courselist, essential_course_list에 넣는 함수
      */
     public void jsonParsing(){
-
         try{
             JSONObject jsonObject = new JSONObject(result1);
             //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만 들었음..
             JSONArray jsonArray = jsonObject.getJSONArray("response");
             int count = 0;
-            String copName, copRank, copIntro, copNum;
+            String lec_title, lec_order, lec_text, lec_time, recent_time, lec_num, course_num, learn_time;
             while(count < jsonArray.length()){
                 JSONObject object = jsonArray.getJSONObject(count);
-                copName = object.getString("cop_name");//여기서 ID가 대문자임을 유의
-                copRank = object.getString("cop_rank");
-                copIntro = object.getString("cop_intro");
-                copNum = object.getString("cop_num");
-                CopVO cop = new CopVO(copName, copRank, copIntro, copNum);
-                essential_course_list.add(cop);//리스트뷰에 값을 추가해줍니다
+
+                lec_title = object.getString("lec_title");//여기서 ID가 대문자임을 유의
+                lec_order = object.getString("lec_order");
+                lec_text = object.getString("lec_text");
+                lec_time = object.getString("lec_time");
+                recent_time = object.getString("recent_time");
+                lec_num = object.getString("lec_num");
+                course_num = object.getString("course_num");
+                learn_time = object.getString("learn_time");
+                LectureVO lecture = new LectureVO(lec_title, lec_order, lec_text, lec_time, recent_time, lec_num, course_num, learn_time);
+                essential_course_list.add(lecture);//리스트뷰에 값을 추가해줍니다
                 count++;
             }
+
             jsonObject = new JSONObject(result2);
             jsonArray = jsonObject.getJSONArray("response");
             count = 0;
@@ -310,5 +384,61 @@ public class LectureRoomFragment extends Fragment{
                         .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
                         .addToBackStack("lecture_list")
                         .commit();
+    }
+
+    public  void isFileValid() {
+        Thread th = new Thread() {
+            @Override
+            public void run() {
+                if(videourl == null){
+                    FileValideCheckResult = false;
+                    this.stop();
+                }
+                try {
+                    URL url = new URL(videourl);
+                    HttpURLConnection http = (HttpURLConnection) url.openConnection();
+                    if (http.getResponseCode() == 200) {
+                        Log.i("PlayUrlCheck", "valid");
+                        FileValideCheckResult = true;
+                    } else {
+                        Log.i("PlayUrlCheck", "invalid");
+                        FileValideCheckResult =false;
+                    }
+                } catch ( Exception e) {
+                    Log.i("PlayUrlCheck", "error");
+                    FileValideCheckResult = false;
+                }
+            }
+        };
+        th.start();
+        try {
+            th.join();
+        }catch (Exception e){
+            Log.e("Error", "ThreadError");
+        }
+    }
+
+    private String getTime(){
+        mNow = System.currentTimeMillis();
+        mDate = new Date(mNow);
+        return mFormat.format(mDate);
+    }
+
+    private void recent_video(String lec_num){
+        String result = "";
+        try{
+            data = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode("0", "UTF-8");
+            data += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+            data += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lec_num, "UTF-8");
+            data += "&" + URLEncoder.encode("date", "UTF-8") + "=" + URLEncoder.encode(getTime(), "UTF-8");
+        } catch (Exception e){
+        }
+        BackgroundTask backgroundTask = new BackgroundTask("app/recentVideo.php",data);
+        try{
+            result = backgroundTask.execute().get();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

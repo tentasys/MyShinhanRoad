@@ -41,15 +41,9 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         TextView copName = (TextView) holder.itemView.findViewById(R.id.tv_copname);
-        TextView copRank = (TextView) holder.itemView.findViewById(R.id.tv_coprank);
-        ImageView imageView = (ImageView) holder.itemView.findViewById(R.id.iv_cop);
         String num = my_cop_list.get(position).getCopNum();
-        Glide.with(context)
-                .load(server +  num + "/logo.png")
-                .into(imageView);
 
         copName.setText(my_cop_list.get(position).getCopName());
-        copRank.setText(my_cop_list.get(position).getCopRank());
     }
 
     //리스트 아이템 개수 반환
