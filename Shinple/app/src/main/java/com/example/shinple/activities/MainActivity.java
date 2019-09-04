@@ -24,6 +24,7 @@ import com.example.shinple.fragment.FoldableListFragment;
 import com.example.shinple.fragment.LectureRoomFragment;
 import com.example.shinple.fragment.MainFragment;
 
+import com.example.shinple.fragment.SettingFragment;
 import com.example.shinple.fragment.UnfoldableDetailsFragment;
 import com.example.shinple.fragment.NotificationFragment;
 
@@ -422,10 +423,11 @@ public class MainActivity extends AppCompatActivity
             showCustomDialog2();
             return true;
         } else if (id == R.id.nav_config) {
-            //TODO: 설정 페이지 만들기
-
             fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
             Log.e("left", Integer.toString(fm.getBackStackEntryCount()));
+            fm.beginTransaction()
+                    .replace(R.id.frame, SettingFragment.newInstance())
+                    .commit();
 
         } else if (id == R.id.nav_noti){
             fm.popBackStack(null,FragmentManager.POP_BACK_STACK_INCLUSIVE);
