@@ -352,28 +352,51 @@ public class LectureListFragment extends Fragment {
             public void onClick(View view) {
                 videourl = BackgroundTask.server+"video/course/" + lectureList.get(recent_num).getLec_num() + ".mp4";
                 String url =  BackgroundTask.server+"video/course/";
-                String video = lectureList.get(recent_num).getLec_order() + ".mp4";
-                String lec_title = lectureList.get(recent_num).getLec_title();
-                String lec_text = lectureList.get(recent_num).getLec_text();
-                String lec_time = lectureList.get(recent_num).getLec_time();
-                isFileValid();  //파일이 유효한 지 체크
+                String video = lectureList.get(recent_num).getLec_num() + ".mp4";
+
+                String result3 = "";
+
+                recent_video(lectureList.get(recent_num).getLec_num());
+
+                try{
+                    data1 = URLEncoder.encode("courseNum", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
+                    data1 += "&" + URLEncoder.encode("lec_num", "UTF-8") + "=" + URLEncoder.encode(lectureList.get(recent_num).getLec_num(), "UTF-8");
+                } catch (Exception e){
+                }
+                BackgroundTask backgroundTask3 = new BackgroundTask("app/lectureList.php",data1);
+                try{
+                    result3 = backgroundTask3.execute().get();
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                isFileValid();  //파일이 유효한 지1 체크
                 if(FileValideCheckResult){
                     try {   // exo해보고
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, ExoPlayerFragment.newInstance(videourl,result,lectureList.get(recent_num),video,member))
+                                .replace(R.id.frame, ExoPlayerFragment.newInstance(url,result3,lectureList.get(recent_num),video,member))
                                 .commit();
+                        Thread.sleep(1000);
+                        //customProgressDialog.dismiss();
+
                     }catch (Exception e){  //exo안되면 media로 가자!
                         ((MainActivity) view.getContext())
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.frame, MediaPlayerFragment.newInstance(videourl,result,lec_title,lec_text))
+                                .replace(R.id.frame, MediaPlayerFragment.newInstance(url,result3,lectureList.get(recent_num).getLec_title(),lectureList.get(recent_num).getLec_text()))
                                 .commit();
+                        //customProgressDialog.dismiss();
                     }
                 }else{
-                    Toast.makeText(getContext(), "파일 경로를 확인해주세요", Toast.LENGTH_LONG).show();
-                } //ifelse 끝*/
+                    //customProgressDialog.dismiss();
+                    Toast.makeText(view.getContext(), "파일 에러", Toast.LENGTH_LONG).show();
+
+
+                } //ifelse 끝
             }//onItemClick 끝
         });//setOnItemClickListener끝
         return view;
