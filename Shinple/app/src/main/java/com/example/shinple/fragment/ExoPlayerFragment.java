@@ -203,9 +203,8 @@ public class ExoPlayerFragment extends Fragment{
                         a = lecture.getLearn_time();
                         player.seekTo(Long.parseLong(a));
                     } catch (Exception e){
-
+                        player.seekTo(0);
                     }
-                    player.seekTo(Long.parseLong(a));
 
                     player.prepare(mediaSource, false, true);
                     //start,stop
