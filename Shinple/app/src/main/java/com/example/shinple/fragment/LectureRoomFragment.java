@@ -120,19 +120,19 @@ public class LectureRoomFragment extends Fragment{
         tv_name.setText(member.getMem_name());
 
         switch (member.getCompany_num()){
-            case "0":
+            case "1":
                 tv_com.setText("신한DS");
                 break;
-            case "1":
+            case "2":
                 tv_com.setText("신한은행");
                 break;
-            case "2":
+            case "3":
                 tv_com.setText("신한카드");
                 break;
-            case "3":
+            case "4":
                 tv_com.setText("신한금융투자");
                 break;
-            case "4":
+            case "5":
                 tv_com.setText("신한생명");
                 break;
        }

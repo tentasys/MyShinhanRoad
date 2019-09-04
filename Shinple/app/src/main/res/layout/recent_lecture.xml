@@ -58,8 +58,8 @@
 
         <TextView
             android:id="@+id/tv_recent_time"
-            android:layout_width="41dp"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="25dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
@@ -78,8 +78,8 @@
             android:id="@+id/textView18"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="88dp"
-            android:layout_marginLeft="88dp"
+            android:layout_marginStart="72dp"
+            android:layout_marginLeft="72dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="32dp"
             android:text="재생시간"
