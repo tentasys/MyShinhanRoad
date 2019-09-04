@@ -49,7 +49,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_test_name" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_quiz"
@@ -85,7 +85,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_test_name"
                 android:layout_width="254dp"
                 android:layout_height="47dp"
                 android:layout_marginTop="8dp"
