@@ -5,16 +5,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
 import com.example.shinple.R;
+import com.example.shinple.activities.MainActivity;
 import com.example.shinple.ui.login.LoginActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -40,7 +43,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             String msg = remoteMessage.getData().get("message");
 
-            sendNotification(msg);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean check = sharedPreferences.getBoolean("notification", true);
+            if(check == true)
+                sendNotification(msg);
 
             if (/* Check if data needs to be processed by long running job */ true) {
                 // For long-running tasks (10 seconds or more) use Firebase Job Dispatcher.
