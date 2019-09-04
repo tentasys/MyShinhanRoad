@@ -137,10 +137,11 @@ public class ExoPlayerFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        /*
         customProgressDialog = new CustomProgressDialog(getContext());
         customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         customProgressDialog.show();
+        */
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1); //videourl
@@ -164,6 +165,9 @@ public class ExoPlayerFragment extends Fragment{
         view = inflater.inflate(R.layout.fragment_exoplayer, container, false);
 
 
+        customProgressDialog = new CustomProgressDialog(getContext());
+        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        customProgressDialog.show();
 
         textView = view.findViewById(R.id.tv_video_name);
         tv_info = view.findViewById(R.id.tv_video_info);
@@ -272,8 +276,8 @@ public class ExoPlayerFragment extends Fragment{
         }catch(Exception e) {
             e.printStackTrace();
         }
-        setCT();
-        customProgressDialog.dismiss();
+            setCT();
+            customProgressDialog.dismiss();
         return view;
     }
     @Override
@@ -524,7 +528,6 @@ public void onConfigurationChanged(Configuration newConfig) {
                 }
             }
         };
-
         Timer tT = new Timer();
         tT.schedule(t,0,5000);
     }

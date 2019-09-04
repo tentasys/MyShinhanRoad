@@ -35,6 +35,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -102,7 +103,6 @@ public class MainActivity extends AppCompatActivity
     private FrameLayout redCircle;
     private TextView countTextView;
     private int alertCount = 0;
-
     private CustomProgressDialog customProgressDialog;
 
     Fragment fr;
@@ -269,7 +269,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart(){
         super.onStart();
-        customProgressDialog.dismiss();
     }
     public void ClearBackstack(){
 
@@ -681,6 +680,7 @@ public class MainActivity extends AppCompatActivity
         bt_yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.runFinalizersOnExit(true);
                 System.exit(0);
             }
         });
@@ -709,12 +709,16 @@ public class MainActivity extends AppCompatActivity
         new Thread(new Runnable() {
             @Override
             public void run() {
+                Timer t = new Timer();
+                if(member == null){
+                    Thread.interrupted();
+                    t.cancel();
+                }
                 TimerTask tt = new TimerTask() {
                     @Override
                     public void run() {
                         String data = "";
                         String result = "";
-
                         try {
                             data = URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                             BackgroundTask backgroundTask1 = new BackgroundTask("app/member.php", data);
@@ -735,15 +739,19 @@ public class MainActivity extends AppCompatActivity
                         mHandler.post(new Runnable() {
                             @Override
                             public void run() {
-                                tv_lp.setText(member.getMem_point());
-                                alertCount = Integer.parseInt(member.getMem_noti());
-                                updateAlertIcon();
+                                if(member == null){
+                                    Thread.interrupted();
+                                    t.cancel();
+                                }else {
+                                    tv_lp.setText(member.getMem_point());
+                                    alertCount = Integer.parseInt(member.getMem_noti());
+                                    updateAlertIcon();
+                                }
                             }
                         });
                     }
                 };
 
-                Timer t = new Timer();
                 t.schedule(tt,0,1000);
             }
         }).start();
