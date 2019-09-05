@@ -126,7 +126,18 @@ public class LectureRoomFragment extends Fragment{
         total_rv.setLayoutManager(layoutManager4);
         total_cop_adapter = new CopAdapter(v.getContext(), total_cop_list);
         total_rv.setAdapter(total_cop_adapter);
+        total_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, String copName, String copRank, String copIntro, String copNum) {
 
+                ((MainActivity) v.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, CopListFragment.newInstance(copName, copRank, copIntro, copNum))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         TextView tv_point = (TextView)v.findViewById(R.id.tv_person_point);
         TextView tv_com = (TextView)v.findViewById(R.id.tv_company);
         TextView tv_name = (TextView)v.findViewById(R.id.tv_name);
