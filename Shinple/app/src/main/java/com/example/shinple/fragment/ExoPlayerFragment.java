@@ -137,11 +137,6 @@ public class ExoPlayerFragment extends Fragment{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*
-        customProgressDialog = new CustomProgressDialog(getContext());
-        customProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        customProgressDialog.show();
-        */
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1); //videourl
