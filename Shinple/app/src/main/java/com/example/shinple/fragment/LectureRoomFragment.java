@@ -55,6 +55,7 @@ public class LectureRoomFragment extends Fragment{
     private MemberVO member;
     private String result1;
     private String result2;
+    private String result3;
     private int rv_course_height[];
     private int px;
     private String data;
@@ -62,6 +63,9 @@ public class LectureRoomFragment extends Fragment{
     private String videourl;
     private String data1;
 
+    private CopAdapter total_cop_adapter;
+    private List<CopVO> total_cop_list = new ArrayList<CopVO>();
+    private RecyclerView total_rv;
 
     public boolean FileValideCheckResult = false;
 
@@ -76,12 +80,13 @@ public class LectureRoomFragment extends Fragment{
     }
 
     /* Fragment 간의 이동을 위한 메소드 */
-    public static LectureRoomFragment newInstance(String result1,String result2, MemberVO member) {
+    public static LectureRoomFragment newInstance(String result1,String result2, MemberVO member,String result3) {
         LectureRoomFragment fragment = new LectureRoomFragment();
         Bundle args = new Bundle();
         args.putString("result1", result1);
         args.putString("result2", result2);
         args.putSerializable("result3",member);
+        args.putString("result4",result3);
         fragment.setArguments(args);
         return fragment;
     }
@@ -94,6 +99,7 @@ public class LectureRoomFragment extends Fragment{
             result1 = getArguments().getString("result1");
             result2 = getArguments().getString("result2");
             member = (MemberVO)getArguments().getSerializable("result3");
+            result3 = getArguments().getString("result4");
         }
     }
 
@@ -114,6 +120,24 @@ public class LectureRoomFragment extends Fragment{
         for(int listIndex = 0; listIndex<courseList.length;listIndex++){
             courseList[listIndex] = new ArrayList<CourseVO>();
         }
+
+        total_rv = v.findViewById(R.id.rv_cop);
+        LinearLayoutManager layoutManager4 = new LinearLayoutManager(v.getContext(), RecyclerView.VERTICAL, false);
+        total_rv.setLayoutManager(layoutManager4);
+        total_cop_adapter = new CopAdapter(v.getContext(), total_cop_list);
+        total_rv.setAdapter(total_cop_adapter);
+        total_cop_adapter.setOnItemClickListener(new CopAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, String copName, String copRank, String copIntro, String copNum) {
+
+                ((MainActivity) v.getContext())
+                        .getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame, CopListFragment.newInstance(copName, copRank, copIntro, copNum))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         TextView tv_point = (TextView)v.findViewById(R.id.tv_person_point);
         TextView tv_com = (TextView)v.findViewById(R.id.tv_company);
         TextView tv_name = (TextView)v.findViewById(R.id.tv_name);
@@ -149,6 +173,7 @@ public class LectureRoomFragment extends Fragment{
         my_rv.setLayoutManager(layoutManager2);
         jsonParsing();  //jsonparsing해서 list변수들에 값을 넣어줌.
         essential_course_adapter = new LecNecAdapter(v.getContext(),essential_course_list);
+
 
         for(int listIndex = 0; listIndex<courseList.length;listIndex++){
             adapter_course[listIndex] = new CourseAAdapter(v.getContext(),courseList[listIndex]);
@@ -269,6 +294,37 @@ public class LectureRoomFragment extends Fragment{
 
             }  //onNothingSelected end
         });
+
+        try{
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(result3);
+
+
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            int count = 0;
+
+            String copName, copRank, copIntro, copNum;
+
+            //JSON 배열 길이만큼 반복문을 실행
+            while(count < jsonArray.length()){
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(count);
+
+                copName = object.getString("cop_name");//여기서 ID가 대문자임을 유의
+                copRank = object.getString("cop_rank");
+                copIntro = object.getString("cop_intro");
+                copNum = object.getString("cop_num");
+
+                //값들을 User클래스에 묶어줍니다
+                CopVO cop = new CopVO(copName, copRank, copIntro, copNum);
+                total_cop_list.add(cop);//리스트뷰에 값을 추가해줍니다
+                count++;
+            }
+
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
         return v;
     }  //onCreateView end
 

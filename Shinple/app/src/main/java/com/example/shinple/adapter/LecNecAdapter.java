@@ -44,7 +44,7 @@ public class LecNecAdapter  extends RecyclerView.Adapter<LecNecAdapter.ViewHolde
 
     @Override
     public void onBindViewHolder(LecNecAdapter.ViewHolder holder, int position) {
-        TextView lectureNum = (TextView) holder.itemView.findViewById(R.id.tv_copname);
+        TextView lectureNum = (TextView) holder.itemView.findViewById(R.id.tv_copnamee);
 
 
         //lectureText.setText(lectureList.get(position).getLec_text());

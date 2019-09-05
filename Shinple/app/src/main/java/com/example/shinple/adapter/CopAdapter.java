@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.shinple.BackgroundTask;
 import com.example.shinple.R;
 import com.example.shinple.vo.CopVO;
@@ -33,16 +34,22 @@ public class CopAdapter extends RecyclerView.Adapter<CopAdapter.ViewHolder> {
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.cop_item, parent, false);
+                .inflate(R.layout.cop, parent, false);
 
         return new CopAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        TextView copName = (TextView) holder.itemView.findViewById(R.id.tv_copname);
+        TextView copName = (TextView) holder.itemView.findViewById(R.id.tv_copnamee);
+        ImageView iv = (ImageView) holder.itemView.findViewById(R.id.iv_cop);
         String num = my_cop_list.get(position).getCopNum();
-
+        Glide.with(this.context)
+                .load(BackgroundTask.server+"app/cop/"+my_cop_list.get(position).getCopNum()+".jpg")
+                .centerCrop()
+                .dontAnimate()
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .into(iv);
         copName.setText(my_cop_list.get(position).getCopName());
     }
 

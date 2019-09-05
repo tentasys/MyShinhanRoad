@@ -22,8 +22,6 @@ public class CopListFragment extends Fragment{
     private String cop_num;
     private String cop_intro;
 
-    private String server = BackgroundTask.server+"img/cop/";
-
     public CopListFragment() {
     }
 
@@ -64,9 +62,8 @@ public class CopListFragment extends Fragment{
         TextView copRank = (TextView) view.findViewById(R.id.cop_rank);
         TextView copText = (TextView) view.findViewById(R.id.cop_description);
 
-
         Glide.with(getContext())
-                .load(server + cop_num + "/background.png")
+                .load(BackgroundTask.server+"app/cop/"+cop_num+".jpg")
                 .centerCrop()
                 .into(imageView);
 

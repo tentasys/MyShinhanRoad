@@ -142,17 +142,21 @@ public class MainFragment extends Fragment {
             public void onClick(View view) {
                 String result1 = "";
                 String result2 = "";
+                String result3 = "";
                 try{
                     data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 } catch (Exception e){
 
                 }
-                BackgroundTask backgroundTask = new BackgroundTask("app/mycoplist.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("app/lecNec.php",data);
                 BackgroundTask backgroundTask2 = new BackgroundTask("app/mycourselist.php",data);
+                BackgroundTask backgroundTask3 = new BackgroundTask("app/mycoplist.php",data);
                 try{
                     result1 = backgroundTask.execute().get();
                     Log.d("result1",result1);
                     result2 = backgroundTask2.execute().get();
+                    Log.d("result2",result2);
+                    result3= backgroundTask3.execute().get();
                     Log.d("result2",result2);
                 } catch (Exception e){
                     e.printStackTrace();
@@ -160,7 +164,7 @@ public class MainFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureRoomFragment.newInstance(result1,result2,member))
+                        .replace(R.id.frame,LectureRoomFragment.newInstance(result1,result2,member,result3))
                         .addToBackStack("lectureroom")
                         .commit();
             }
