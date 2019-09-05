@@ -57,7 +57,7 @@
         <RadioGroup
             android:id="@+id/rg_quiz"
             android:layout_width="0dp"
-            android:layout_height="125dp"
+            android:layout_height="wrap_content"
             android:layout_alignStart="@+id/linearLayout"
             android:layout_alignLeft="@+id/linearLayout"
             android:layout_marginStart="8dp"
