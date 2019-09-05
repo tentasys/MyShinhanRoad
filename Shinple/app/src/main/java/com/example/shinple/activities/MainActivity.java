@@ -394,6 +394,7 @@ public class MainActivity extends AppCompatActivity
 
             String result1 = "";
             String result2 = "";
+            String result3 = "";
             try{
                 data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
             } catch (Exception e){
@@ -401,15 +402,18 @@ public class MainActivity extends AppCompatActivity
             }
             BackgroundTask backgroundTask3 = new BackgroundTask("app/lecNec.php",data);
             BackgroundTask backgroundTask4 = new BackgroundTask("app/mycourselist.php",data);
+            BackgroundTask backgroundTask5 = new BackgroundTask("app/mycoplist.php",data);
             try{
                 result1 = backgroundTask3.execute().get();
                 Log.d("result1",result1);
                 result2 = backgroundTask4.execute().get();
                 Log.d("result2",result2);
+                result3 = backgroundTask5.execute().get();
+                Log.d("result2",result2);
             } catch (Exception e){
                 e.printStackTrace();
             }
-            switchFragment(LectureRoomFragment.newInstance(result1,result2,member));
+            switchFragment(LectureRoomFragment.newInstance(result1,result2,member,result3));
 
         } else if (id == R.id.nav_all_course) {  //전체 강좌 리스트
 
@@ -495,6 +499,7 @@ public class MainActivity extends AppCompatActivity
                         case R.id.navigation_home:
                             String result1 = "";
                             String result2 = "";
+                            String result3 = "";
                             try{
                                 data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                             } catch (Exception e){
@@ -502,15 +507,18 @@ public class MainActivity extends AppCompatActivity
                             }
                             BackgroundTask backgroundTask3 = new BackgroundTask("app/lecNec.php",data);
                             BackgroundTask backgroundTask4 = new BackgroundTask("app/mycourselist.php",data);
+                            BackgroundTask backgroundTask5 = new BackgroundTask("app/mycoplist.php",data);
                             try{
                                 result1 = backgroundTask3.execute().get();
                                 Log.d("result1",result1);
                                 result2 = backgroundTask4.execute().get();
                                 Log.d("result2",result2);
+                                result3 = backgroundTask5.execute().get();
+                                Log.d("result2",result2);
                             } catch (Exception e){
                                 e.printStackTrace();
                             }
-                            switchFragment(LectureRoomFragment.newInstance(result1,result2,member));
+                            switchFragment(LectureRoomFragment.newInstance(result1,result2,member,result3));
                             return true;
                         case R.id.navigation_dashboard:   //강좌(강의리스트    )
                             result = "";
