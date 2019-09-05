@@ -211,7 +211,7 @@ public class TestFragment extends Fragment {
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
+                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member,"100"))
                         .commit();
             }
                 /*AlertDialog.Builder ab = new AlertDialog.Builder(view.getContext());
