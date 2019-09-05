@@ -148,7 +148,7 @@ public class MainFragment extends Fragment {
                 } catch (Exception e){
 
                 }
-                BackgroundTask backgroundTask = new BackgroundTask("app/mycoplist.php",data);
+                BackgroundTask backgroundTask = new BackgroundTask("app/lecNec.php",data);
                 BackgroundTask backgroundTask2 = new BackgroundTask("app/mycourselist.php",data);
                 BackgroundTask backgroundTask3 = new BackgroundTask("app/mycoplist.php",data);
                 try{
