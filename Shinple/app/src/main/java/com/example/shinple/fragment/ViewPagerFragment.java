@@ -28,6 +28,7 @@ public class ViewPagerFragment extends Fragment {
     private static final String ARG_PARAM2 = "member";
     private String server;
     private String data;
+    private String data2;
     // TODO: Rename and change types of parameters
     private CourseVO course;
     private MemberVO member;
@@ -91,22 +92,27 @@ public class ViewPagerFragment extends Fragment {
                     else {
                         data += "&" + URLEncoder.encode("state", "UTF-8") + "=" + URLEncoder.encode(course.getLearnState(), "UTF-8");
                     }
-                    Log.d("cccc",data);
+                    data2 = URLEncoder.encode("course_num", "UTF-8") + "=" + URLEncoder.encode(course.getCourseNum(), "UTF-8");
+                    data2 += "&" +  URLEncoder.encode("mem_num", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
                 }
                 catch (Exception e){
                 }
                 String result = "";
+                String result2 = "";
                 BackgroundTask backgroundTask = new BackgroundTask("app/lectureList.php",data);
+                BackgroundTask backgroundTask2 = new BackgroundTask("app/timetest.php",data2);
                 try{
                     result = backgroundTask.execute().get();
+                    result2 = backgroundTask2.execute().get();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
                 Log.d("lecture",result);
+                Log.d("timeVPF",result2);
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
+                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member,result2))
                         .addToBackStack("lecture_list")
                         .commit();
             }

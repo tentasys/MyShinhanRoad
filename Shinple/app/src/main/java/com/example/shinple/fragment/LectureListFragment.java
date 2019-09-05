@@ -49,7 +49,7 @@ public class LectureListFragment extends Fragment {
     private static final String ARG_PARAM1 = "result";
     private static final String ARG_PARAM2 = "course";
     private static final String ARG_PARAM3 = "member";
-    private static final String ARG_PARAM4 = "mem_like";
+    private static final String ARG_PARAM4 = "progress";
 
     // TODO: Rename and change types of parameters
     private String result = "";
@@ -78,12 +78,16 @@ public class LectureListFragment extends Fragment {
     private  TextView tv_tch;
     private  TextView last;
     private TextView tv_level;
+    private TextView tv_progress;
     private Button bt_test;
     private LinearLayout bt_continue;
     private String mem_like;
     private int like_number;
     private String lec_like;
     public String videourl;
+    public String progressR;
+    public String progress;
+    public ProgressBar PB;
     public boolean FileValideCheckResult = false;
     ProgressDialog progressDialog;
     ImageView like_button;
@@ -92,12 +96,13 @@ public class LectureListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static LectureListFragment newInstance(String param1, CourseVO course, MemberVO member) {
+    public static LectureListFragment newInstance(String param1, CourseVO course, MemberVO member, String progress) {
         LectureListFragment fragment = new LectureListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putSerializable(ARG_PARAM2, course);
         args.putSerializable(ARG_PARAM3, member);
+        args.putString(ARG_PARAM4,progress);
         fragment.setArguments(args);
         return fragment;
     }
@@ -114,6 +119,7 @@ public class LectureListFragment extends Fragment {
             result = getArguments().getString(ARG_PARAM1);
             course = (CourseVO)getArguments().getSerializable(ARG_PARAM2);
             member = (MemberVO)getArguments().getSerializable(ARG_PARAM3);
+            progressR = getArguments().getString(ARG_PARAM4);
         }
     }
 
@@ -129,8 +135,30 @@ public class LectureListFragment extends Fragment {
         tv_courseInfo = view.findViewById(R.id.tv_lec_courseInfo);
         tv_tch = view.findViewById(R.id.tv_lec_tchName);
         tv_level = view.findViewById(R.id.tv_cl2_lv4);
+        tv_progress = view.findViewById(R.id.tv_progress);
         bt_test = view.findViewById(R.id.bt_test);
+        PB = view.findViewById(R.id.PB);
+        PB.setProgress(0);
+        tv_progress.setText("0");
+        try {
+            //intent로 값을 가져옵니다 이때 JSONObject타입으로 가져옵니다
+            JSONObject jsonObject = new JSONObject(progressR);
 
+            //List.php 웹페이지에서 response라는 변수명으로 JSON 배열을 만들었음..
+            JSONArray jsonArray = jsonObject.getJSONArray("response");
+            try{
+                //count는 배열의 인덱스를 의미
+                JSONObject object = jsonArray.getJSONObject(0);
+                progress = object.getString("progress");//여기서 ID가 대문자임을 유의
+
+            }catch (Exception e){
+
+            }
+            PB.setProgress(Integer.parseInt(progress));
+            tv_progress.setText(progress);
+        }catch (Exception e){
+
+        }
         String server = BackgroundTask.server + "video/course/" + course.getCourseNum() + ".png";
 
         Glide.with(getContext())
@@ -322,6 +350,7 @@ public class LectureListFragment extends Fragment {
                 count++;
             }
 
+
             /* TODO : recyclerView scroll 및 사이즈 조정  == 테스트 필요!!!  */
             Resources resources = getContext().getResources();
             DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -399,6 +428,9 @@ public class LectureListFragment extends Fragment {
                 } //ifelse 끝
             }//onItemClick 끝
         });//setOnItemClickListener끝
+
+
+
         return view;
     }
 

@@ -146,7 +146,7 @@ public class CourseListFragment extends Fragment{
                 ((MainActivity) view.getContext())
                         .getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member))
+                        .replace(R.id.frame,LectureListFragment.newInstance(result,course,member,result2))
                         .addToBackStack("lecture_list")
                         .commit();
                 customProgressDialog.dismiss();
