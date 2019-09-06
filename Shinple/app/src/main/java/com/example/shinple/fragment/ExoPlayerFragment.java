@@ -319,6 +319,8 @@ public class ExoPlayerFragment extends Fragment{
                         hidden_1.setVisibility(View.VISIBLE);
                         textView.setVisibility(View.VISIBLE);
                         recyclerView.setVisibility(View.VISIBLE);
+                        scrollView.setFillViewport(false);
+
 //                        scrollView.setFillViewport(false);
                         Resources resources = getContext().getResources();
                         DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -446,7 +448,26 @@ public class ExoPlayerFragment extends Fragment{
             player = null;
 
             String rrr = "";
+            LinearLayout.LayoutParams layoutsize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,240);
+            layoutsize.rightMargin= 0;
+            exoPlayerView.setLayoutParams(layoutsize);
+            hidden_1.setVisibility(View.VISIBLE);
+            textView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
+            scrollView.setFillViewport(false);
 
+//                        scrollView.setFillViewport(false);
+            Resources resources = getContext().getResources();
+            DisplayMetrics metrics = resources.getDisplayMetrics();
+            int px = (int) (240 * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+            LinearLayout.LayoutParams explayersize = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,px);
+            exoPlayerView.setLayoutParams(explayersize);
+            FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+            px = (int) (55 * (  (float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT));
+            param.bottomMargin= px;
+            frameLayout.setLayoutParams(param);
+            playerImg.setImageResource(R.drawable.ic_fullscreen_expand);
+            enableFullScreen = true;
             try {
                 dd = player.getCurrentPosition();
                 Log.e("left",Long.toString(player.getCurrentPosition()));
@@ -470,6 +491,8 @@ public class ExoPlayerFragment extends Fragment{
 
             /*TODO : 본 시간 저장 변수 exo_position_time*/
             exo_position_time = exo_position.getText();
+
+
         }
     }
 
