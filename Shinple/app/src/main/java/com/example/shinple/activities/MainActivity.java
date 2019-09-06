@@ -3,6 +3,8 @@ package com.example.shinple.activities;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -134,11 +136,7 @@ public class MainActivity extends AppCompatActivity
         /////////////
         ////////////////
 
-        Window window = getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 //        window.setStatusBarColor(ContextCompat.getColor(this,R.color.toolbar_color));    // System toolbar 색상 설정
-        window.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS ,WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         setContentView(R.layout.activity_main);
 
         //toolbar 설정
@@ -254,7 +252,6 @@ public class MainActivity extends AppCompatActivity
         } catch (Exception e){
             e.printStackTrace();
         }
-
         it = navigationView.getMenu();
         final MenuItem itt = it.findItem(R.id.nav_noti);
         FrameLayout rootView = (FrameLayout) itt.getActionView();
@@ -364,7 +361,8 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
 
         int id = item.getItemId();
-
+        fm.popBackStack("ExoPlayerFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        playerLandscapeToggle(false);
         if (id == R.id.nav_home) {   //home 메뉴
             try{
                 data = URLEncoder.encode("userNum", "UTF-8") + "=" + URLEncoder.encode(member.getMem_num(), "UTF-8");
@@ -548,6 +546,14 @@ public class MainActivity extends AppCompatActivity
     };
 
     public void switchFragment(Fragment frr) {
+        if(!windowMode){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            toolbar.setVisibility(VISIBLE);
+            navView.setVisibility(VISIBLE);
+            navigationView.setVisibility(VISIBLE);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            windowMode = true;
+        }
         Fragment fr = frr;
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
@@ -599,6 +605,16 @@ public class MainActivity extends AppCompatActivity
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
+/*
+        Notification notification = new Notification(R.drawable.shinhan_logo , getText(R.string.app_name),
+                System.currentTimeMillis());
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, getText(R.string.app_name),
+                getText(R.string.app_name), pendingIntent);
+        startForegroundService(ONGOING_NOTIFICATION_ID, notification);
+
+        */
     }
     public void playerLandscapeToggle(boolean EnableFullscreen){
 //        int rotation = (((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay()).getRotation();
